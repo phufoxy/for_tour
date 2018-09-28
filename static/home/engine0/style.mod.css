@@ -29,11 +29,9 @@
 }
 
 #wowslider-container0 .pause {
-    /* background-image: url(./pause.png); */
 }
 
 #wowslider-container0 .play {
-    /* background-image: url(./play.png); */
 }
 
 #wowslider-container0 .pause:hover, #wowslider-container0 .play:hover {
@@ -49,7 +47,6 @@
     margin-left: -9px;
     margin-top: -14px;
     z-index: 59;
-    /* background-image: url(./fullscreen.png); */
 }
 
 div#ws_fullscreen:-moz-full-screen #wowslider-container0 {
