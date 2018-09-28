@@ -1,0 +1,522 @@
+{% extends 'home/base.html' %} {% block title %}Home{% endblock %} {% block body %} {% load static %}
+<div id="tabs">
+    <div class="container">
+        <div class="tab">
+            <button class="btn btn-tab-link lang" id="defaultOpen" onclick="openTab(event,'form-item-1')" key="fight">01
+                fight
+            </button>
+            <button class="btn btn-tab-link lang" onclick="openTab(event,'form-item-2')" key="hotels">02 hotels</button>
+            <button class="btn btn-tab-link lang" onclick="openTab(event,'form-item-3')" key="car">03 car rent</button>
+            <button class="btn btn-tab-link lang" onclick="openTab(event,'form-item-4')" key="cruises">04 cruises</button>
+        </div>
+        <div class="tab-content" id="form-item-1">
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <button class="btn">find fights</button>
+        </div>
+        <div class="tab-content" id="form-item-2">
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <button class="btn">find fights 3</button>
+        </div>
+        <div class="tab-content" id="form-item-3">
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <button class="btn">find fights 4</button>
+        </div>
+        <div class="tab-content" id="form-item-4">
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <div class="form-group input-content">
+                <input type="text" class="form-control" placeholder="search location">
+            </div>
+            <button class="btn">find fights 5</button>
+        </div>
+    </div>
+</div>
+<script src="{% static 'home/js/js/tab.js' %}"></script>
+<div id="panel">
+    <div class="img-nitro">
+        <img src="{% static 'home/images/image_1.jpg' %}" alt="Panel Number One">
+        <button class="btn"><i class="fas fa-play"></i></button>
+    </div>
+    <div class="description">
+        <h1>webcome to bon voyage since 1898 establoshed far far away</h1>
+        <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that continuing
+            to
+            provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested they do a
+            movie,
+            to which the band agreed. To accompany the film, Holder and Lea began writing material for a soundtrack
+            album,
+            which would continue to see the band break out of their successful formula and try different musical ideas.
+            "Far
+            Far Away" was selected as the album's lead single and was released in October 1974, reaching No. 2 in the
+            UK.
+            To accompany the film, Holder and Lea began writing material for a soundtrack album, which would continue
+            to
+            see the band break out of their successful formula and try different musical ideas. "Far Far Away" was
+            selected
+            as the album's lead single and was released in October 1974, reaching No. 2 in the UK
+        </p>
+    </div>
+</div>
+<div id="places" class="padding-top-bottom">
+    <div class="container">
+        <div class="circle ">
+            <div class="circle-item hover-opactict-2 translate-top">
+                <img src="{% static 'home/images/promo-1.jpg' %}" alt="Circle Item">
+                <div class="description">
+                    <h1>group cruises</h1>
+                    <h3><span class="current">from<span> $199</h3>
+                    <a href="#">read more</a>
+                </div>
+            </div>
+            <div class="circle-item hover-opactict-2 translate-top">
+                <img src="{% static 'home/images/promo-1.jpg' %}" alt="Circle Item">
+                <div class="description">
+                    <h1>group cruises</h1>
+                    <h3><span class="current">from<span> $199</h3>
+                    <a href="#">read more</a>
+                </div>
+            </div>
+            <div class="circle-item hover-opactict-2 translate-top">
+                <img src="{% static 'home/images/promo-1.jpg' %}" alt="Circle Item">
+                <div class="description">
+                    <h1>group cruises</h1>
+                    <h3><span class="current">from<span> $199</h3>
+                    <a href="#">read more</a>
+                </div>
+            </div>
+            <div class="circle-item hover-opactict-2 translate-top">
+                <img src="{% static 'home/images/promo-1.jpg' %}" alt="Circle Item">
+                <div class="description">
+                    <h1>group cruises</h1>
+                    <h3><span class="current">from<span> $199</h3>
+                    <a href="#">read more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="our-services" class="padding-top-bottom">
+    <div class="container">
+        <h1 class="title text-center">our services</h1>
+        <div class="boxes padding-top-bottom">
+            <div class="box scale-zoom">
+                <i class="fab fa-wolf-pack-battalion"></i>
+                <h1>special activities</h1>
+                <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
+            </div>
+            <div class="box scale-zoom">
+                <i class="fas fa-globe-asia"></i>
+                <h1>special activities</h1>
+                <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
+            </div>
+            <div class="box scale-zoom">
+                <i class="fas fa-business-time"></i>
+                <h1>special activities</h1>
+                <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
+            </div>
+            <div class="box scale-zoom">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>special activities</h1>
+                <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="popular" class="padding-top-bottom">
+    <h1 class="text-center title">most popular destination</h1>
+    <div class="boxes">
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-1.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-2.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-3.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-4.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-5.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-6.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-7.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="box animation-to-top">
+            <img src="{% static 'home/images/tour-8.jpg' %}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>$399</h3>
+                <h1>group tour in maldives</h1>
+                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <nav>
+                    <ul>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li><i class="fas fa-star"></i></li>
+                        <li>
+                            <p>500 reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="our-satisfied" class="padding-top-bottom">
+    <div class="container">
+        <h1 class="title text-center">our satisfied guests says</h1>
+        <div class="boxes">
+            <div class="box scale-11">
+                <img src="{% static 'home/images/person_1.jpg' %}" alt="Person">
+                <ul>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                </ul>
+                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
+                    continuing
+                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
+                    they
+                    do a movie, to which the band agreed. </p>
+                <h1>dennis green</h1>
+                <h3>guests from italy</h3>
+            </div>
+            <div class="box scale-11">
+                <img src="{% static 'home/images/person_2.jpg' %}" alt="Person">
+                <ul>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                </ul>
+                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
+                    continuing
+                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
+                    they
+                    do a movie, to which the band agreed. </p>
+                <h1>dennis green</h1>
+                <h3>guests from italy</h3>
+            </div>
+            <div class="box scale-11">
+                <img src="{% static 'home/images/person_3.jpg' %}" alt="Person">
+                <ul>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                </ul>
+                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
+                    continuing
+                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
+                    they
+                    do a movie, to which the band agreed. </p>
+                <h1>dennis green</h1>
+                <h3>guests from italy</h3>
+            </div>
+            <div class="box scale-11">
+                <img src="{% static 'home/images/person_4.jpg' %}" alt="Person">
+                <ul>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                    <li><i class="fas fa-star"></i></li>
+                </ul>
+                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
+                    continuing
+                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
+                    they
+                    do a movie, to which the band agreed. </p>
+                <h1>dennis green</h1>
+                <h3>guests from italy</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="recommended" class="padding-top-bottom">
+    <form action="">
+        <p class="text-dark">want to get our hottest travel deals top tips and advice? subcribe us now!</p>
+        <div class="form-input">
+            <input type="text" class="form-control" placeholder="enter your email address">
+            <i class="fab fa-telegram-plane"></i>
+        </div>
+    </form>
+    <div class="most">
+        <h1 class="title text-left">most recommended hotels</h1>
+        <div class="boxes">
+            <div class="box animation-to-top">
+                <img src="{% static 'home/images/tour-8.jpg' %}" alt="Image Folder One">
+                <div class="description to-top-height">
+                    <h3>$399</h3>
+                    <h1>group tour in maldives</h1>
+                    <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                    <nav>
+                        <ul>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li>
+                                <p>500 reviews</p>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="box animation-to-top">
+                <img src="{% static 'home/images/tour-7.jpg' %}" alt="Image Folder One">
+                <div class="description to-top-height">
+                    <h3>$399</h3>
+                    <h1>group tour in maldives</h1>
+                    <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                    <nav>
+                        <ul>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li>
+                                <p>500 reviews</p>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="box animation-to-top">
+                <img src="{% static 'home/images/tour-6.jpg' %}" alt="Image Folder One">
+                <div class="description to-top-height">
+                    <h3>$399</h3>
+                    <h1>group tour in maldives</h1>
+                    <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                    <nav>
+                        <ul>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li><i class="fas fa-star"></i></li>
+                            <li>
+                                <p>500 reviews</p>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="our-blog" class="padding-top-bottom">
+    <div class="container">
+        <h1 class="title text-center text-dark">our blog</h1>
+        <div class="boxes">
+            <div class="box scale-105">
+                <img src="{% static 'home/images/hotel-1.jpg' %}" alt="Hotel" class="border-box">
+                <div class="description top-to-height-red">
+                    <h3>july 7,2018 Admin</h3>
+                    <p>even the all-powerfull pointing has no control about the blind texts</p>
+                    <a href="">read more</a>
+                    <i class="fas fa-star">&nbsp;3</i>
+                </div>
+            </div>
+            <div class="box scale-105">
+                <img src="{% static 'home/images/hotel-1.jpg' %}" alt="Hotel" class="border-box">
+                <div class="description top-to-height-red">
+                    <h3>july 7,2018 Admin</h3>
+                    <p>even the all-powerfull pointing has no control about the blind texts</p>
+                    <a href="">read more</a>
+                    <i class="fas fa-star">&nbsp;3</i>
+                </div>
+            </div>
+            <div class="box scale-105">
+                <img src="{% static 'home/images/hotel-1.jpg' %}" alt="Hotel" class="border-box">
+                <div class="description top-to-height-red">
+                    <h3>july 7,2018 Admin</h3>
+                    <p>even the all-powerfull pointing has no control about the blind texts</p>
+                    <a href="">read more</a>
+                    <i class="fas fa-star">&nbsp;3</i>
+                </div>
+            </div>
+            <div class="box scale-105">
+                <img src="{% static 'home/images/hotel-1.jpg' %}" alt="Hotel" class="border-box">
+                <div class="description top-to-height-red">
+                    <h3>july 7,2018 Admin</h3>
+                    <p>even the all-powerfull pointing has no control about the blind texts</p>
+                    <a href="">read more</a>
+                    <i class="fas fa-star">&nbsp;3</i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

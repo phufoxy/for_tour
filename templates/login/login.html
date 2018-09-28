@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'login/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+
+    <!-- icon -->
+    <link rel="shortcut icon" href="{% static 'icon/digital-campaign.png' %}" type="image/x-icon">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="image">
+            <img src="{% static 'login/images/bg-01.jpg' %}" alt="">
+        </div>
+        <div class="login">
+            <div class="content">
+                <a href="{% url 'house' %}">
+                    <h1 class="text-center">Home Continue</h1>
+                </a>
+                <form action="{% url 'login_form' %}">
+                    <div class="form-group">
+                        <input type="text" placeholder="Enter Email" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Enter Password" class="form-control" name="password">
+                    </div>
+                    <div class="pass">
+                        <div class="remenber">
+                            <input type="checkbox">
+                            <label for="">remenber me</label>
+                        </div>
+                        <div class="forgot">
+                            <a href="#">forgot password?</a>
+                        </div>
+                    </div>
+                    <br>
+                    <input type="submit" value="login">
+                    {% if error == None %}
+                    {% else %}
+                    <script>
+                        alert('{{ error }}');
+                    </script>
+                    {% endif %}
+                </form>
+                <a href="{% url 'Register' %}" class="sign-up">or sign up using</a>
+
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
