@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from book.models import Book_Tour,Place_tour,House_tour
+
 # Create your views here.
 def house(request):
     house_items = House.objects.select_related('location').order_by('-id')
@@ -50,6 +52,8 @@ def house_details(request,id):
     tourer = Tourer.objects.filter(email=idempresa)
     comment = Comment_house.objects.filter(house=id).order_by('-date')
     sum_commnet = Comment_house.objects.filter(house=id).count()
+    account = Tourer.objects.get(email=idempresa)
+    book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
     # context
     context = {
         'house_items':house_items,
@@ -57,10 +61,37 @@ def house_details(request,id):
         'tourer':tourer,
         'house_details':house_details,
         'comment':comment,
-        'sum_commnet':sum_commnet
+        'sum_commnet':sum_commnet,
+        'book_Tour':book_Tour
+
         # 'a':a
     }
     return render(request,'home/hotel_details.html',context)
+
+def create_house_tour(request,id):
+    house_details = House.objects.get(pk=id)
+    # email = request.GET['email']
+    book = request.GET['book']
+    date_to = request.GET['date_to']
+    idempresa= ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa=None
+
+    
+    if idempresa == None:
+        return redirect('login')
+    else:
+        try:
+            book_Tour = Book_Tour.objects.get(name_book=book)
+            account_details = Tourer.objects.get(email=idempresa)
+            house_tour = House_tour(book=book_Tour,house=house_details,account=account_details,date_book=datetime.now(),date_to=date_to)
+            house_tour.save()
+            return redirect('house_details',id=id)
+        except Exception as e:
+            print(e)
+            return redirect('house_details',id=id)
 
 def create_comment_house(request,id):
     house_details = House.objects.get(pk=id)

@@ -10,6 +10,9 @@ urlpatterns = [
     path('IndexView_House/',views.IndexView_House.as_view(),name='IndexView_House'),
     path('CreateHouse/',views.CreateHouse.as_view(),name='CreateHouse'),
     path('create_comment_house/<int:id>/',views.create_comment_house,name='create_comment_house'),
+    path('create_house_tour/<int:id>/',views.create_house_tour,name='create_house_tour'),
+
+
     path('IndexView_House/<int:pk>/delete/',views.HouseDelete.as_view(),name='house-delete'),
     path('IndexView_House/<int:pk>/',views.UpdateHouse.as_view(),name='house-update'),
     path('IndexView_House_details/',views.IndexView_House_details.as_view(),name='IndexView_House_details'),
