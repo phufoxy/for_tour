@@ -43,24 +43,27 @@ def places_details(request,id):
     else:
         idempresa=None
 
-    tourer = Tourer.objects.filter(email=idempresa)
-    places_items = Place_details.objects.filter(place=id)
-    sum_commnet = Comment_place.objects.filter(place=id).count()
-    comment = Comment_place.objects.filter(place=id).order_by('-date')
-    account = Tourer.objects.get(email=idempresa)
-    book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
-    # context
-    context = {
-        'idempresa':idempresa,
-        'tourer':tourer,
-        'places_items':places_items,
-        'sum_commnet':sum_commnet,
-        'comment':comment,
-        'places_details':places_details,
-        'book_Tour':book_Tour
+    if idempresa == None:
+        return redirect('login')
+    else:
+        tourer = Tourer.objects.filter(email=idempresa)
+        places_items = Place_details.objects.filter(place=id)
+        sum_commnet = Comment_place.objects.filter(place=id).count()
+        comment = Comment_place.objects.filter(place=id).order_by('-date')
+        account = Tourer.objects.get(email=idempresa)
+        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
+        # context
+        context = {
+            'idempresa':idempresa,
+            'tourer':tourer,
+            'places_items':places_items,
+            'sum_commnet':sum_commnet,
+            'comment':comment,
+            'places_details':places_details,
+            'book_Tour':book_Tour
 
-    }
-    return render(request,'home/places/places_details.html',context)
+        }
+        return render(request,'home/places/places_details.html',context)
 
 def create_place_tour(request,id):
     place_details = Place.objects.get(pk=id)

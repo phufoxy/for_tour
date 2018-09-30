@@ -2,7 +2,7 @@
 <div id="tours" class="padding-top-bottom">
     <div class="boxes_tour">
         {% if count_place == 0 %}
-        <h1>Khong co data</h1>
+        <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">No Data</h1>
         {% else %}
         <div class="title" style="width: 100%;">
             <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">Place To: </h1>
@@ -22,7 +22,7 @@
 
         {% if count_house == 0 %}
         <div class="title" style="width: 100%;">
-            <h1>Khong co data</h1>
+            <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">No Data</h1>
         </div>
         {% else %}
         <div class="title" style="width: 100%;">
@@ -42,7 +42,7 @@
         <!-- restaurant -->
         {% if count_restaurant_tour == 0 %}
         <div class="title" style="width: 100%;">
-            <h1>Khong co data</h1>
+            <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">No Data</h1>
         </div>
         {% else %}
         <div class="title" style="width: 100%;">
@@ -59,15 +59,26 @@
         </div>
         {% endfor %}
         {% endif %}
-        <!-- <div class="author">
-            {% for i in tourer %}
-            <img src="{{ i.avatar.url }}" alt="Person">
-            <div class="description">
-                <h1>{{ i.name }}</h1>
-                <p>{{ i.email }}</p>
+        <!-- vehicle -->
+        {% if vehicle_tour_count == 0 %}
+        <div class="title" style="width: 100%;">
+            <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">No Data</h1>
+        </div>
+        {% else %}
+        <div class="title" style="width: 100%;">
+            <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">Restaurant To: </h1>
+        </div>
+        {% for i in vehicle_tour %}
+        <div class="box animation-to-top">
+            <img src="{{ i.vehicle_details.img_route.url }}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <h3>Place: {{ i.vehicle_details.go_route }} </h3>
+                <h1>Address: {{ i.vehicle_details.vehicle }}</h1>
+                <p class="text-norm">Date_to: {{ i.date_to|date:'d-m-Y' }} ,tourer: {{ i.account }}</p>
             </div>
-            {% endfor %}
-        </div> -->
+        </div>
+        {% endfor %}
+        {% endif %}
     </div>
     <div class="find-form">
         <a href="/delete_book/{{ book_Tour.id }}"><i class="fas fa-trash-alt"></i> Delete tour</a>

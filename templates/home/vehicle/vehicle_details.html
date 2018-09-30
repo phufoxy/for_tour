@@ -39,13 +39,23 @@
         </div>
     </div>
     <div class="find-form">
-        <form action="">
+        <form action="/create_vehicle_tour/{{ vehicle.id }}">
             <h1 class="title-form">find your tour</h1>
-            <input type="text" placeholder="search location" class="form-control">
-            <input type="text" placeholder="search location" class="form-control">
-            <input type="text" placeholder="search location" class="form-control">
-            <input type="text" placeholder="search location" class="form-control">
-            <input type="submit" class="btn btn-danger" value="find fights">
+            <!-- <div class="form-group">
+                <input type="text" placeholder="search location" class="form-control">
+            </div> -->
+            <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" name="book">
+                    <option selected="selected" disabled="disabled">Tour</option>
+                    {% for i in book_Tour %}
+                    <option>{{ i.name_book }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="date" class="form-control" name="date_to">
+            </div>
+            <input type="submit" class="btn btn-danger" value="Add Tour">
         </form>
         <div class="categories">
             <h1>categories</h1>

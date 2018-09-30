@@ -46,25 +46,28 @@ def eating(request, id):
     else:
         idempresa = None
 
-    tourer = Tourer.objects.filter(email=idempresa)
-    eatings = Eating.objects.filter(restaurant=id)
-    sum_commnet = Comment_restaurant.objects.filter(restaurant=id).count()
-    comment = Comment_restaurant.objects.filter(
-        restaurant=id).order_by('-date')
-    account = Tourer.objects.get(email=idempresa)
-    book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
-    # context
-    context = {
-        'idempresa': idempresa,
-        'tourer': tourer,
-        'eatings': eatings,
-        'sum_commnet': sum_commnet,
-        'comment': comment,
-        'restaurant':restaurant,
-        'id_res':id,
-        'book_Tour':book_Tour
-    }
-    return render(request, 'home/restaurants/restaurant_details.html', context)
+    if idempresa == None:
+        return redirect('login')
+    else:
+        tourer = Tourer.objects.filter(email=idempresa)
+        eatings = Eating.objects.filter(restaurant=id)
+        sum_commnet = Comment_restaurant.objects.filter(restaurant=id).count()
+        comment = Comment_restaurant.objects.filter(
+            restaurant=id).order_by('-date')
+        account = Tourer.objects.get(email=idempresa)
+        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
+        # context
+        context = {
+            'idempresa': idempresa,
+            'tourer': tourer,
+            'eatings': eatings,
+            'sum_commnet': sum_commnet,
+            'comment': comment,
+            'restaurant':restaurant,
+            'id_res':id,
+            'book_Tour':book_Tour
+        }
+        return render(request, 'home/restaurants/restaurant_details.html', context)
 
 def create_restaurant_tour(request,id):
     restaurant_details = Restaurant.objects.get(pk=id)

@@ -57,6 +57,8 @@ def book_details_to(request,id):
     count_house = House_tour.objects.filter(book=book_Tour).count()
     restaurant_tour = Restaurant_tour.objects.filter(book=book_Tour)
     count_restaurant_tour = Restaurant_tour.objects.filter(book=book_Tour).count()
+    vehicle_tour = Vehicle_tour.objects.filter(book=book_Tour)
+    vehicle_tour_count = Vehicle_tour.objects.filter(book=book_Tour).count()
     context = {
         'idempresa':idempresa,
         'book_Tour':book_Tour,
@@ -65,7 +67,9 @@ def book_details_to(request,id):
         'house_tour':house_tour,
         'count_house':count_house,
         'restaurant_tour':restaurant_tour,
-        'count_restaurant_tour':count_restaurant_tour
+        'count_restaurant_tour':count_restaurant_tour,
+        'vehicle_tour':vehicle_tour,
+        'vehicle_tour_count':vehicle_tour_count
     }
     return render(request,'home/book/book_details_to.html',context)
 

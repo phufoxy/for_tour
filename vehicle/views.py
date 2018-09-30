@@ -6,6 +6,8 @@ from datetime import datetime
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
+from book.models import Book_Tour,Vehicle_tour
+
 # Create your views here.
 def index(request):
     vehicle = Vehicle.objects.select_related('location').order_by('-id')
@@ -41,23 +43,30 @@ def vehicle_details(request,id):
     else:
         idempresa = None
 
-    vehicle_details = Vehicle_details.objects.filter(vehicle=id)
-    # page = request.GET.get('page', 1)
+    if idempresa == None:
+        return redirect('login')
+    else:
+        vehicle_details = Vehicle_details.objects.filter(vehicle=id)
+        # page = request.GET.get('page', 1)
 
-    # paginator = Paginator(vehicle_details, 10)
-    # try:
-    #     users = paginator.page(page)
-    # except PageNotAnInteger:
-    #     users = paginator.page(1)
-    # except EmptyPage:
-    #     users = paginator.page(paginator.num_pages)
-    # context
-    context = {
-        'idempresa': idempresa,
-        'context':vehicle_details,
-        'id_car':id,
-    }
-    return render(request,'home/vehicle/vehicle_details.html',context)
+        # paginator = Paginator(vehicle_details, 10)
+        # try:
+        #     users = paginator.page(page)
+        # except PageNotAnInteger:
+        #     users = paginator.page(1)
+        # except EmptyPage:
+        #     users = paginator.page(paginator.num_pages)
+        # context
+        account = Tourer.objects.get(email=idempresa)
+        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
+        context = {
+            'idempresa': idempresa,
+            'context':vehicle_details,
+            'id_car':id,
+            'vehicle':vehicle,
+            'book_Tour':book_Tour
+        }
+        return render(request,'home/vehicle/vehicle_details.html',context)
 
 def car_details(request,id,id_car):
     car_details = Car_details.objects.filter(car=id_car)
@@ -84,6 +93,31 @@ def car_details(request,id,id_car):
         'vehicle_details':vehicle_details,
     }
     return render(request,'home/vehicle/car_details.html',context)
+
+def create_vehicle_tour(request,id):
+    vehicle_details = Vehicle_details.objects.get(pk=id)
+    # email = request.GET['email']
+    book = request.GET['book']
+    date_to = request.GET['date_to']
+    idempresa= ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa=None
+
+    
+    if idempresa == None:
+        return redirect('login')
+    else:
+        try:
+            book_Tour = Book_Tour.objects.get(name_book=book)
+            account_details = Tourer.objects.get(email=idempresa)
+            vehicle_tour = Vehicle_tour(book=book_Tour,vehicle_details=vehicle_details,account=account_details,date_book=datetime.now(),date_to=date_to)
+            vehicle_tour.save()
+            return redirect('vehicle_details',id=id)
+        except Exception as e:
+            print(e)
+            return redirect('vehicle_details',id=id)
 
 def create_comment_vehicle(request,id):
     vehicle = Vehicle_details.objects.get(pk=id)

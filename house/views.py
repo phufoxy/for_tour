@@ -49,24 +49,27 @@ def house_details(request,id):
     else:
         idempresa=None
 
-    tourer = Tourer.objects.filter(email=idempresa)
-    comment = Comment_house.objects.filter(house=id).order_by('-date')
-    sum_commnet = Comment_house.objects.filter(house=id).count()
-    account = Tourer.objects.get(email=idempresa)
-    book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
-    # context
-    context = {
-        'house_items':house_items,
-        'idempresa':idempresa,
-        'tourer':tourer,
-        'house_details':house_details,
-        'comment':comment,
-        'sum_commnet':sum_commnet,
-        'book_Tour':book_Tour
+    if idempresa == None:
+        return redirect('login')
+    else:
+        tourer = Tourer.objects.filter(email=idempresa)
+        comment = Comment_house.objects.filter(house=id).order_by('-date')
+        sum_commnet = Comment_house.objects.filter(house=id).count()
+        account = Tourer.objects.get(email=idempresa)
+        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
+        # context
+        context = {
+            'house_items':house_items,
+            'idempresa':idempresa,
+            'tourer':tourer,
+            'house_details':house_details,
+            'comment':comment,
+            'sum_commnet':sum_commnet,
+            'book_Tour':book_Tour
 
-        # 'a':a
-    }
-    return render(request,'home/hotel_details.html',context)
+            # 'a':a
+        }
+        return render(request,'home/hotel_details.html',context)
 
 def create_house_tour(request,id):
     house_details = House.objects.get(pk=id)

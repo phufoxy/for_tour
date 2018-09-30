@@ -8,6 +8,7 @@ urlpatterns = [
     path('vehicle/<int:id>/',views.vehicle_details,name='vehicle_details'),
     path('vehicle/<int:id>/car/<int:id_car>/',views.car_details,name='car_details'),
     path('create_comment_vehicle/<int:id>/',views.create_comment_vehicle,name='create_comment_vehicle'),
+    path('create_vehicle_tour/<int:id>/',views.create_vehicle_tour,name='create_vehicle_tour'),
      # city
     path('IndexView_Vehicle_City/',views.IndexView_Vehicle_City.as_view(),name='IndexView_Vehicle_City'),
     path('CreateVehicle_City/',views.CreateVehicle_City.as_view(),name='CreateVehicle_City'),
