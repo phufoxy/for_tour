@@ -54,7 +54,7 @@
                 <li><a href="#" class="lang" key="about">about</a></li>
                 <li><a href="#" class="lang" key="contact">contact</a></li>
                 {% if idempresa == None %}
-                <li><a href="{% url 'login' %}" class="lang" key="login">Login</a></li>
+                <li><a href="/login/?next={{ request.path }}" class="lang" key="login">Login</a></li>
                 {% else %}
                 <li><a href="{% url 'logout' %}" class="lang" key="contact">Logout</a></li>
                 {% endif %}

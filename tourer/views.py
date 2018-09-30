@@ -9,9 +9,9 @@ def login(request):
 def logout(request):  
     try:
         request.session.pop('account')
-        return redirect('login')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
     except Exception as e:
-        return redirect('login')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
         
 
 def login_form(request):
