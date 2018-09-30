@@ -25,7 +25,7 @@ def index(request):
         users = paginator.page(1)
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
-    context = {
+    context = { 
         'idempresa':idempresa,
         'place':users
 

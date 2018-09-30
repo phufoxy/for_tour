@@ -8,6 +8,7 @@ urlpatterns = [
     path('restaurant/<int:id>/',views.eating,name='eating'),
     path('create_comment_eating/<int:id>/',views.create_comment_eating,name='create_comment_eating'),
     path('restaurant/<int:id>/eating/<int:id_restaurant>/',views.eating_details,name='eating_details'),
+    path('create_restaurant_tour/<int:id>/',views.create_restaurant_tour,name='create_restaurant_tour'),
     # city
     path('IndexView_Restaurants_City/',views.IndexView_Restaurants_City.as_view(),name='IndexView_Restaurants_City'),
     path('CreateRestaurants_City/',views.CreateRestaurants_City.as_view(),name='CreateRestaurants_City'),

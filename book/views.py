@@ -30,11 +30,18 @@ def book_details(request):
     else:
         account = Tourer.objects.get(email=idempresa)
         book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
-        context = {
-            'idempresa':idempresa,
-            'context':book_Tour
-        }
-        return render(request,'home/book/book_details.html',context)
+        book_Tour_count = Book_Tour.objects.filter(tourer=account).count()
+        if book_Tour_count == 0 :
+            context = {
+                'idempresa':idempresa
+            }
+            return render(request,'home/book/book.html',context)
+        else:
+            context = {
+                'idempresa':idempresa,
+                'context':book_Tour
+            }
+            return render(request,'home/book/book_details.html',context)
     
 
 def book_details_to(request,id):
@@ -47,16 +54,18 @@ def book_details_to(request,id):
     place_tour = Place_tour.objects.filter(book=book_Tour)
     count_place = Place_tour.objects.filter(book=book_Tour).count()
     house_tour = House_tour.objects.filter(book=book_Tour)
-    print(house_tour)
     count_house = House_tour.objects.filter(book=book_Tour).count()
-    print(count_house)
+    restaurant_tour = Restaurant_tour.objects.filter(book=book_Tour)
+    count_restaurant_tour = Restaurant_tour.objects.filter(book=book_Tour).count()
     context = {
         'idempresa':idempresa,
         'book_Tour':book_Tour,
         'place_tour':place_tour,
         'count_place':count_place,
         'house_tour':house_tour,
-        'count_house':count_house
+        'count_house':count_house,
+        'restaurant_tour':restaurant_tour,
+        'count_restaurant_tour':count_restaurant_tour
     }
     return render(request,'home/book/book_details_to.html',context)
 

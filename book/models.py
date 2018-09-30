@@ -44,7 +44,7 @@ class Vehicle_tour(models.Model):
     date_to = models.DateTimeField(default=datetime.now())
 
     def __str__(self):
-        return self.book.name_book + '-' + self.vehicle.go_route
+        return self.book.name_book + '-' + self.vehicle_details.go_route
 
 class House_tour(models.Model):
     book = models.ForeignKey(Book_Tour,on_delete=models.CASCADE)
