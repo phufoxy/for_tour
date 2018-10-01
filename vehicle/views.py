@@ -44,7 +44,7 @@ def vehicle_details(request,id):
         idempresa = None
 
     if idempresa == None:
-        return redirect('login')
+        return redirect('/login/?next='+ request.path)
     else:
         vehicle_details = Vehicle_details.objects.filter(vehicle=id)
         # page = request.GET.get('page', 1)

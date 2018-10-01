@@ -44,7 +44,7 @@ def places_details(request,id):
         idempresa=None
 
     if idempresa == None:
-        return redirect('login')
+        return redirect('/login/?next='+ request.path)
     else:
         tourer = Tourer.objects.filter(email=idempresa)
         places_items = Place_details.objects.filter(place=id)

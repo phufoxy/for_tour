@@ -10,7 +10,6 @@ def book(request):
         idempresa = request.session['account']
     else:
         idempresa=None
-    
     context = {
         'idempresa':idempresa
     }
@@ -24,9 +23,9 @@ def book_details(request):
         idempresa = request.session['account']
     else:
         idempresa=None
-    
+        
     if idempresa == None:
-        return redirect('login')
+        return redirect('/login/?next=' + request.path)
     else:
         account = Tourer.objects.get(email=idempresa)
         book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')

@@ -50,7 +50,7 @@ def house_details(request,id):
         idempresa=None
 
     if idempresa == None:
-        return redirect('login')
+        return redirect('/login/?next='+ request.path)
     else:
         tourer = Tourer.objects.filter(email=idempresa)
         comment = Comment_house.objects.filter(house=id).order_by('-date')
