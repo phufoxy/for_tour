@@ -1,10 +1,14 @@
-from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
+from django.shortcuts import render,HttpResponse,get_object_or_404, redirect,HttpResponseRedirect
 from .models import Tourer
 from django.views.generic.edit import CreateView
 # from .forms import Tourer_form
 # Create your views here.
 def login(request):
-    return render(request,'login/login.html')
+    next_page = request.GET['next']
+    context = {
+        'next':next_page
+    }
+    return render(request,'login/login.html',context)
 
 def logout(request):  
     try:
@@ -15,35 +19,35 @@ def logout(request):
         
 
 def login_form(request):
-    email = request.GET['email']
-    password = request.GET['password']
-    login = 0
-    email_login = ''
-    password_email = ''
-    error = ''
-    try:
-        email_login = Tourer.objects.get(email=email)
-        print(email_login)
-        login = 1
-    except Exception as e:
+    if request.POST:
+        email = request.POST['email']
+        password = request.POST['password']
         login = 0
+        email_login = ''
+        password_email = ''
+        error = ''
+        try:
+            email_login = Tourer.objects.get(email=email)
+            login = 1
+        except Exception as e:
+            login = 0
 
-    if login == 1:
-        if email_login.password == password:
-            request.session['account'] = email_login.email
-            return redirect('house')
+        if login == 1:
+            if email_login.password == password:
+                request.session['account'] = email_login.email
+                return redirect(request.POST['next'])
+            else:
+                error = 'Sai Mật Khẩu'
+                context = {
+                    'error' : error
+                }
+                return render(request,'login/login.html',context)
         else:
-            error = 'Sai Mật Khẩu'
+            error = 'Tên Đăng Nhập Không Đúng'
             context = {
-                'error' : error
+                    'error' : error
             }
             return render(request,'login/login.html',context)
-    else:
-        error = 'Tên Đăng Nhập Không Đúng'
-        context = {
-                'error' : error
-        }
-        return render(request,'login/login.html',context)
 
 class Register(CreateView):
     template_name = 'login/register.html'

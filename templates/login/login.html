@@ -26,37 +26,45 @@
                 <a href="{% url 'house' %}">
                     <h1 class="text-center">Home Continue</h1>
                 </a>
-                <form action="{% url 'login_form' %}">
-                    <div class="form-group">
-                        <input type="text" placeholder="Enter Email" class="form-control" name="email">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" placeholder="Enter Password" class="form-control" name="password">
-                    </div>
-                    <div class="pass">
-                        <div class="remenber">
-                            <input type="checkbox">
-                            <label for="">remenber me</label>
-                        </div>
-                        <div class="forgot">
-                            <a href="#">forgot password?</a>
-                        </div>
-                    </div>
-                    <br>
-                    <input type="submit" value="login">
-                    {% if error == None %}
+                {% if next %}
+                <form action="/login/login_form/?next={{request.path}}" method="post">
                     {% else %}
-                    <script>
-                        alert('{{ error }}');
-                    </script>
-                    {% endif %}
-                </form>
-                <a href="{% url 'Register' %}" class="sign-up">or sign up using</a>
+                    <form action="/login/login_form/" method="post">
+                        {% endif %}
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="hidden" placeholder="{{ next }}" class="form-control" name="next" value="{{ next }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Enter Email" class="form-control" name="email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="Enter Password" class="form-control" name="password">
+                        </div>
+                        <div class="pass">
+                            <div class="remenber">
+                                <input type="checkbox">
+                                <label for="">remenber me</label>
+                            </div>
+                            <div class="forgot">
+                                <a href="#">forgot password?</a>
+                            </div>
+                        </div>
+                        <br>
+                        <input type="submit" value="login">
+                        {% if error == None %}
+                        {% else %}
+                        <script>
+                            alert('{{ error }}');
+                        </script>
+                        {% endif %}
+                    </form>
+                    <a href="{% url 'Register' %}" class="sign-up">or sign up using</a>
 
-                <div class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
-                </div>
+                    <div class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                    </div>
             </div>
         </div>
     </div>
