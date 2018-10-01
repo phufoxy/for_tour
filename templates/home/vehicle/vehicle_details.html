@@ -3,14 +3,13 @@
     <div class="boxes_tour">
         {% for i in context %}
         <div class="box animation-to-top">
-            <a href="/vehicle/{{ id_car }}/car/{{i.id}}/">
-                <img src="{{ i.img_route.url }}" alt="Image Folder One">
-                <div class="description to-top-height">
-                    <h3>{{ i.price }} vnđ </h3>
-                    <h1>{{ i.go_route }}</h1>
-                    <p class="text-norm">{{ i.vehicle }}</p>
-                </div>
-            </a>
+            <img src="{{ i.img_route.url }}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <a href="/vehicle/{{ id_car }}/car/{{i.id}}/" class="seen"><i class="fas fa-share-square"></i></a>
+                <h3>{{ i.price }} vnđ </h3>
+                <h1>{{ i.go_route }}</h1>
+                <p class="text-norm">{{ i.vehicle }}</p>
+            </div>
         </div>
         {% endfor %}
 

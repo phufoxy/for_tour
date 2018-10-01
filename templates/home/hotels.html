@@ -3,50 +3,49 @@
     <div class="boxes_tour">
         {% for i in house_items %}
         <div class="box animation-to-top">
-            <a href="{% url 'house_details' i.id  %}">
-                <img src="{{ i.image_house.url }}" alt="Image Folder One">
-                <div class="description to-top-height">
-                    <h3>{{ i.price }} vnđ</h3>
-                    <h1>{{ i.name_house }}</h1>
-                    <p class="text-norm">{{ i.type_house }}</p>
-                    <nav>
-                        <ul>
-                            {% if i.star == 0.5 %}
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                            {% endif %} {% if i.star == 1 %} {% for st in "9" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %} {% endif %} {% if i.star == 1.5 %} {% for st in "9" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %}
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                            {% endif %} {% if i.star == 2 %} {% for st in "99" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %} {% endif %} {% if i.star == 2.5 %} {% for st in "99" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %}
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                            {% endif %} {% if i.star == 3 %} {% for st in "999" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %} {% endif %} {% if i.star == 3.5 %} {% for st in "999" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %}
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                            {% endif %} {% if i.star == 4 %} {% for st in "9999" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %} {% endif %} {% if i.star == 4.5 %} {% for st in "9999" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %}
-                            <li><i class="fas fa-star-half-alt"></i></li>
-                            {% endif %} {% if i.star == 5 %} {% for st in "9" %}
-                            <li><i class="fas fa-star"></i></li>
-                            {% endfor %} {% endif %}
-                            <li>
-                                <p>{{ i.review }} reviews</p>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </a>
+            <img src="{{ i.image_house.url }}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <a href="{% url 'house_details' i.id  %}" class="seen"><i class="fas fa-share-square"></i></a>
+                <h3>{{ i.price }} vnđ</h3>
+                <h1>{{ i.name_house }}</h1>
+                <p class="text-norm">{{ i.type_house }}</p>
+                <nav>
+                    <ul>
+                        {% if i.star == 0.5 %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 1 %} {% for st in "9" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 1.5 %} {% for st in "9" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 2 %} {% for st in "99" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 2.5 %} {% for st in "99" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 3 %} {% for st in "999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 3.5 %} {% for st in "999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 4 %} {% for st in "9999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 4.5 %} {% for st in "9999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 5 %} {% for st in "9" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %}
+                        <li>
+                            <p>{{ i.review }} reviews</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
         {% endfor %}
 

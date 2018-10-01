@@ -3,21 +3,20 @@
     <div class="boxes_tour">
         {% for i in eatings %}
         <div class="box animation-to-top">
-            <a href="/restaurant/{{ id_res }}/eating/{{ i.id }}">
-                <img src="{{ i.img_status.url }}" alt="Image Folder One">
-                <div class="description to-top-height">
-                    <h3>{{ i.restaurant }} </h3>
-                    <h1>{{ i.name_food }}</h1>
-                    <p class="text-norm">{{ i.info_food }}</p>
-                    <nav>
-                        <ul>
-                            <li>
-                                <p>{{ i.price }} vnđ</p>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </a>
+            <img src="{{ i.img_status.url }}" alt="Image Folder One">
+            <div class="description to-top-height">
+                <a href="/restaurant/{{ id_res }}/eating/{{ i.id }}" class="seen"><i class="fas fa-share-square"></i></a>
+                <h3>{{ i.restaurant }} </h3>
+                <h1>{{ i.name_food }}</h1>
+                <p class="text-norm">{{ i.info_food }}</p>
+                <nav>
+                    <ul>
+                        <li>
+                            <p>{{ i.price }} vnđ</p>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
         {% endfor %}
         <div class="author">
