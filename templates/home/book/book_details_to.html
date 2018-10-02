@@ -1,73 +1,34 @@
 {% extends 'home/base.html' %} {% block title %}Hotels{% endblock %} {% block body %} {% load static %}
 <div id="tours" class="padding-top-bottom">
     <div class="boxes_tour">
-        <div class="timeline">
+
+        <div class=" timeline">
+            {% if count_place == 0 %}
+            {% else %}
+            {% for i in place_tour %}
+            {% if i.id|divisibleby:2 %}
             <div class="side-tour left">
                 <div class="content">
-                    <h1>2017</h1>
-                    <h2>Ba Na Hill</h2>
-                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum,
-                        vim ea
-                        mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per,
-                        habeo iusto
-                        primis ea eam.</p>
-                    <img src="{% static 'home/images/tour-1.jpg' %}" alt="Tour">
+                    <h1>{{ i.date_to|date:'d-m-Y H:i' }}</h1>
+                    <h2>{{ i.place.name_place }}</h2>
+                    <p>{{ i.place.location }}.</p>
+                    <img src="{{ i.place.image_place.url }}" alt="Tour">
                 </div>
             </div>
+            {% else %}
             <div class="side-tour right">
                 <div class="content">
-                    <h1>2017</h1>
-                    <h2>Ba Na Hill</h2>
-                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum,
-                        vim ea
-                        mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per,
-                        habeo iusto
-                        primis ea eam.</p>
-                    <img src="{% static 'home/images/tour-2.jpg' %}" alt="Tour">
+                    <h1>{{ i.date_to|date:'d-m-Y H:i' }}</h1>
+                    <h2>{{ i.place.name_place }}</h2>
+                    <p>{{ i.place.location }}.</p>
+                    <img src="{{ i.place.image_place.url }}" alt="Tour">
                 </div>
             </div>
-            <div class="side-tour left">
-                <div class="content">
-                    <h1>2017</h1>
-                    <h2>Ba Na Hill</h2>
-                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum,
-                        vim ea
-                        mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per,
-                        habeo iusto
-                        primis ea eam.</p>
-                    <img src="{% static 'home/images/tour-3.jpg' %}" alt="Tour">
-                </div>
-            </div>
-            <div class="side-tour right">
-                <div class="content">
-                    <h1>2017</h1>
-                    <h2>Ba Na Hill</h2>
-                    <p>Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum,
-                        vim ea
-                        mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per,
-                        habeo iusto
-                        primis ea eam.</p>
-                    <img src="{% static 'home/images/tour-4.jpg' %}" alt="Tour">
-                </div>
-            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
         </div>
-        {% if count_place == 0 %}
-        <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">No Data</h1>
-        {% else %}
-        <div class="title" style="width: 100%;">
-            <h1 style="color:rgba(255, 95, 95, 1); font-family: comfortaa">Place To: </h1>
-        </div>
-        {% for i in place_tour %}
-        <div class="box animation-to-top">
-            <img src="{{ i.place.image_place.url }}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>Place: {{ i.place.name_place }} </h3>
-                <h1>Address: {{ i.place.location }}</h1>
-                <p class="text-norm">Date_to: {{ i.date_to|date:'d-m-Y' }} ,tourer: {{ i.account }}</p>
-            </div>
-        </div>
-        {% endfor %}
-        {% endif %}
+
         <!-- house -->
 
         {% if count_house == 0 %}

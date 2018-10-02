@@ -50,7 +50,7 @@ def book_details_to(request,id):
         idempresa = request.session['account']
     else:
         idempresa=None
-    place_tour = Place_tour.objects.filter(book=book_Tour)
+    place_tour = Place_tour.objects.filter(book=book_Tour).order_by('date_to')
     count_place = Place_tour.objects.filter(book=book_Tour).count()
     house_tour = House_tour.objects.filter(book=book_Tour)
     count_house = House_tour.objects.filter(book=book_Tour).count()
