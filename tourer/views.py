@@ -59,8 +59,9 @@ class Register(CreateView):
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        super(Register, self).form_valid(form)
-        return logout(self.request)
+       
+        return  super(Register, self).form_valid(form)
+        # return logout(self.request)
 
 def error(request):
     return render(request,'error/error.html')
