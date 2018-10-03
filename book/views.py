@@ -2,6 +2,7 @@ from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
 from .models import Book_Tour,Restaurant_tour,Place_tour,Vehicle_tour,House_tour,Book_Tour_Details,Album_Tour
 from tourer.models import Tourer
 from datetime import datetime
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def book(request):
@@ -98,3 +99,33 @@ def create_book(request):
         except Exception as e:
             print(e)
             return redirect('book')
+
+def album(request,id):
+    idempresa= ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa=None
+
+    
+    if idempresa == None:
+        return redirect('login')
+    else:
+        book_Tour = Book_Tour.objects.get(pk=id)
+        album_Tour = Album_Tour.objects.filter(book=id)
+        context = {
+            'book_Tour':book_Tour,
+            'album_Tour':album_Tour
+        }
+        return render(request,'home/book/album.html',context)
+
+def upload_album(request,id):
+    book_Tour = Book_Tour.objects.get(pk=id)
+    if request.method == 'POST' and request.FILES['myFile']:
+        myFile =   request.FILES['myFile']
+        fs =  FileSystemStorage()
+        filename = fs.save(myFile.name,  myFile)
+        uploaded_file_url = fs.url(filename)
+        album_Tour = Album_Tour(book=book_Tour,img_album=uploaded_file_url.strip('/media'),date_up=datetime.now())
+        album_Tour.save()
+        return redirect('album',id=id)

@@ -69,6 +69,6 @@ class Book_Tour_Details(models.Model):
 
 class Album_Tour(models.Model):
     book = models.ForeignKey(Book_Tour,on_delete=Book_Tour)
-    img_album = models.FileField(upload_to = 'album/',default='/default/user-avatar-default-165.png')
+    img_album = models.FileField(default='/default/user-avatar-default-165.png')
     date_up = models.DateTimeField(default=datetime.now())
-    place = models.ForeignKey(Place_tour,on_delete=models.CASCADE)
+    # place = models.ForeignKey(Place_tour,on_delete=models.CASCADE)

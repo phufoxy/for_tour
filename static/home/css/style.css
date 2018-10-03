@@ -1980,6 +1980,106 @@ body {
     }
 }
 
+/* albums */
+
+#albums {
+    height: auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    margin-bottom: 100px;
+}
+
+#albums .title {
+    font-family: 'comfortaa';
+    font-size: 42px;
+    color: rgba(255, 95, 95, 1);
+    text-transform: capitalize;
+    width: 100%;
+}
+
+#albums .box-img {
+    position: relative;
+    width: 25%;
+    height: 300px;
+}
+
+#albums .box-img:last-child {
+    background: rgba(255, 95, 95, 1);
+}
+
+#albums .box-img:last-child form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#albums .box-img:last-child form input[type="submit"] {
+    background: #fff;
+    color: rgba(255, 95, 95, 1);
+    text-transform: capitalize;
+    font-family: 'comfortaa';
+    margin-top: 10px;
+}
+
+#albums .box-img img {
+    width: 100%;
+    height: 300px;
+}
+
+#albums .box-img:hover img {
+    opacity: 0.5;
+}
+
+#albums .box-img .description {
+    position: absolute;
+    bottom: 1px;
+    left: 10px;
+    transition: all 0.9s ease-in-out;
+    -webkit-transition: all 0.9s ease-in-out;
+    -moz-transition: all 0.9s ease-in-out;
+}
+
+#albums .box-img .description h1 {
+    font-family: 'comfortaa';
+    color: rgba(255, 95, 95, 1);
+    font-size: 30px;
+    text-transform: capitalize;
+}
+
+#albums .box-img .description p {
+    font-family: 'comfortaa';
+    color: #181818;
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+#albums .box-img .content {
+    display: none;
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
+#albums .box-img:hover .content {
+    display: block;
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
+@media screen and (max-width:992px) {
+    /* albums */
+    #albums .box-img {
+        position: relative;
+        width: 100%;
+        height: 300px;
+    }
+}
+
 /* footer */
 
 footer {

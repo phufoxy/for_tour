@@ -8,5 +8,7 @@ urlpatterns = [
     path('book_details/',views.book_details,name='book_details'),
     path('create_book/',views.create_book,name='create_book'),
     path('delete_book/<int:id>/',views.delete_book,name='delete_book'),
-    path('book_details/<int:id>/',views.book_details_to,name='book_details_to')
+    path('book_details/<int:id>/',views.book_details_to,name='book_details_to'),
+    path('book_details/<int:id>/album/',views.album,name='album'),
+    path('upload_album/<int:id>/',views.upload_album,name='upload_album')
 ]
