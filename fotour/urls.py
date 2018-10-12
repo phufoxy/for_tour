@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('restaurants.urls')),
     path('', include('vehicle.urls')),
     path('',include('book.urls')),
+    path('',include('learn.urls')),
 ]
 
 if settings.DEBUG:

@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'places',
     'restaurants',
     'vehicle',
-    'book'
+    'book',
+    'learn'
 
 ]
 

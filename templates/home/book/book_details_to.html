@@ -27,9 +27,34 @@
             {% endif %}
             {% endfor %}
             {% endif %}
+            <h1 class="title-side">Restaurants</h1>
+            {% if count_restaurant_tour == 0 %}
+            {% else %}
+            {% for i in restaurant_tour %}
+            {% if i.id|divisibleby:2 %}
+            <div class="side-tour-small right-small">
+                <div class="content">
+                    <h1>Date_to: {{ i.date_to|date:'d-m-Y' }} </h1>
+                    <h2>{{ i.restaurant.name_restaurant }}</h2>
+                    <img src="{{ i.restaurant.image_restaurant.url }}" alt="Tour">
+                </div>
+            </div>
+            {% else %}
+            <div class="side-tour-small left-small">
+                <div class="content">
+                    <h1>Date_to: {{ i.date_to|date:'d-m-Y' }} </h1>
+                    <h2>{{ i.restaurant.name_restaurant }}</h2>
+                    <img src="{{ i.restaurant.image_restaurant.url }}" alt="Tour">
+                </div>
+            </div>
+            {% endif %}
+
+            {% endfor %}
+            {% endif %}
         </div>
 
-        <!-- house -->
+
+        house
 
         {% if count_house == 0 %}
         <div class="title" style="width: 100%;">

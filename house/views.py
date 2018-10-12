@@ -141,7 +141,7 @@ def dashboard_form_house(request):
 class IndexView_House(generic.ListView):
     template_name = "dashboard/house/table.html"
     context_object_name = 'house'
-    paginate_by = 12
+    paginate_by = 8
     def get_queryset(self):
         return House.objects.all().order_by("-id")
 
@@ -196,7 +196,7 @@ class CreateHouse(CreateView):
  
         
 class UpdateHouse(UpdateView):
-    template_name = 'dashboard/form.html'
+    template_name = 'dashboard/house/form.html'
     template_login='login/login.html'
     model = House
     fields = '__all__'
@@ -402,4 +402,18 @@ class HouseDelete_City(DeleteView):
     success_url = reverse_lazy('IndexView_House_City')
 
 def dashboard_home(request):
-    return render(request,'dashboard/dashboard.html')
+    idempresa= ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa=None
+
+    if idempresa == None:
+        return redirect('/login/?next='+ request.path)
+    else:
+        account = Tourer.objects.get(email=idempresa)
+        author_account = account.author
+        if author_account == "admin" :
+            return render(request,'dashboard/home/home.html')
+        else :
+            return redirect('house')
