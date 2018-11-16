@@ -25,7 +25,7 @@
     <header>
         <nav>
             <ul>
-                <li><a href="">home</a></li>
+                <li><a href="{% url 'home' %}">home</a></li>
                 <li><a href="">about</a></li>
                 <li><a href="">documention</a></li>
                 <li><a href="" class="login">login</a></li>
@@ -46,12 +46,14 @@
                 <h2 class="title">fotour <sub class="current">360</sub></h2>
             </div>
             <div class="account container-dashboard">
+                {% for i in tourer %}
                 <div class="avatar">
-                    <img src="{%  static 'dashboard/images/avatar.png' %}" alt="Avatar">
+                    <img src="{{ i.avatar.url }}" alt="Avatar">
                 </div>
                 <div class="description">
-                    <h1>welcome Guest</h1>
+                    <h1>{{ i.name }}</h1>
                 </div>
+                {% endfor %}
             </div>
             <div class="menu container-dashboard">
                 <div class="header-menu">
@@ -72,12 +74,12 @@
             </div>
             <div class="menu container-dashboard">
                 <div class="header-menu">
-                    <h1><i class="fas fa-grip-horizontal"></i> learn</h1>
+                    <h1><i class="fas fa-grip-horizontal"></i> Tour</h1>
                 </div>
                 <nav>
                     <ul>
                         <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-home"></i>
                             <a href="javascript:void(0)">House</a>
                         </li>
                         <ul class="dropdown-nav">
@@ -99,7 +101,7 @@
                             </li>
                         </ul>
                         <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-place-of-worship"></i>
                             <a href="javascript:void(0)">Places</a>
                         </li>
                         <ul class="dropdown-nav">
@@ -121,7 +123,7 @@
                             </li>
                         </ul>
                         <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-utensils"></i>
                             <a href="javascript:void(0)">restaurants</a>
                         </li>
                         <ul class="dropdown-nav">
@@ -152,85 +154,23 @@
                             </li>
                         </ul>
                         <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
-                            <a href="javascript:void(0)">tourials</a>
+                            <i class="fas fa-user-circle"></i>
+                            <a href="javascript:void(0)">Tourer</a>
                         </li>
                         <ul class="dropdown-nav">
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="/IndexView_House">Table</a>
+                                <a href="{% url 'ListTourer' %}">Table</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="/CreateHouse">Create</a>
+                                <a href="{% url 'AddTourer' %}">Create</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
                                 <a href="">tourials</a>
                             </li>
                         </ul>
-                        <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
-                            <a href="javascript:void(0)">tourials</a>
-                        </li>
-                        <ul class="dropdown-nav">
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="/IndexView_House">Table</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="/CreateHouse">Create</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="">tourials</a>
-                            </li>
-                        </ul>
-                        <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
-                            <a href="javascript:void(0)">tourials</a>
-                        </li>
-                        <ul class="dropdown-nav">
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="/IndexView_House">Table</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="/CreateHouse">Create</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="">tourials</a>
-                            </li>
-                        </ul>
-                        <li class="dropdown-btn arrow-droppdown">
-                            <i class="fas fa-users"></i>
-                            <a href="javascript:void(0)">tourials</a>
-                        </li>
-                        <ul class="dropdown-nav">
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="/IndexView_House">Table</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="/CreateHouse">Create</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="">tourials</a>
-                            </li>
-                        </ul>
-                        <li class="arrow-droppdown">
-                            <i class="fas fa-table"></i>
-                            <a href="">live courses</a>
-                        </li>
-                        <li class="arrow-droppdown">
-                            <i class="fas fa-table"></i>
-                            <a href="">platform</a>
-                        </li>
                     </ul>
                 </nav>
             </div>

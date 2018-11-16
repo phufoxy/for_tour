@@ -368,7 +368,7 @@ def dashboard_home(request):
         account = Tourer.objects.get(email=idempresa)
         author_account = account.author
         if author_account == "admin" :
-            return render(request,'dashboard/home/home.html')
+            return redirect('ListPlace')
         else :
             return render(request,'error/index.html',{
                 'error':'You are not an administrator'
