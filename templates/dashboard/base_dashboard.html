@@ -83,45 +83,72 @@
                         <ul class="dropdown-nav">
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="{% url 'IndexView_House' %}">Table House</a>
+                                <a href="{% url 'ListHouse' %}">Table House</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="{% url 'CreateHouse' %}">Create House</a>
+                                <a href="{% url 'AddHouse' %}">Create House</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="{% url 'IndexView_House_City' %}">Table City</a>
+                                <a href="{% url 'ListHouseDetails' %}">Table House Details</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="{% url 'CreateHouse_City' %}">Create City</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="{% url 'IndexView_House_details' %}">Table House Details</a>
-                            </li>
-                            <li>
-                                <i class="fas fa-users"></i>
-                                <a href="{% url 'CreateHouse_details' %}">Create House Details</a>
+                                <a href="{% url 'AddHouseDetails' %}">Create House Details</a>
                             </li>
                         </ul>
                         <li class="dropdown-btn arrow-droppdown">
                             <i class="fas fa-users"></i>
-                            <a href="javascript:void(0)">tourials</a>
+                            <a href="javascript:void(0)">Places</a>
                         </li>
                         <ul class="dropdown-nav">
                             <li>
+                                <i class="fas fa-grip-horizontal"></i>
+                                <a href="{% url 'ListPlace' %}">Table Places</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-wpforms"></i>
+                                <a href="{% url 'AddPlace' %}">Create Places</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-grip-horizontal"></i>
+                                <a href="{% url 'ListPlaceDetails' %}">Table Places Details</a>
+                            </li>
+                            <li>
+                                <i class="fab fa-wpforms"></i>
+                                <a href="{% url 'AddPlaceDetails' %}">Create Places Details</a>
+                            </li>
+                        </ul>
+                        <li class="dropdown-btn arrow-droppdown">
+                            <i class="fas fa-users"></i>
+                            <a href="javascript:void(0)">restaurants</a>
+                        </li>
+                        <ul class="dropdown-nav">
+
+                            <li>
                                 <i class="fas fa-users"></i>
-                                <a href="/IndexView_House">Table</a>
+                                <a href="{% url 'IndexView_Restaurants' %}">Table Restaurants</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="/CreateHouse">Create</a>
+                                <a href="{% url 'CreateRestaurant' %}">Create Restaurants</a>
                             </li>
                             <li>
                                 <i class="fas fa-users"></i>
-                                <a href="">tourials</a>
+                                <a href="{% url 'IndexView_Eating' %}">Table Eating</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'CreateEating' %}">Create Eating</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'IndexView_Eating_details' %}">Table Eating Details</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'CreateEating_details' %}">Create Eating Details</a>
                             </li>
                         </ul>
                         <li class="dropdown-btn arrow-droppdown">

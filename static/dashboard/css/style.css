@@ -342,6 +342,8 @@ header nav li a.login {
 
 .main-content {
     padding: 20px 0px 20px 0px;
+    /* background: red; */
+    min-height: 484px;
 }
 
 .main-content .boxes {

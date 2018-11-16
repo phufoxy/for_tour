@@ -3,21 +3,35 @@ from datetime import datetime
 from tourer.models import Tourer
 from django.urls import reverse
 # Create your models here.
-class City(models.Model):
-    city = models.CharField(max_length=250)
-    address = models.CharField(max_length=250)
 
-    # def get_absolute_url(self):
-    #     return reverse('IndexView_Place_City')
-
-    def __str__(self):
-        return self.city + '-' + self.address
 
 
 class Restaurant(models.Model):
+    CITY_CHOICES = (
+        ('Đà Nẵng','Đà Nẵng'),
+        ('Hà Nội','Hà Nội'),
+        ('Hồ Chí Minh','Hồ Chí Minh'),
+        ('Đà Lạt','Đà Lạt'),
+        ('Nha Trang','Nha Trang'),
+        ('Quảng Nam','Quảng Nam'),
+        ('Quảng Ngãi','Quảng Ngãi'),
+        ('Huế','Huế'),
+        ('Gia Lai','Gia Lai'),
+        ('Ninh Bình','Ninh Bình'),
+        ('Quy Nhơn','Quy Nhơn'),
+    )
+    TYPE_CHOICES = (
+        ('Hải Sản',"Hải Sản"),
+        ('Vỉa Hè','Vỉa Hè'),
+        ('Nhậu Bình Dân','Nhậu Bình Dân'),
+        ('Nhà Hàng','Nhà Hàng'),
+        ('Nướng','Nướng')
+    )
     name_restaurant = models.CharField(max_length=250)
-    location = models.ForeignKey(City,on_delete=models.CASCADE)
-    type_restaurant = models.CharField(max_length=250)
+    # location = models.ForeignKey(City,on_delete=models.CASCADE)
+    city = models.CharField(max_length=250,choices=CITY_CHOICES,null=True,blank=True,default='Đà Nẵng')
+    address = models.CharField(max_length=250,null=True,blank=True)
+    type_restaurant = models.CharField(max_length=250,choices=TYPE_CHOICES,default='Hải Sản')
     image_restaurant = models.FileField(upload_to = 'restaurant/',default='/default/user-avatar-default-165.png')
     review = models.IntegerField(default=0)
     star = models.FloatField(default=0)
@@ -26,7 +40,7 @@ class Restaurant(models.Model):
         return reverse('IndexView_Restaurants')
 
     def __str__(self):
-        return self.name_restaurant + '-' + self.location.city
+        return self.name_restaurant + '-' + self.city
 
 class Eating(models.Model):
     restaurant = models.ForeignKey(Restaurant,on_delete=models.CASCADE)

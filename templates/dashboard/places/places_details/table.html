@@ -1,42 +1,42 @@
 {% extends 'dashboard/base_dashboard.html' %}
-{% block title %}Table Places{% endblock %}
+{% block title %}Table House {% endblock %}
+{% block title_main %}Table House{% endblock %}
+{% block details %}Edit House For You{% endblock %}
 {% block body %}
-<div class="header-content">
-    <h1 class="title">Table <span class="current">controlpael</span></h1>
-    <div class="tab-menu">
-        <h1> <i class="far fa-envelope"></i> &nbsp; table</h1>
-    </div>
-</div>
-<div class="col-sm-12 panel">
-    <div class="title">
-        <h1>Living Table</h1>
-        <p>Description living for tralving</p>
-    </div>
-    <div class="box-card">
-        {% for i in context %}
-        <div class="box">
-            <div class="img-box">
-                <img src="{{ i.img_status.url }}" alt="Box">
-            </div>
-            <div class="desciption">
-                <h1>Name:{{ i.name_place }}</h1>
-                <h2>Address: {{ i.location }}</h2>
-            </div>
-            <div class="edit">
-                <a href="{% url 'UpdatePlace' i.id %}"><i class="fas fa-edit"></i></a>
-                <form action="{% url 'PlaceDelete' i.id %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="album_id" value="{{ album.id }}">
-                    <button type="submit" class="" style="background: transparent;border:0;">
-                        <i class="fas fa-trash" style="color:steelblue;cursor: pointer;"></i>
-                    </button>
-                </form>
-            </div>
+<div class="boxes">
+    {% for i in context %}
+    <div class="box">
+        <div class="img">
+            <img src="{{ i.img_status.url }}" alt="Box">
         </div>
-        {% endfor %}
+        <div class="desciption">
+            <h2 class="text-center">{{i.title}}</h2>
+            <h1 class="text-center">{{i.place}}</h1>
+        </div>
+        <div class="info">
+            <p>{{i.start_status}}</p>
+        </div>
+        <div class="panel">
+            <ul>
+                <li> <a href="{% url 'UpdatePlaceDetails' i.id %}"><i class="fas fa-edit"></i></a>
+                </li>
+                <li>
+                    <form action="{% url 'DeletePlaceDetails' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="" style="background: transparent;border:0;">
+                            <i class="fas fa-trash" style="color:#fff;cursor: pointer;"></i>
+                        </button>
+                    </form>
+                </li>
+                <li><a href="">free</a></li>
+            </ul>
+        </div>
     </div>
-    {% if is_paginated %}
-    <ul class="pagination">
+    {% endfor %}
+</div>
+{% if is_paginated %}
+<div class="panning">
+    <ul>
         {% if page_obj.has_previous %}
         <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-chevron-left"></i></a></li>
         {% else %}
@@ -55,6 +55,6 @@
         <li class="disabled"><span>&raquo;</span></li>
         {% endif %}
     </ul>
-    {% endif %}
 </div>
+{% endif %}
 {% endblock %}

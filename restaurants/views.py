@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
-from .models import City, Restaurant, Eating, Eating_details, Comment_restaurant
+from .models import  Restaurant, Eating, Eating_details, Comment_restaurant
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tourer.models import Tourer
 from datetime import datetime
@@ -11,7 +11,8 @@ from book.models import Book_Tour,Restaurant_tour
 
 
 def index(request):
-    restaurant = Restaurant.objects.select_related('location').order_by('-id')
+    restaurant = Restaurant.objects.order_by('-id')
+    city = Restaurant.objects.values('city').distinct()
     idempresa = ''
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -29,11 +30,43 @@ def index(request):
         users = paginator.page(paginator.num_pages)
     context = {
         'idempresa': idempresa,
-        'place': users
+        'place': users,
+        'city':city
     }
     return render(request, 'home/restaurants/restaurant.html', context)
 
+def index_city(request,name):
+    restaurant = Restaurant.objects.filter(city=name)
+    city = Restaurant.objects.values('city').distinct()
+    idempresa = ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa = None
 
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(restaurant, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    context = {
+        'idempresa': idempresa,
+        'place': users,
+        'city':city
+    }
+    return render(request, 'home/restaurants/restaurant.html', context)
+
+def search_form(request):
+    if request.method == "POST": 
+        name = request.POST['city']
+        if name == "all":
+            return redirect('/restaurant')
+        else :
+            return redirect('/restaurant/search/'+name)
 
 def eating(request, id):
     restaurant = Restaurant.objects.get(pk=id)
@@ -133,90 +166,8 @@ def eating_details(request, id, id_restaurant):
     }
     return render(request, 'home/restaurants/food_details.html',context)
 
-# city
-class IndexView_Restaurants_City(generic.ListView):
-    template_name = "dashboard/restaurants/city/table.html"
-    context_object_name = 'city'
-    paginate_by = 12
-    def get_queryset(self):
-        return City.objects.all()
-
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(IndexView_Restaurants_City, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(IndexView_Restaurants_City, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class CreateRestaurants_City(CreateView):
-    template_name = 'dashboard/restaurants/city/form.html'
-    model = City
-    fields = '__all__'
-    #urls name
-    def form_valid(self, form):
-        # Instead of return this HttpResponseRedirect, return an 
-        #  new rendered page
-        return super(CreatePlace_City, self).form_valid(form)
-
-    
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(CreateRestaurants_City, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(CreateRestaurants_City, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class UpdateRestaurants_City(UpdateView):
-    template_name = 'dashboard/restaurants/city/form.html'
-    model = City
-    fields = '__all__'
-    #urls name
-    def form_valid(self, form):
-        # Instead of return this HttpResponseRedirect, return an 
-        #  new rendered page
-        return super(UpdateRestaurants_City, self).form_valid(form)
-
-    
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(UpdateRestaurants_City, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(UpdateRestaurants_City, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class RestaurantsDelete_City(DeleteView):
-    model = City
-    success_url = reverse_lazy('IndexView_Restaurants_City')
-
 # restaurants
-class IndexView_Restaurants(generic.ListView):
+class ListRestaurants(generic.ListView):
     template_name = "dashboard/restaurants/restaurants/table.html"
     context_object_name = 'context'
     paginate_by = 12
@@ -229,17 +180,17 @@ class IndexView_Restaurants(generic.ListView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(IndexView_Restaurants, self).get_context_data(**kwargs)
+            ctx = super(ListRestaurants, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(IndexView_Restaurants, self).get_context_data(**kwargs)
+            ctx = super(ListRestaurants, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class CreateRestaurant(CreateView):
+class AddRestaurants(CreateView):
     template_name = 'dashboard/restaurants/restaurants/form.html'
     model = Restaurant
     fields = '__all__'
@@ -247,7 +198,7 @@ class CreateRestaurant(CreateView):
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(CreateRestaurant, self).form_valid(form)
+        return super(AddRestaurants, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -256,12 +207,12 @@ class CreateRestaurant(CreateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(CreateRestaurant, self).get_context_data(**kwargs)
+            ctx = super(AddRestaurants, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(CreateRestaurant, self).get_context_data(**kwargs)
+            ctx = super(AddRestaurants, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
@@ -293,12 +244,12 @@ class UpdateRestaurant(UpdateView):
             ctx['tourer'] = tourer
             return ctx
 
-class RestaurantDelete(DeleteView):
+class DeleteRestaurant(DeleteView):
     model = Restaurant
     success_url = reverse_lazy('IndexView_Restaurants')
 
 # eating
-class IndexView_Eating(generic.ListView):
+class ListEating(generic.ListView):
     template_name = "dashboard/restaurants/eating/table.html"
     context_object_name = 'context'
     paginate_by = 12
@@ -311,17 +262,17 @@ class IndexView_Eating(generic.ListView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(IndexView_Eating, self).get_context_data(**kwargs)
+            ctx = super(ListEating, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(IndexView_Eating, self).get_context_data(**kwargs)
+            ctx = super(ListEating, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class CreateEating(CreateView):
+class AddEating(CreateView):
     template_name = 'dashboard/restaurants/eating/form.html'
     model = Eating
     fields = '__all__'
@@ -329,7 +280,7 @@ class CreateEating(CreateView):
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(CreateEating, self).form_valid(form)
+        return super(AddEating, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -338,12 +289,12 @@ class CreateEating(CreateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(CreateEating, self).get_context_data(**kwargs)
+            ctx = super(AddEating, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(CreateEating, self).get_context_data(**kwargs)
+            ctx = super(AddEating, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
@@ -375,12 +326,12 @@ class UpdateEating(UpdateView):
             ctx['tourer'] = tourer
             return ctx
 
-class EatingDelete(DeleteView):
+class DeleteEating(DeleteView):
     model = Eating
     success_url = reverse_lazy('IndexView_Eating')
     
 # eating_details
-class IndexView_Eating_details(generic.ListView):
+class ListEatingDetails(generic.ListView):
     template_name = "dashboard/restaurants/eating_details/table.html"
     context_object_name = 'context'
     paginate_by = 12
@@ -393,17 +344,17 @@ class IndexView_Eating_details(generic.ListView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(IndexView_Eating_details, self).get_context_data(**kwargs)
+            ctx = super(ListEatingDetails, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(IndexView_Eating_details, self).get_context_data(**kwargs)
+            ctx = super(ListEatingDetails, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class CreateEating_details(CreateView):
+class AddEatingDetails(CreateView):
     template_name = 'dashboard/restaurants/eating_details/form.html'
     model = Eating_details
     fields = '__all__'
@@ -411,7 +362,7 @@ class CreateEating_details(CreateView):
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(CreateEating_details, self).form_valid(form)
+        return super(AddEatingDetails, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -420,17 +371,17 @@ class CreateEating_details(CreateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(CreateEating_details, self).get_context_data(**kwargs)
+            ctx = super(AddEatingDetails, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(CreateEating_details, self).get_context_data(**kwargs)
+            ctx = super(AddEatingDetails, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class UpdateEating_details(UpdateView):
+class UpdateEatingDetail(UpdateView):
     template_name = 'dashboard/restaurants/eating_details/form.html'
     model = Eating_details
     fields = '__all__'
@@ -438,7 +389,7 @@ class UpdateEating_details(UpdateView):
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(UpdateEating_details, self).form_valid(form)
+        return super(UpdateEatingDetail, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -447,16 +398,16 @@ class UpdateEating_details(UpdateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(UpdateEating_details, self).get_context_data(**kwargs)
+            ctx = super(UpdateEatingDetail, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(UpdateEating_details, self).get_context_data(**kwargs)
+            ctx = super(UpdateEatingDetail, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class Eating_detailsDelete(DeleteView):
+class DeleteEatingDetails(DeleteView):
     model = Eating
     success_url = reverse_lazy('IndexView_Eating_details')

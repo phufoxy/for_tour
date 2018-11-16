@@ -29,9 +29,11 @@
 }
 
 #wowslider-container0 .pause {
+
 }
 
 #wowslider-container0 .play {
+
 }
 
 #wowslider-container0 .pause:hover, #wowslider-container0 .play:hover {
@@ -47,6 +49,7 @@
     margin-left: -9px;
     margin-top: -14px;
     z-index: 59;
+
 }
 
 div#ws_fullscreen:-moz-full-screen #wowslider-container0 {

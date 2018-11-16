@@ -3,7 +3,10 @@ from .models import Book_Tour,Restaurant_tour,Place_tour,Vehicle_tour,House_tour
 from tourer.models import Tourer
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
-
+from datetime import datetime
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.views import generic
 # Create your views here.
 def book(request):
     idempresa= ''
@@ -59,6 +62,7 @@ def book_details_to(request,id):
     count_restaurant_tour = Restaurant_tour.objects.filter(book=book_Tour).count()
     vehicle_tour = Vehicle_tour.objects.filter(book=book_Tour)
     vehicle_tour_count = Vehicle_tour.objects.filter(book=book_Tour).count()
+    tourer = Tourer.objects.filter(email=idempresa)
     context = {
         'idempresa':idempresa,
         'book_Tour':book_Tour,
@@ -69,7 +73,8 @@ def book_details_to(request,id):
         'restaurant_tour':restaurant_tour,
         'count_restaurant_tour':count_restaurant_tour,
         'vehicle_tour':vehicle_tour,
-        'vehicle_tour_count':vehicle_tour_count
+        'vehicle_tour_count':vehicle_tour_count,
+        'tourer':tourer
     }
     return render(request,'home/book/book_details_to.html',context)
 
@@ -129,3 +134,90 @@ def upload_album(request,id):
         album_Tour = Album_Tour(book=book_Tour,img_album=uploaded_file_url.strip('/media'),date_up=datetime.now())
         album_Tour.save()
         return redirect('album',id=id)
+
+class ListTourer(generic.ListView):
+    template_name = "dashboard/account/table.html"
+    context_object_name = 'context'
+    paginate_by = 8
+    def get_queryset(self):
+        return Tourer.objects.all()
+
+    def get_context_data(self, **kwargs):
+        if 'account' in self.request.session:
+            idTourer = self.request.session['account']
+        else:
+            idTourer = None
+        if idTourer == None:
+            ctx = super(ListTourer, self).get_context_data(**kwargs)
+            tourer=None
+            ctx['tourer'] = tourer
+            return ctx
+        else:
+            ctx = super(ListTourer, self).get_context_data(**kwargs)
+            tourer = Tourer.objects.filter(email=idTourer)
+            ctx['tourer'] = tourer
+            return ctx
+
+class AddTourer(CreateView):
+    template_name = 'dashboard/account/form.html'
+    model = Tourer
+    fields = '__all__'
+    # success_url = reverse_lazy('IndexView_House')
+
+    #urls name
+    def form_valid(self, form):
+        # Instead of return this HttpResponseRedirect, return an 
+        #  new rendered page
+        return super(AddTourer, self).form_valid(form)
+
+    
+    def get_context_data(self, **kwargs):
+        if 'account' in self.request.session:
+            idTourer = self.request.session['account']
+        else:
+            idTourer = None
+        if idTourer == None:
+            ctx = super(AddTourer, self).get_context_data(**kwargs)
+            tourer=None
+            ctx['tourer'] = tourer
+            return ctx
+        else:
+            ctx = super(AddTourer, self).get_context_data(**kwargs)
+            tourer = Tourer.objects.filter(email=idTourer)
+            ctx['tourer'] = tourer
+            return ctx
+    
+
+        
+class UpdateTourer(UpdateView):
+    template_name = 'dashboard/account/form.html'
+    model = Tourer
+    fields = '__all__'
+    # success_url = reverse_lazy('IndexView_House') #urls name
+    def form_valid(self, form):
+        # Instead of return this HttpResponseRedirect, return an 
+        #  new rendered page
+        # super(UpdateHouse, self).form_valid(form)
+        return super(UpdateTourer, self).form_valid(form)
+
+
+    
+    def get_context_data(self, **kwargs):
+        if 'account' in self.request.session:
+            idTourer = self.request.session['account']
+        else:
+            idTourer = None
+        if idTourer == None:
+            ctx = super(UpdateTourer, self).get_context_data(**kwargs)
+            tourer=None
+            ctx['tourer'] = tourer
+            return ctx
+        else:
+            ctx = super(UpdateTourer, self).get_context_data(**kwargs)
+            tourer = Tourer.objects.filter(email=idTourer)
+            ctx['tourer'] = tourer
+            return ctx
+
+class DeleteTourer(DeleteView):
+    model = Tourer
+    success_url = reverse_lazy('ListTourer')

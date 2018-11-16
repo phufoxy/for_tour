@@ -1,27 +1,27 @@
-from django.urls import path, re_path
+from django.urls import path, re_path,include
 from . import views
 import django.views.defaults
 from django.conf.urls import handler404, handler500, url
 
 urlpatterns = [
     path('house/',views.house,name='house'),
+    path('error/',views.error_page,name='error_page'),
     path('house/<int:id>/',views.house_details,name='house_details'),
-    path('dashboard/',views.dashboard_home,name='dashboard_home'),
-    path('dashboard/house/',views.IndexView_House.as_view(),name='IndexView_House'),
-    path('dashboard/createhouse/',views.CreateHouse.as_view(),name='CreateHouse'),
+    path('house/search/<str:name>/',views.house_search,name='house_search'),
+    path('house/search_house/',views.form_search,name='search_house'),
     path('create_comment_house/<int:id>/',views.create_comment_house,name='create_comment_house'),
     path('create_house_tour/<int:id>/',views.create_house_tour,name='create_house_tour'),
-    path('dashboard/house/<int:pk>/delete/',views.HouseDelete.as_view(),name='house-delete'),
-    path('dashboard/house/<int:pk>/',views.UpdateHouse.as_view(),name='house-update'),
-    # House details
-    path('dashboard/house_details/',views.IndexView_House_details.as_view(),name='IndexView_House_details'),
-    path('dashboard/create_house_details/',views.CreateHouse_details.as_view(),name='CreateHouse_details'),
-    path('dashboard/house_details/<int:pk>/delete/',views.HouseDelete_details.as_view(),name='HouseDelete_details'),
-    path('dashboard/house_details/<int:pk>/',views.UpdateHouse_details.as_view(),name='UpdateHouse_details'),
-    # house city
-    path('dashboard/house_city/',views.IndexView_House_City.as_view(),name='IndexView_House_City'),
-    path('dashboard/create_house_city/',views.CreateHouse_City.as_view(),name='CreateHouse_City'),
-    path('dashboard/house_city/<int:pk>',views.UpdateHouse_City.as_view(),name='UpdateHouse_City'),
-    path('dashboard/house_city/<int:pk>/delete/',views.HouseDelete_City.as_view(),name='HouseDelete_City'),
-
+    path('dashboard/home/',views.dashboard_home,name='dashboard_home'),
+    path('dashboard/house/',include([
+        # houses
+        path('',views.ListHouse.as_view(),name='ListHouse'),
+        path('create/',views.AddHouse.as_view(),name='AddHouse'),
+        path('<int:pk>/delete/',views.DeleteHouse.as_view(),name='house_delete'),
+        path('<int:pk>/',views.UpdateHouse.as_view(),name='house_update'),
+        # House details
+        path('details/',views.ListHouseDetails.as_view(),name='ListHouseDetails'),
+        path('details/create/',views.AddHouseDetails.as_view(),name='AddHouseDetails'),
+        path('details/<int:pk>/delete/',views.DeleteHouseDetails.as_view(),name='HouseDelete_details'),
+        path('details/<int:pk>/',views.UpdateHouseDetails.as_view(),name='UpdateHouse_details'),
+    ])),
 ]

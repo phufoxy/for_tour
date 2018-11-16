@@ -23,9 +23,7 @@
         </div>
         <div class="login">
             <div class="content">
-                <a href="{% url 'house' %}">
-                    <h1 class="text-center">Home Continue</h1>
-                </a>
+                <h1 class="text-center title">Home Continue</h1>
                 {% if next %}
                 <form action="/login/login_form/?next={{request.path}}" method="post">
                     {% else %}
@@ -61,10 +59,10 @@
                     </form>
                     <a href="{% url 'Register' %}" class="sign-up">or sign up using</a>
 
-                    <div class="icon">
+                    <!-- <div class="icon">
                         <i class="fab fa-facebook-f"></i>
                         <i class="fab fa-twitter"></i>
-                    </div>
+                    </div> -->
             </div>
         </div>
     </div>

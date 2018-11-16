@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
-from .models import City,House,House_details,Comment_house
+from .models import House,House_details,Comment_house
 from tourer.models import Tourer
 from django.template import RequestContext
 from datetime import datetime
@@ -12,7 +12,8 @@ from book.models import Book_Tour,Place_tour,House_tour
 
 # Create your views here.
 def house(request):
-    house_items = House.objects.select_related('location').order_by('-id')
+    house_items = House.objects.order_by('-id')
+    city = House.objects.values('city').distinct()
     idempresa= ''
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -31,45 +32,85 @@ def house(request):
 
     context = {
         'house_items':users,
-        'idempresa':idempresa
+        'idempresa':idempresa,
+        'city':city
 
     }
     return render(request,'home/hotels.html',context)
 
-def house_details(request,id):
-    house_details = House.objects.get(pk=id)
-    house_details.review = house_details.review + 1
-    house_details.save()
-    # house items
-    house_items = House_details.objects.filter(house=id)
-    # account
+def form_search(request):
+    if request.method == "POST":
+        name = request.POST['city']
+        if name == "all":
+            return redirect('/house')
+        else:
+            return redirect('/house/search/'+name)
+
+def house_search(request,name):
+    house_items = House.objects.filter(city=name)
+    city = House.objects.values('city').distinct()
     idempresa= ''
     if 'account' in request.session:
         idempresa = request.session['account']
     else:
         idempresa=None
+        
+    page = request.GET.get('page', 1)
 
-    if idempresa == None:
-        return redirect('/login/?next='+ request.path)
-    else:
-        tourer = Tourer.objects.filter(email=idempresa)
-        comment = Comment_house.objects.filter(house=id).order_by('-date')
-        sum_commnet = Comment_house.objects.filter(house=id).count()
-        account = Tourer.objects.get(email=idempresa)
-        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
-        # context
-        context = {
-            'house_items':house_items,
-            'idempresa':idempresa,
-            'tourer':tourer,
-            'house_details':house_details,
-            'comment':comment,
-            'sum_commnet':sum_commnet,
-            'book_Tour':book_Tour
+    paginator = Paginator(house_items, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
 
-            # 'a':a
-        }
-        return render(request,'home/hotel_details.html',context)
+    context = {
+        'house_items':users,
+        'idempresa':idempresa,
+        'city':city
+    }
+    return render(request,'home/hotels.html',context)
+
+def house_details(request,id):
+    try:
+        house_details = House.objects.get(pk=id)
+        house_details.review = house_details.review + 1
+        house_details.save()
+        # house items
+        house_items = House_details.objects.filter(house=id)
+        # account
+        idempresa= ''
+        if 'account' in request.session:
+            idempresa = request.session['account']
+        else:
+            idempresa=None
+
+        if idempresa == None:
+            return redirect('/login/?next='+ request.path)
+        else:
+            tourer = Tourer.objects.filter(email=idempresa)
+            comment = Comment_house.objects.filter(house=id).order_by('-date')
+            sum_commnet = Comment_house.objects.filter(house=id).count()
+            account = Tourer.objects.get(email=idempresa)
+            book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
+            # context
+            context = {
+                'house_items':house_items,
+                'idempresa':idempresa,
+                'tourer':tourer,
+                'house_details':house_details,
+                'comment':comment,
+                'sum_commnet':sum_commnet,
+                'book_Tour':book_Tour
+                # 'a':a
+            }
+            return render(request,'home/hotel_details.html',context)
+    except House.DoesNotExist as e:
+        return render(request,'error/index.html',{
+            'error':'wrong routing path'
+        })
+    
 
 def create_house_tour(request,id):
     house_details = House.objects.get(pk=id)
@@ -138,7 +179,7 @@ def dashboard_form_house(request):
         }
         return render(request,'dashboard/form.html',context)
 
-class IndexView_House(generic.ListView):
+class ListHouse(generic.ListView):
     template_name = "dashboard/house/table.html"
     context_object_name = 'house'
     paginate_by = 8
@@ -151,30 +192,28 @@ class IndexView_House(generic.ListView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(IndexView_House, self).get_context_data(**kwargs)
+            ctx = super(ListHouse, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(IndexView_House, self).get_context_data(**kwargs)
+            ctx = super(ListHouse, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class CreateHouse(CreateView):
+class AddHouse(CreateView):
     template_name = 'dashboard/house/form.html'
     template_login='login/login.html'
     model = House
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House')
 
-
-   
     #urls name
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(CreateHouse, self).form_valid(form)
+        return super(AddHouse, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -183,12 +222,12 @@ class CreateHouse(CreateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(CreateHouse, self).get_context_data(**kwargs)
+            ctx = super(AddHouse, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(CreateHouse, self).get_context_data(**kwargs)
+            ctx = super(AddHouse, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
@@ -225,12 +264,12 @@ class UpdateHouse(UpdateView):
             ctx['tourer'] = tourer
             return ctx
 
-class HouseDelete(DeleteView):
+class DeleteHouse(DeleteView):
     model = House
     success_url = reverse_lazy('IndexView_House')
 
 
-class IndexView_House_details(generic.ListView):
+class ListHouseDetails(generic.ListView):
     template_name = "dashboard/house_details/table.html"
     context_object_name = 'house_details'
     paginate_by = 12
@@ -243,29 +282,27 @@ class IndexView_House_details(generic.ListView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(IndexView_House_details, self).get_context_data(**kwargs)
+            ctx = super(ListHouseDetails, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(IndexView_House_details, self).get_context_data(**kwargs)
+            ctx = super(ListHouseDetails, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class CreateHouse_details(CreateView):
+class AddHouseDetails(CreateView):
     template_name = 'dashboard/house_details/form.html'
     model = House_details
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House')
-
-
    
     #urls name
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(CreateHouse_details, self).form_valid(form)
+        return super(AddHouseDetails, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -274,29 +311,27 @@ class CreateHouse_details(CreateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(CreateHouse_details, self).get_context_data(**kwargs)
+            ctx = super(AddHouseDetails, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(CreateHouse_details, self).get_context_data(**kwargs)
+            ctx = super(AddHouseDetails, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class UpdateHouse_details(UpdateView):
+class UpdateHouseDetails(UpdateView):
     template_name = 'dashboard/house_details/form.html'
     model = House_details
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House')
-
-
    
     #urls name
     def form_valid(self, form):
         # Instead of return this HttpResponseRedirect, return an 
         #  new rendered page
-        return super(UpdateHouse_details, self).form_valid(form)
+        return super(UpdateHouseDetails, self).form_valid(form)
 
     
     def get_context_data(self, **kwargs):
@@ -305,101 +340,20 @@ class UpdateHouse_details(UpdateView):
         else:
             idTourer = None
         if idTourer == None:
-            ctx = super(UpdateHouse_details, self).get_context_data(**kwargs)
+            ctx = super(UpdateHouseDetails, self).get_context_data(**kwargs)
             tourer=None
             ctx['tourer'] = tourer
             return ctx
         else:
-            ctx = super(UpdateHouse_details, self).get_context_data(**kwargs)
+            ctx = super(UpdateHouseDetails, self).get_context_data(**kwargs)
             tourer = Tourer.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
-class HouseDelete_details(DeleteView):
+class DeleteHouseDetails(DeleteView):
     model = House_details
     success_url = reverse_lazy('IndexView_House_details')
 
-# city
-class IndexView_House_City(generic.ListView):
-    template_name = "dashboard/house/city/table.html"
-    context_object_name = 'city'
-    paginate_by = 12
-    def get_queryset(self):
-        return City.objects.all()
-
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(IndexView_House_City, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(IndexView_House_City, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class CreateHouse_City(CreateView):
-    template_name = 'dashboard/house/city/form.html'
-    model = City
-    fields = '__all__'
-    #urls name
-    def form_valid(self, form):
-        # Instead of return this HttpResponseRedirect, return an 
-        #  new rendered page
-        return super(CreateHouse_City, self).form_valid(form)
-
-    
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(CreateHouse_City, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(CreateHouse_City, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class UpdateHouse_City(UpdateView):
-    template_name = 'dashboard/house/city/form.html'
-    model = City
-    fields = '__all__'
-    #urls name
-    def form_valid(self, form):
-        # Instead of return this HttpResponseRedirect, return an 
-        #  new rendered page
-        return super(UpdateHouse_City, self).form_valid(form)
-
-    
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(UpdateHouse_City, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(UpdateHouse_City, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class HouseDelete_City(DeleteView):
-    model = City
-    success_url = reverse_lazy('IndexView_House_City')
 
 def dashboard_home(request):
     idempresa= ''
@@ -416,4 +370,9 @@ def dashboard_home(request):
         if author_account == "admin" :
             return render(request,'dashboard/home/home.html')
         else :
-            return redirect('house')
+            return render(request,'error/index.html',{
+                'error':'You are not an administrator'
+            })
+
+def error_page(request):
+    return render(request,'error/index.html')

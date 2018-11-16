@@ -1665,40 +1665,46 @@ body {
     border: 0;
 }
 
+/* timeline */
+
+/* timeline */
+
 .timeline {
+    --uiTimelineMainColor: var(--timelineMainColor, #222);
+    --uiTimelineSecondaryColor: var(--timelineSecondaryColor, rgba(255, 95, 95, 1));
     position: relative;
-    width: 100%;
-    background: transparent;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0 auto;
 }
 
 .timeline::after {
-    content: ' ';
+    content: '';
     position: absolute;
     width: 6px;
-    background: rgba(255, 95, 95, 1);
+    background: var(--uiTimelineMainColor);
     top: 0;
     bottom: 0;
     left: 50%;
-    border-radius: 2px;
 }
 
-.side-tour {
-    position: relative;
-    width: 50%;
-    background-color: inherit;
+.timeline-group {
     padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
 }
 
-.side-tour::after {
-    content: ' ';
+.timeline-group::after {
+    content: '';
     position: absolute;
     width: 25px;
     height: 25px;
-    right: -16px;
+    right: -15px;
     background-color: white;
-    border: 4px solid rgba(255, 95, 95, 1);
-    top: 15px;
-    border-radius: 15px;
+    border: 4px solid #FF9F55;
+    top: 60px;
+    border-radius: 50%;
     z-index: 1;
 }
 
@@ -1706,169 +1712,125 @@ body {
     left: 0;
 }
 
+/* Place the container to the right */
+
+.right {
+    left: 50%;
+}
+
 .left::before {
     content: " ";
     height: 0;
-    width: 0;
     position: absolute;
-    right: 30px;
-    top: 20px;
+    top: 55px;
+    width: 0;
     z-index: 1;
-    border: medium solid rgba(255, 95, 95, 1);
-    border-width: 12px 0 12px 12px;
-    border-color: transparent transparent transparent rgba(255, 95, 95, 1);
+    right: 20px;
+    border: medium solid white;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent var(--uiTimelineSecondaryColor);
 }
 
 .right::before {
     content: " ";
     height: 0;
-    width: 0;
     position: absolute;
-    left: 30px;
-    top: 20px;
+    top: 55px;
+    width: 0;
     z-index: 1;
-    border: medium solid rgba(255, 95, 95, 1);
-    border-width: 12px 12px 12px 0;
-    border-color: transparent rgba(255, 95, 95, 1) transparent transparent;
-}
-
-.right {
-    left: 50%;
+    left: 20px;
+    border: medium solid white;
+    border-width: 20px 20px 20px 0;
+    border-color: transparent var(--uiTimelineSecondaryColor) transparent transparent;
 }
 
 .right::after {
     left: -10px;
 }
 
-.side-tour .content {
-    background: rgba(255, 95, 95, 1);
-    padding: 10px;
-    border-radius: 6px;
+.timeline-content {
     position: relative;
+    border: 1px solid var(--uiTimelineSecondaryColor);
 }
 
-.side-tour .content h1 {
-    font-family: 'comfortaa';
-    color: #fff;
-    text-transform: capitalize;
+.timeline-content .timeline-date {
+    position: absolute;
+    background: var(--uiTimelineSecondaryColor);
+    left: 0px;
+    top: 27px;
+    border-radius: 2px;
+    padding: 5px;
 }
 
-.side-tour .content h2 {
-    font-family: 'comfortaa';
-    color: #fff;
-    text-transform: capitalize;
+.timeline-date h1 {
+    color: white;
+    font-size: 16px;
 }
 
-.side-tour .content p {
-    font-family: 'comfortaa';
-    text-transform: capitalize;
+.timeline-date h2 {
+    color: white;
+    font-size: 18px;
 }
 
-.side-tour .content img {
+.timeline-img {
     width: 100%;
-    border-radius: 4px;
 }
 
-.side-tour-small {
-    position: relative;
-    width: 50%;
-    background-color: inherit;
-    padding: 10px 40px;
-    margin-top: 50px;
-}
-
-.side-tour-small::after {
-    content: ' ';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    right: -16px;
-    background-color: rgba(255, 95, 95, 1);
-    border: 4px solid #fff;
-    top: 30px;
-    border-radius: 15px;
-    z-index: 1;
-}
-
-.side-tour-small .content {
-    background: #fff;
-    border: 1px solid rgba(255, 95, 95, 1);
-    padding: 10px;
-    border-radius: 6px;
-    position: relative;
-}
-
-.side-tour-small .content img {
+.timeline-img img {
     width: 100%;
-    border-radius: 4px;
 }
 
-.left-small {
-    left: 0;
+.timeline-content .description {
+    padding: 10px;
 }
 
-.left-small::before {
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    right: 28px;
-    top: 30px;
-    z-index: 1;
-    border: medium solid #fff;
-    border-width: 12px 0 12px 12px;
-    border-color: transparent transparent transparent rgba(255, 95, 95, 1);
+.timeline-content .description p {
+    font-family: 'roboto';
+    font-size: 16px;
 }
 
-.right-small::before {
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    left: 28px;
-    top: 30px;
-    z-index: 1;
-    border: medium solid rgba(255, 95, 95, 1);
-    border-width: 12px 12px 12px 0;
-    border-color: transparent rgba(255, 95, 95, 1) transparent transparent;
+@media screen and (min-width: 641px) {
+    .timeline:before {
+        left: 30px;
+    }
+    .timeline-group {
+        padding-top: 55px;
+    }
+    .timeline-box {
+        padding-left: 80px;
+    }
+    .timeline-box:before {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .timeline-date {
+        top: 50%;
+        margin-top: -27px;
+    }
 }
 
-.right-small {
-    left: 50%;
+@media screen and (max-width: 640px) {
+    .timeline:before {
+        left: 0;
+    }
+    .timeline-group {
+        padding-top: 40px;
+    }
+    .timeline-box {
+        padding-left: 20px;
+        padding-top: 70px;
+    }
+    .timeline-box:before {
+        top: 90px;
+    }
+    .timeline-date {
+        top: 0;
+    }
 }
 
-.right-small::after {
-    left: -10px;
-}
-
-.side-tour-small .content h1 {
-    font-family: 'comfortaa';
-    color: rgba(255, 95, 95, 1);
-    text-transform: capitalize;
-}
-
-.side-tour-small .content h2 {
-    font-family: 'comfortaa';
-    color: rgba(255, 95, 95, 1);
-    text-transform: capitalize;
-}
-
-.side-tour-small .content p {
-    font-family: 'comfortaa';
-    text-transform: capitalize;
-}
-
-.title-side {
-    position: absolute;
-    margin: 25px 0px 10px 0px;
-    z-index: 3;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #4c4c4c;
-    font-family: 'comfortaa';
-    border: 1px solid rgba(255, 95, 95, 1);
-    border-radius: 4px;
-    padding: 3px;
+.timeline {
+    --timelineMainColor: rgba(255, 95, 95, 1);
+    font-size: 16px;
 }
 
 @media screen and (max-width:992px) {
@@ -2376,5 +2338,429 @@ footer .text-content p {
         font-size: 20px;
         margin: 0 auto;
         text-align: center;
+    }
+}
+
+#book {
+    position: relative;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#book .title-place {
+    width: 35%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#book .title-place h1 {
+    position: relative;
+    text-align: center;
+    font-family: 'comfortaa';
+    color: rgba(255, 95, 95, 1);
+    text-transform: uppercase;
+    font-size: 40px;
+    z-index: 100;
+}
+
+#book .title-place h1::after {
+    content: '';
+    width: 70%;
+    height: 2px;
+    position: absolute;
+    left: 50%;
+    top: 60px;
+    background: rgba(255, 95, 95, 1);
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#book img {
+    width: 200px;
+}
+
+#book .places {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 30px 10px 20px 10px;
+}
+
+#book .places .place-items {
+    padding: 10px;
+    width: 50%;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+}
+
+#book .places .place-items:first-child {
+    width: 100%;
+}
+
+#book .places .place-items {
+    width: 46%;
+    margin-top: 16px;
+    margin-left: 10px
+}
+
+#book .places .place-items .title h3 {
+    font-family: 'roboto';
+    font-size: 20px;
+    color: rgba(255, 95, 95, 1);
+}
+
+#book .places .place-items .title h1 {
+    font-family: 'comfortaa';
+    font-size: 36px;
+    color: rgba(255, 95, 95, 1);
+}
+
+#book .places .place-items .title h2 {
+    position: relative;
+    font-family: 'comfortaa';
+    font-size: 20px;
+    color: rgba(255, 95, 95, 1);
+    z-index: 9;
+}
+
+#book .places .place-items .title h2::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 95, 95, 1);
+    height: 2px;
+    width: 10%;
+    left: 35%;
+    top: 10px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#book .places .place-items .title h2::before {
+    content: '';
+    position: absolute;
+    background: rgba(255, 95, 95, 1);
+    height: 2px;
+    width: 10%;
+    right: 25%;
+    top: 10px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#book .places .place-items .img-place {
+    width: 100%;
+}
+
+#book .places .place-items .img-place img {
+    width: 100%;
+}
+
+#book .places .place-items .info {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+
+#book .places .place-items .info p {
+    width: 100%;
+    font-family: 'roboto';
+    word-wrap: break-word;
+}
+
+#book .houses {
+    height: 100%;
+    width: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+#book .houses .account {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    padding: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+}
+
+#book .houses .account img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+#book .houses .account .title h1 {
+    font-family: 'comfortaa';
+    font-size: 30px;
+    text-transform: capitalize;
+}
+
+#book .houses .account .info p {
+    font-family: 'roboto';
+    font-size: 16px;
+    text-transform: capitalize;
+    word-wrap: break-word;
+}
+
+#book .houses .house-place {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 2px;
+    padding: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+}
+
+#book .houses .house-place .title h1 {
+    font-family: 'comfortaa';
+    font-size: 30px;
+    text-transform: capitalize;
+}
+
+#book .houses .house-place .boxes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#book .houses .house-place .boxes .box {
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+}
+
+#book .houses .house-place .boxes .box::after {
+    position: absolute;
+    content: '';
+    background: rgba(255, 95, 95, 1);
+    height: 0.5px;
+    width: 100%;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#book .houses .house-place .boxes .box .img-box {
+    width: 20%;
+    float: left;
+}
+
+#book .houses .house-place .boxes .box .img-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+}
+
+#book .houses .house-place .boxes .box .desctiption {
+    width: 80%;
+    float: right;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+}
+
+#book .houses .house-place .boxes .box .desctiption h3 {
+    font-family: 'roboto';
+    color: rgba(255, 95, 95, 1);
+    font-size: 20px;
+}
+
+#book .houses .house-place .boxes .box .desctiption h1 {
+    font-family: 'roboto';
+    color: rgba(255, 95, 95, 1);
+    font-size: 16px;
+}
+
+@media screen and (max-width:992px) {
+    #book {
+        position: relative;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    #book .title-place {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+    #book .title-place h1 {
+        position: relative;
+        text-align: center;
+        font-family: 'comfortaa';
+        color: rgba(255, 95, 95, 1);
+        text-transform: uppercase;
+        font-size: 40px;
+        z-index: 100;
+    }
+    #book .title-place h1::after {
+        width: 0%;
+    }
+    #book img {
+        width: 200px;
+    }
+    #book .places {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px;
+    }
+    #book .places .place-items {
+        padding: 10px;
+        width: 100%;
+        border-radius: 2px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+    }
+    #book .places .place-items:first-child {
+        width: 100%;
+    }
+    #book .places .place-items {
+        width: 100%;
+        margin-top: 16px;
+        margin-left: 0px
+    }
+    #book .places .place-items .title h3 {
+        font-family: 'roboto';
+        font-size: 20px;
+        color: rgba(255, 95, 95, 1);
+    }
+    #book .places .place-items .title h1 {
+        font-family: 'comfortaa';
+        font-size: 36px;
+        color: rgba(255, 95, 95, 1);
+    }
+    #book .places .place-items .title h2 {
+        position: relative;
+        font-family: 'comfortaa';
+        font-size: 20px;
+        color: rgba(255, 95, 95, 1);
+        z-index: 9;
+    }
+    #book .places .place-items .title h2::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 95, 95, 1);
+        height: 2px;
+        width: 10%;
+        left: 35%;
+        top: 10px;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+    #book .places .place-items .title h2::before {
+        content: '';
+        position: absolute;
+        background: rgba(255, 95, 95, 1);
+        height: 2px;
+        width: 10%;
+        right: 25%;
+        top: 10px;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+    #book .places .place-items .img-place {
+        width: 100%;
+    }
+    #book .places .place-items .img-place img {
+        width: 100%;
+    }
+    #book .places .place-items .info {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+    }
+    #book .places .place-items .info p {
+        width: 100%;
+        font-family: 'roboto';
+        word-wrap: break-word;
+    }
+    #book .houses {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+    #book .houses .account {
+        width: 100%;
+        height: auto;
+        border-radius: 2px;
+        padding: 10px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+    }
+    #book .houses .account img {
+        width: 100px;
+        height: 100px;
+        border-radius: 100%;
+    }
+    #book .houses .account .title h1 {
+        font-family: 'comfortaa';
+        font-size: 30px;
+        text-transform: capitalize;
+    }
+    #book .houses .account .info p {
+        font-family: 'roboto';
+        font-size: 16px;
+        text-transform: capitalize;
+        word-wrap: break-word;
+    }
+    #book .houses .house-place {
+        margin-top: 10px;
+        width: 100%;
+        border-radius: 2px;
+        padding: 10px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24);
+    }
+    #book .houses .house-place .title h1 {
+        font-family: 'comfortaa';
+        font-size: 30px;
+        text-transform: capitalize;
+    }
+    #book .houses .house-place .boxes {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #book .houses .house-place .boxes .box {
+        width: 100%;
+        margin-top: 10px;
+        position: relative;
+    }
+    #book .houses .house-place .boxes .box::after {
+        position: absolute;
+        content: '';
+        background: rgba(255, 95, 95, 1);
+        height: 0.5px;
+        width: 100%;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #book .houses .house-place .boxes .box .img-box {
+        width: 20%;
+        float: left;
+    }
+    #book .houses .house-place .boxes .box .img-box img {
+        width: 80%;
+        height: 100%;
+        border-radius: 100%;
+    }
+    #book .houses .house-place .boxes .box .desctiption {
+        width: 80%;
+        float: right;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: left;
+    }
+    #book .houses .house-place .boxes .box .desctiption h3 {
+        font-family: 'roboto';
+        color: rgba(255, 95, 95, 1);
+        font-size: 20px;
+    }
+    #book .houses .house-place .boxes .box .desctiption h1 {
+        font-family: 'roboto';
+        color: rgba(255, 95, 95, 1);
+        font-size: 16px;
     }
 }

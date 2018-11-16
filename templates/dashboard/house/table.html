@@ -1,5 +1,7 @@
 {% extends 'dashboard/base_dashboard.html' %}
-{% block title %}Table House Details{% endblock %}
+{% block title %}Table House {% endblock %}
+{% block title_main %}Table House{% endblock %}
+{% block details %}Edit House For You{% endblock %}
 {% block body %}
 <div class="boxes">
     {% for i in house %}
@@ -8,20 +10,19 @@
             <img src="{{ i.image_house.url }}" alt=" Image">
         </div>
         <div class="desciption">
-            <h2 class="text-center">{{i.name_house}}</h2>
-            <h1 class="text-center">{{i.location}}</h1>
+            <h2 class="text-center">{{i.name_house }}</h2>
+            <h1 class="text-center">{{i.city }} | {{ i.address }}</h1>
         </div>
         <div class="info">
-            <p>{{i.type_house}}</p>
+            <p>{{i.type_house}} | {{ i.price }} vnđ</p>
         </div>
         <div class="panel">
             <ul>
-                <li> <a href="{% url 'house-update' i.id %}"><i class="fas fa-edit"></i></a>
+                <li> <a href="{%  url 'house_update'  i.id %}" id="edit_box"><i class="fas fa-edit"></i></a>
                 </li>
                 <li>
-                    <form action="{% url 'house-delete' i.id %}" method="post">
+                    <form action="{% url 'house_delete' i.id %}" method="post" id="form_delete">
                         {% csrf_token %}
-                        <input type="hidden" name="album_id" value="{{ album.id }}">
                         <button type="submit" class="" style="background: transparent;border:0;">
                             <i class="fas fa-trash" style="color:#fff;cursor: pointer;"></i>
                         </button>

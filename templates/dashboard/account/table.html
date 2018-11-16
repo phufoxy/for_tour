@@ -1,36 +1,23 @@
 {% extends 'dashboard/base_dashboard.html' %}
-{% block title %}Table House Details{% endblock %}
-{% block title_main %}Table City{% endblock %}
-{% block details %}Edit City For You{% endblock %}
+{% block title %}Table House {% endblock %}
+{% block title_main %}Table House{% endblock %}
+{% block details %}Edit House For You{% endblock %}
 {% block body %}
 <div class="boxes">
-    {% for i in city %}
+    {% for i in context %}
     <div class="box">
         <div class="img">
-            <!-- <img src="{{ i.image_house.url }}" alt=" Image"> -->
+            <img src="{{ i.avatar.url }}" alt=" Image">
         </div>
         <div class="desciption">
-            <h2 class="text-center">{{i.city}}</h2>
-            <h1 class="text-center">{{i.address}}</h1>
+            <h2 class="text-center">{{ i.name }}</h2>
+            <h1 class="text-center">{{ i.email }}</h1>
         </div>
-        <!-- <div class="info">
-            <p>{{i.type_house}}</p>
-        </div> -->
+        <div class="info">
+            <p>Author : {{ i.author }}</p>
+        </div>
         <div class="panel">
-            <ul>
-                <li> <a href="{% url 'UpdateHouse_City' i.id %}"><i class="fas fa-edit"></i></a>
-                </li>
-                <li>
-                    <form action="{% url 'HouseDelete_City' i.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="album_id" value="{{ album.id }}">
-                        <button type="submit" class="" style="background: transparent;border:0;">
-                            <i class="fas fa-trash" style="color:#fff;cursor: pointer;"></i>
-                        </button>
-                    </form>
-                </li>
-                <li><a href="">free</a></li>
-            </ul>
+           
         </div>
     </div>
     {% endfor %}
