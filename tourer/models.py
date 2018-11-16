@@ -4,15 +4,20 @@ from django.urls import reverse
 # from django.forms import CharField, Form, PasswordInput
 # Create your models here.
 class Tourer(models.Model):
+    ACCOUNT_CHOICES = (
+        ('admin','admin'),
+        ('account','account'),
+    )
     email = models.CharField(max_length=250,blank=True,primary_key=True)
     name = models.CharField(max_length = 250)
-    avatar = models.FileField(upload_to = 'tourer/',default='/default/user-avatar-default-165.png')
+    avatar = models.FileField(upload_to = 'tourer/',default='/default/avatar.jpg')
     password = models.CharField(max_length=250)
     question = models.CharField(max_length=250,default='question')
-    author = models.CharField(max_length=250,default='account')
+    author = models.CharField(max_length=250,choices=ACCOUNT_CHOICES,null=True,blank=True,default='account')
+
 
     def get_absolute_url(self):
-        return reverse('house')
+        return reverse('ListTourer')
 
     def __str__(self):
         return self.name
