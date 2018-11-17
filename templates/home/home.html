@@ -163,169 +163,58 @@
     </div>
 </div>
 <div id="popular" class="padding-top-bottom">
+    {% if places %}
     <h1 class="text-center title">most popular destination</h1>
     <div class="boxes">
+        {% for i in places %}
         <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-1.jpg' %}" alt="Image Folder One">
+            <img src="{{ i.image_place.url }}" alt="Image Folder One">
             <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                <a href="{% url 'places_details' i.id  %}" class="seen"><i class="fas fa-share-square"></i></a>
+                <h3>{{ i.price }} vnđ </h3>
+                <h1>{{ i.name_place }}</h1>
+                <p class="text-norm">{{ i.address }} -- {{ i.city }}</p>
                 <nav>
                     <ul>
+                        {% if i.star == 0.5 %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 1 %} {% for st in "9" %}
                         <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 1.5 %} {% for st in "9" %}
                         <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 2 %} {% for st in "99" %}
                         <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 2.5 %} {% for st in "99" %}
                         <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 3 %} {% for st in "999" %}
                         <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 3.5 %} {% for st in "999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 4 %} {% for st in "9999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %} {% if i.star == 4.5 %} {% for st in "9999" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %}
+                        <li><i class="fas fa-star-half-alt"></i></li>
+                        {% endif %} {% if i.star == 5 %} {% for st in "9" %}
+                        <li><i class="fas fa-star"></i></li>
+                        {% endfor %} {% endif %}
                         <li>
-                            <p>500 reviews</p>
+                            <p>{{ i.review }} reviews</p>
                         </li>
                     </ul>
                 </nav>
             </div>
         </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-2.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-3.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-4.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-5.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-6.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-7.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-8.jpg' %}" alt="Image Folder One">
-            <div class="description to-top-height">
-                <h3>$399</h3>
-                <h1>group tour in maldives</h1>
-                <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                <nav>
-                    <ul>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li>
-                            <p>500 reviews</p>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
+        {% endfor %}
     </div>
+    {% endif %}
 </div>
 <div id="our-satisfied" class="padding-top-bottom">
     <div class="container">
@@ -402,6 +291,7 @@
         </div>
     </div>
 </div>
+{% if houses %}
 <div id="recommended" class="padding-top-bottom">
     <form action="">
         <p class="text-dark">want to get our hottest travel deals top tips and advice? subcribe us now!</p>
@@ -411,14 +301,16 @@
         </div>
     </form>
     <div class="most">
+
         <h1 class="title text-left">most recommended hotels</h1>
         <div class="boxes">
+            {% for i in houses %}
             <div class="box animation-to-top">
-                <img src="{% static 'home/images/tour-8.jpg' %}" alt="Image Folder One">
+                <img src="{{ i.image_house.url }}" alt="Image Folder One">
                 <div class="description to-top-height">
-                    <h3>$399</h3>
-                    <h1>group tour in maldives</h1>
-                    <p class="text-norm">ameeru ahmed magu moale, maldives</p>
+                    <h3>{{ i.price }} vnđ</h3>
+                    <h1>{{ i.name_house }}</h1>
+                    <p class="text-norm">{{ i.address }} -- {{ i.city }} </p>
                     <nav>
                         <ul>
                             <li><i class="fas fa-star"></i></li>
@@ -433,49 +325,11 @@
                     </nav>
                 </div>
             </div>
-            <div class="box animation-to-top">
-                <img src="{% static 'home/images/tour-7.jpg' %}" alt="Image Folder One">
-                <div class="description to-top-height">
-                    <h3>$399</h3>
-                    <h1>group tour in maldives</h1>
-                    <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                    <nav>
-                        <ul>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li>
-                                <p>500 reviews</p>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="box animation-to-top">
-                <img src="{% static 'home/images/tour-6.jpg' %}" alt="Image Folder One">
-                <div class="description to-top-height">
-                    <h3>$399</h3>
-                    <h1>group tour in maldives</h1>
-                    <p class="text-norm">ameeru ahmed magu moale, maldives</p>
-                    <nav>
-                        <ul>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li><i class="fas fa-star"></i></li>
-                            <li>
-                                <p>500 reviews</p>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
+{% endif %}
 <div id="our-blog" class="padding-top-bottom">
     <div class="container">
         <h1 class="title text-center text-dark">our blog</h1>

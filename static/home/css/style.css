@@ -717,6 +717,24 @@ body {
     width: 25%;
 }
 
+#popular .boxes .seen {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-decoration: none;
+    color: rgba(255, 95, 95, 1);
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
+#tours .boxes_tour .box .seen:hover {
+    color: #828282;
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+}
+
 #popular .boxes .box img {
     width: 100%;
     height: 380px;
@@ -730,6 +748,7 @@ body {
     line-height: 5px;
     padding-left: 30px;
     padding-top: 10px;
+    width: 100%;
 }
 
 #popular .boxes .box .description h3 {
@@ -771,6 +790,7 @@ body {
     line-height: 16px;
     font-size: 16px;
     text-transform: capitalize;
+    width: 100%;
 }
 
 #popular .boxes .box .description nav ul li {
@@ -979,6 +999,7 @@ body {
     line-height: 5px;
     padding-left: 30px;
     padding-top: 10px;
+    width: 100%;
 }
 
 #recommended .most .boxes .box .description h3 {
