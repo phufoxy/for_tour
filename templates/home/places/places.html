@@ -48,29 +48,50 @@
             </div>
         </div>
         {% endfor %}
-
         <div class="pagination">
-            {% if place.has_other_pages %}
-            <ul>
-                {% if place.has_previous %}
-                <li class="pagi"><a href="?page={{ place.previous_page_number }}" class="number"><i class="fas fa-chevron-circle-left"></i></a></li>
-                {% else %}
-                <li class="pagi disabled"><a href="avascript:void(0)" class="number"><i class="fas fa-chevron-circle-left"></i></a></li>
+            <nav style="margin: 0 auto">
+                {% if place.has_other_pages %}
+                <ul class="pagination">
+                    {% if place.has_previous %}
+                    <li class="page-item ">
+                        <a href="?page={{ place.previous_page_number }}">
+                            <span class="page-link">Previous</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a href="avascript:void(0)">
+                            <span class="page-link">Previous</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for i in place.paginator.page_range %}
+                    {% if place.number == i %}
+                    <li class="page-item active">
+                        <a href="?page={{ i }}">
+                            <span class="page-link">
+                                {{ i }}
+                                <span class="sr-only">(current)</span>
+                            </span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if place.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ place.next_page_number }}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
                 {% endif %}
-                {% for i in place.paginator.page_range %}
-                {% if place.number == i %}
-                <li class="pagi"><a href="?page={{ i }}" class="number active">{{ i }} </a></li>
-                {% else %}
-                <li class="pagi"><a href="?page={{ i }}" class="number">{{ i }}</a></li>
-                {% endif %}
-                {% endfor %}
-                {% if place.has_next %}
-                <li class="pagi"><a href="?page={{ place.next_page_number }}" class="number"><i class="fas fa-chevron-circle-right"></i></a></li>
-                {% else %}
-                <li class="pagi disabled"><a href="avascript:void(0)" class="number"><i class="fas fa-chevron-circle-right"></i></a></li>
-                {% endif %}
-            </ul>
-            {% endif %}
+            </nav>
         </div>
     </div>
     <div class="find-form">
@@ -80,7 +101,7 @@
             <select class="form-control" name="city">
                 <option value="all">All</option>
                 {% for i in city %}
-                <option value="{{ i.city }}" >{{ i.city }}</option>
+                <option value="{{ i.city }}">{{ i.city }}</option>
                 {% endfor %}
             </select>
 

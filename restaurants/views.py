@@ -30,7 +30,7 @@ def index(request):
         users = paginator.page(paginator.num_pages)
     context = {
         'idempresa': idempresa,
-        'place': users,
+        'pagination': users,
         'city':city
     }
     return render(request, 'home/restaurants/restaurant.html', context)
