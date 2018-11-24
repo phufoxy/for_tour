@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from tourer.models import Tourer
 from django.urls import reverse
-
+from places.models import ItemComment,TypeDetails
 # Create your models here.
 
 class House(models.Model):
@@ -47,11 +47,8 @@ class House(models.Model):
     def __str__(self):
         return self.name_house + '-' + self.city
 
-class House_details(models.Model):
+class House_details(TypeDetails):
     house = models.ForeignKey(House,on_delete=models.CASCADE)
-    title = models.CharField(max_length=250)
-    start_status = models.CharField(max_length=5000)
-    end_status = models.CharField(max_length=5000)
     img_status = models.FileField(upload_to='house/book/',default='/default/user-avatar-default-165.png')
 
     def get_absolute_url(self):
@@ -60,8 +57,5 @@ class House_details(models.Model):
     def __str__(self):
         return self.house + '-' + self.title
 
-class Comment_house(models.Model):
+class Comment_house(ItemComment):
     house = models.ForeignKey(House, on_delete=models.CASCADE)
-    commnet = models.CharField(max_length=1000)
-    date = models.DateTimeField(default=datetime.now())
-    account = models.ForeignKey(Tourer,on_delete=models.CASCADE)

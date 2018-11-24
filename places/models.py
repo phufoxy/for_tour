@@ -3,7 +3,7 @@ from datetime import datetime
 from tourer.models import Tourer
 from django.urls import reverse
 # Create your models here.
-class Place(models.Model):
+class TypePlace(models.Model):
     TYPE_PLACE = (
         ('Cầu','Cầu'),
         ('Sông','Sông'),
@@ -24,10 +24,15 @@ class Place(models.Model):
         ('Ninh Bình','Ninh Bình'),
         ('Quy Nhơn','Quy Nhơn'),
     )
-    name_place = models.CharField(max_length=250)
     city = models.CharField(max_length=250,null=True,blank=True,choices=CITY_CHOICES,default='Đà Nẵng')
     address = models.CharField(max_length=250,null=True,blank=True)
-    type_place = models.CharField(max_length=250)
+    type_place = models.CharField(max_length=250,choices=TYPE_PLACE,default='Núi')
+
+    class Meta:
+        abstract = True
+
+class Place(TypePlace):
+    name_place = models.CharField(max_length=250)
     image_place = models.FileField(upload_to = 'place/',default='/default/user-avatar-default-165.png')
     review = models.IntegerField(default=0)
     star = models.FloatField(default=0)
@@ -39,11 +44,16 @@ class Place(models.Model):
     def __str__(self):
         return self.name_place + '-' + self.city
 
-class Place_details(models.Model):
-    place = models.ForeignKey(Place,on_delete=models.CASCADE)
+class TypeDetails(models.Model):
     title = models.CharField(max_length=250)
     start_status = models.CharField(max_length=5000)
     end_status = models.CharField(max_length=5000)
+
+    class Meta:
+        abstract = True
+
+class PlaceDetails(TypeDetails):
+    place = models.ForeignKey(Place,on_delete=models.CASCADE)
     img_status = models.FileField(upload_to='place/book/',default='/default/user-avatar-default-165.png')
 
     def get_absolute_url(self):
@@ -52,11 +62,21 @@ class Place_details(models.Model):
     def __str__(self):
         return self.place.name_place + '-' + self.title
 
-class Comment_place(models.Model):
-    place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    commnet = models.CharField(max_length=1000)
+class ItemComment(models.Model):
+    comment = models.CharField(max_length=1000)
     date = models.DateTimeField(default=datetime.now())
     account = models.ForeignKey(Tourer,on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['-date']
+        abstract = True
+
+    def __str__(self):
+        return self.comment 
+
+class CommentPlace(ItemComment):
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    
 
 
 class Email(models.Model):

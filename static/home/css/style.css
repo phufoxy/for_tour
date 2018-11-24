@@ -735,6 +735,14 @@ body {
     -webkit-transition: all 0.5s ease-in-out;
 }
 
+#tour .boxes_tour .box .add-book {
+    display: none;
+}
+
+#tour .boxes_tour .box:hover .add-book {
+    display: block;
+}
+
 #popular .boxes .box img {
     width: 100%;
     height: 380px;

@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Place,Place_details,Comment_place,Email
+from .models import Place,PlaceDetails,CommentPlace,Email
 # Register your models here.
 admin.site.register(Place)
-admin.site.register(Place_details)
-admin.site.register(Comment_place)
+admin.site.register(PlaceDetails)
+admin.site.register(CommentPlace)
 admin.site.register(Email)

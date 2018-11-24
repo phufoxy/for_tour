@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include('vehicle.urls')),
     path('',include('book.urls')),
     path('',include('learn.urls')),
+    path('',include('tour.urls')),
 ]
 
 if settings.DEBUG:

@@ -163,6 +163,28 @@
                                 <a href="{% url 'ListTourer' %}">Table</a>
                             </li>
                         </ul>
+                        <li class="dropdown-btn arrow-droppdown">
+                            <i class="fas fa-user-circle"></i>
+                            <a href="javascript:void(0)">Tour</a>
+                        </li>
+                        <ul class="dropdown-nav">
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'ListTour' %}">Table Tour</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'AddTour' %}">Add Tour</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'ListPlaceTour' %}">Table Place Tour</a>
+                            </li>
+                            <li>
+                                <i class="fas fa-users"></i>
+                                <a href="{% url 'AddPlaceTour' %}">Add Place Tour</a>
+                            </li>
+                        </ul>
                     </ul>
                 </nav>
             </div>

@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
-from .models import Place,Place_details,Comment_place
+from .models import Place,PlaceDetails,CommentPlace
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tourer.models import Tourer
 from datetime import datetime
@@ -94,9 +94,9 @@ def places_details(request,id):
             return redirect('/login/?next='+ request.path)
         else:
             tourer = Tourer.objects.filter(email=idempresa)
-            places_items = Place_details.objects.filter(place=id)
-            sum_commnet = Comment_place.objects.filter(place=id).count()
-            comment = Comment_place.objects.filter(place=id).order_by('-date')
+            places_items = PlaceDetails.objects.filter(place=id)
+            sum_commnet = CommentPlace.objects.filter(place=id).count()
+            comment = CommentPlace.objects.filter(place=id)
             account = Tourer.objects.get(email=idempresa)
             book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
             # context
@@ -160,7 +160,7 @@ def create_comment_place(request,id):
     else:
         try:
             account_details = Tourer.objects.get(email=idempresa)
-            comment_place = Comment_place(place=place_details,commnet=commnet_items,date=datetime.now(),account=account_details)
+            comment_place = CommentPlace(place=place_details,comment=commnet_items,date=datetime.now(),account=account_details)
             comment_place.save()
             return redirect('places_details',id=id)
         except Exception as e:
@@ -255,7 +255,7 @@ class ListPlaceDetails(generic.ListView):
     context_object_name = 'context'
     paginate_by = 12
     def get_queryset(self):
-        return Place_details.objects.all()
+        return PlaceDetails.objects.all()
 
     def get_context_data(self, **kwargs):
         if 'account' in self.request.session:
@@ -275,7 +275,7 @@ class ListPlaceDetails(generic.ListView):
 
 class AddPlaceDetails(CreateView):
     template_name = 'dashboard/places/places_details/form.html'
-    model = Place_details
+    model = PlaceDetails
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House')
     #urls name
@@ -302,7 +302,7 @@ class AddPlaceDetails(CreateView):
 
 class UpdatePlaceDetails(UpdateView):
     template_name = 'dashboard/places/places_details/form.html'
-    model = Place_details
+    model = PlaceDetails
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House'
     #urls name
@@ -328,5 +328,5 @@ class UpdatePlaceDetails(UpdateView):
             return ctx
 
 class DeletePlaceDetails(DeleteView):
-    model = Place_details
+    model = PlaceDetails
     success_url = reverse_lazy('ListPlaceDetails')

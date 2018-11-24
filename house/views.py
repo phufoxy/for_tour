@@ -153,7 +153,7 @@ def create_comment_house(request,id):
     else:
         try:
             account_details = Tourer.objects.get(email=idempresa)
-            comment_house = Comment_house(house=house_details,commnet=commnet_items,date=datetime.now(),account=account_details)
+            comment_house = Comment_house(house=house_details,comment=commnet_items,date=datetime.now(),account=account_details)
             comment_house.save()
             return redirect('house_details',id=id)
         except Exception as e:
