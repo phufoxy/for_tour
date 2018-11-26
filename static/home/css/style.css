@@ -735,8 +735,13 @@ body {
     -webkit-transition: all 0.5s ease-in-out;
 }
 
-#tour .boxes_tour .box .add-book {
+#tours .boxes_tour .box .add-book {
+    position: absolute;
     display: none;
+}
+
+#tours .boxes_tour .box:hover .add-book {
+    display: block;
 }
 
 #tour .boxes_tour .box:hover .add-book {

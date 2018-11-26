@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Tour,PlaceTour
+from .models import Tour,PlaceTour,BookTour
 from tourer.models import Tourer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum,Count
 from django.db.models import F
+from datetime import datetime
 
 # Create your views here.
 class ListTour(generic.ListView):
@@ -206,10 +207,31 @@ def list_tour(request):
     }
     return render(request,'home/tour/tour.html',context)
 
+def add_tour(request,id):
+    if request.method == "POST":
+        tour = Tour.objects.get(id=id)
+        date = request.POST['date']
+        idempresa= ''
+        if 'account' in request.session:
+            idempresa = request.session['account']
+        else:
+            idempresa=None
+        if idempresa == None:
+            return redirect('/login/?next='+ request.path)
+        else:
+            try:
+                account_details = Tourer.objects.get(email=idempresa)
+                booktour = BookTour(accout=account_details,date_book=datetime.now(),date_start=date,tour=tour)
+                booktour.save()
+                return redirect('list_tour')
+            except Exception as e:
+                return redirect('list_tour')
+
 def tour_details(request,id):
     tour = Tour.objects.get(id=id)
     placeTour = PlaceTour.objects.filter(tour=tour)
     context = {
-        'context':placeTour
+        'context':placeTour,
+        'tour':tour
     }
     return render(request,'home/tour/tour_details.html',context)

@@ -19,5 +19,6 @@ urlpatterns = [
     path('tour/',include([
         path('',views.list_tour,name='list_tour'),
         path('<int:id>/',views.tour_details,name='tour_details'),
+        path('add/<int:id>/',views.add_tour,name='add_tour')
     ]))
 ]
