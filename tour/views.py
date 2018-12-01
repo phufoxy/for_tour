@@ -185,7 +185,10 @@ def in_place(tour):
 
 # list tour
 def list_tour(request):
-    tour = Tour.objects.annotate(sum_price = Sum(F('price')*F('person'))).order_by('-id')
+    tour = Tour.objects.annotate(sum_price = Sum(F('person'))).order_by('-id')
+    query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id "
+    place = PlaceTour.objects.raw(query)
+    tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
     idempresa= ''
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -194,7 +197,7 @@ def list_tour(request):
         
     page = request.GET.get('page', 1)
 
-    paginator = Paginator(tour, 10)
+    paginator = Paginator(place, 10)
     try:
         users = paginator.page(page)
     except PageNotAnInteger:
@@ -204,6 +207,7 @@ def list_tour(request):
     context = { 
         'idempresa':idempresa,
         'context':users,
+        'tour_city':tour_city
     }
     return render(request,'home/tour/tour.html',context)
 
@@ -230,8 +234,84 @@ def add_tour(request,id):
 def tour_details(request,id):
     tour = Tour.objects.get(id=id)
     placeTour = PlaceTour.objects.filter(tour=tour)
+    query = "SELECT *,(sum(a.price) * t.person) as sum_price,sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id where a.tour_id = "+ str(id) + "  group by t.id "
+    sum_place = PlaceTour.objects.raw(query)
     context = {
         'context':placeTour,
-        'tour':tour
+        'tour':tour,
+        'sum_place':sum_place
     }
     return render(request,'home/tour/tour_details.html',context)
+
+def search_form(request):
+    if request.method == "POST": 
+        name = request.POST['city']
+        if name == "all":
+            return redirect('/tour')
+        else :
+            return redirect('/tour/search/'+name)
+
+def search_tour_place(request,name):
+    query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id  where city = '" + name + "'" + " group by t.id"
+    place = PlaceTour.objects.raw(query)
+    city = Tour.objects.values('city').distinct()
+    tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+    idempresa= ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa=None
+        
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(place, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    context = { 
+        'idempresa':idempresa,
+        'context':users,
+        'tour_city':tour_city
+
+    }
+    return render(request,'home/tour/tour.html',context)
+
+def query_mutil(city,price,person,date):
+    query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
+    " FROM tour_placeTour a inner join " 
+    " tour_tour t on a.tour_id  = t.id "
+    " where t.city='" + city + "'  and t.person =  "+ person + ""  
+    " group by t.id "
+    " having (sum(a.price) * t.person) <= " + price + ""
+    )
+    return query
+
+def search_tour_place_price(request,city,price,person,date):
+    place = PlaceTour.objects.raw(query_mutil(city,price,person,date))
+    city = Tour.objects.values('city').distinct()
+    tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+    idempresa= ''
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa=None
+        
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(place, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    context = { 
+        'idempresa':idempresa,
+        'context':users,
+        'tour_city':tour_city
+
+    }
+    return render(request,'home/tour/tour.html',context)

@@ -19,6 +19,9 @@ urlpatterns = [
     path('tour/',include([
         path('',views.list_tour,name='list_tour'),
         path('<int:id>/',views.tour_details,name='tour_details'),
-        path('add/<int:id>/',views.add_tour,name='add_tour')
+        path('add/<int:id>/',views.add_tour,name='add_tour'),
+        path('search/<str:name>/',views.search_tour_place,name='search_tour_place'),
+        path('search/',views.search_form,name='search_tour'),
+        path('search/<str:city>/<str:price>/<str:person>/<str:date>/',views.search_tour_place_price,name='search_tour_place_price'),
     ]))
 ]

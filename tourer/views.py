@@ -83,12 +83,16 @@ def form_signup(request):
     password  = request.POST['password']
     password = sha256_crypt.encrypt(password)
     if request.method == 'POST' :
-        tourer = Tourer(email=email,name=name,password=password,question='Null',author='account')
-        tourer.save()
-        context = {
-             'message' : 'message'
-        }
-        return render(request,'login/login.html',context)
+        try:
+            tourer = Tourer.objects.create(email=email,name=name,password=password,question='Null',author='account')
+            context = {
+                'message' : 'message'
+            }
+            return render(request,'login/login.html',context)
+        except Exception as e:
+            return render(request,'error/index.html',{
+                'error':'email already exists, please enter another email'
+            })
     else:
         context = {
              'message' : 'message'

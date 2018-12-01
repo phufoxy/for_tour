@@ -1,12 +1,30 @@
 {% extends 'home/base.html' %} {% block title %}Home{% endblock %} {% block body %} {% load static %}
+{% load humanize %}
 <div id="tours" class="padding-top-bottom">
+    <div class="search-tour" id="search-tour">
+        <!-- <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p> -->
+        <a href="#ex1" rel="modal:open" class="btn btn-danger"><i class="fas fa-search-plus"></i></a>
+    </div>
     <div class="boxes_tour">
         {% for i in context %}
         <div class="box animation-to-top">
             <div class="add-book">
                 <!-- Link to open the modal -->
-                <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Open Modal</a></p>
+                <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p>
+                <div id="ex1" class="modal" style="width: 100%;">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Date To</label>
+                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Add book" class="btn btn-danger">
+                        </div>
+                    </form>
+                </div>
             </div>
+
             <div id="ex1" class="modal" style="width: 100%;">
                 <form action="{% url 'add_tour' i.id %}" method="POST">
                     {% csrf_token %}
@@ -15,32 +33,33 @@
                         <input type="date" class="form-control" id="exampleFormControlInput1" name="date">
                     </div>
                     <div class="form-group">
+                        <label for="exampleFormControlInput1">Name Tour</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ i.tour.name_tour }}"
+                            disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Price Total/Person</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ i.total_price|intcomma }} VNĐ/ {{ i.person }} Person"
+                            disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Price Total</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ i.sum_price|intcomma }} VNĐ"
+                            disabled>
+                    </div>
+                    <div class="form-group">
                         <input type="submit" value="Add book" class="btn btn-danger">
                     </div>
                 </form>
             </div>
-            <img src="{{ i.image_tour.url }}" alt="Image Folder One">
+            <img src="{{ i.tour.image_tour.url }}" alt="Image Folder One">
             <div class="description to-top-height">
-                <a href="{% url 'tour_details' i.id  %}" class="seen"><i class="fas fa-share-square"></i></a>
-                <h3>{{ i.name_tour }}</h3>
-                <h1>{{ i.type_tour }} </h1>
-                <p id="price_text" class="text-info">{{ i.sum_price }}</p>
-                <script>
-                    function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
-                        try {
-                            decimalCount = Math.abs(decimalCount);
-                            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-                            const negativeSign = amount < 0 ? "-" : "";
-                            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
-                            let j = (i.length > 3) ? i.length % 3 : 0;
-                            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands);
-                        } catch (e) {
-                            console.log(e)
-                        }
-                    };
-                    document.getElementById("price_text").innerText = formatMoney(document.getElementById("price_text").innerHTML) + ' VNĐ';
-                </script>
+                <a href="{% url 'tour_details' i.tour.id  %}" class="seen"><i class="fas fa-share-square"></i></a>
+                <h3>{{ i.tour.type_tour }}</h3>
+                <h1>{{ i.tour.name_tour }} </h1>
+                <p id="price_text" class="text-info">{{ i.sum_price|intcomma }} VNĐ</p>
                 <p class="text-norm">{{ i.person }} Người / {{ i.date_tour }} Ngày </p>
+
             </div>
         </div>
         {% endfor %}
@@ -90,12 +109,12 @@
         </div>
     </div>
     <div class="find-form">
-        <form action="{% url 'searchform' %}" method="POST">
+        <form action="{% url 'search_tour' %}" method="POST">
             {% csrf_token %}
             <h1 class="title-form">find your tour</h1>
             <select class="form-control" name="city">
                 <option value="all">All</option>
-                {% for i in city %}
+                {% for i in tour_city %}
                 <option value="{{ i.city }}">{{ i.city }}</option>
                 {% endfor %}
             </select>

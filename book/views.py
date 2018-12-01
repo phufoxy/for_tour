@@ -7,6 +7,7 @@ from datetime import datetime
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
+from tour.models import Tour,PlaceTour,BookTour
 # Create your views here.
 def book(request):
     idempresa= ''
@@ -32,13 +33,16 @@ def book_details(request):
         return redirect('/login/?next=' + request.path)
     else:
         account = Tourer.objects.get(email=idempresa)
-        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
-        book_Tour_count = Book_Tour.objects.filter(tourer=account).count()
+        query = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + str(account.email) + "'" +" group by t.id"
+        book_Tour = BookTour.objects.raw(query)
+        book_Tour_count = BookTour.objects.filter(accout=account).count()
         if book_Tour_count == 0 :
             context = {
                 'idempresa':idempresa
             }
-            return render(request,'home/book/book.html',context)
+            return render(request,'error/index.html',{
+                'error':'You Not Tour , please choose tour'
+            })
         else:
             context = {
                 'idempresa':idempresa,

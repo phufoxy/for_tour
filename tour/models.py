@@ -31,7 +31,6 @@ class Tour(models.Model):
     image_tour = models.FileField(upload_to = 'tour/',default='/default/user-avatar-default-165.png')
     date_tour = models.FloatField(default=1)
     type_tour = models.CharField(max_length=250,choices=TOUR_CHOICES,null=True,blank=True,default='Du Lịch Trong Nước')
-    price = models.FloatField(default=0)
     city = models.CharField(max_length=250,choices=CITY_CHOICES,null=True,blank=True,default='Đà Nẵng')
 
     def __str__(self):
@@ -50,9 +49,9 @@ class PlaceTour(models.Model):
     title = models.CharField(max_length=250)
     description = models.CharField(max_length=1000)
     image_place = models.FileField(upload_to='tour/',default='/default/user-avatar-default-165.png')
-
+   
     def __str__(self):
-        return self.tour + ' -- ' + str(self.price) + ' VNĐ'
+        return self.tour.name_tour + ' -- ' + str(self.price) + ' VNĐ'
 
     def get_absolute_url(self):
         return reverse('ListPlaceTour')

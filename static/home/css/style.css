@@ -1271,6 +1271,40 @@ body {
     padding-right: 50px;
 }
 
+#search-tour {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    top: 100px;
+    right: 0px;
+    border-radius: 10px;
+}
+
+#search-tour a {
+    width: 100%;
+    height: 60px;
+}
+
+#search-tour a i {
+    font-size: 26px;
+    color: #fff;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.sticky_tour {
+    position: fixed;
+    top: 100px;
+    right: 0px;
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 95, 95, 1);
+    z-index: 99999;
+    transition: 0.5s ease-in-out;
+    box-shadow: 1px 1px 8px 1px #828282;
+}
+
 #tours .find-form {
     width: 35%;
     height: 100%;

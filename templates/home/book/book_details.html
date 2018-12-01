@@ -1,18 +1,19 @@
 {% extends 'home/base.html' %} {% block title %}Home{% endblock %} {% block body %} {% load static %}
+{% load humanize %}
 <div id="tours" class="padding-top-bottom">
     <div class="boxes_tour">
         {% for i in context %}
         <div class="box animation-to-top">
-            <img src="{% static 'home/images/tour-2.jpg' %}" alt="Image Folder One">
+            <img src="{{ i.tour.image_tour.url }}" alt="Image Folder One">
             <div class="description to-top-height">
-                <a href="{% url 'book_details_to' i.id  %}" class="seen"><i class="fas fa-share-square"></i></a>
-                <h3>{{ i.name_book }} </h3>
-                <h1>{{ i.date_start }}</h1>
-                <p class="text-norm">{{ i.date_book }} </p>
+                <a href="{% url 'tour_details' i.tour_id  %}" class="seen"><i class="fas fa-share-square"></i></a>
+                <h3 style="text-transform: capitalize">{{ i.tour.name_tour }} </h3>
+                <h1>{{ i.total_price|intcomma }} VNĐ </h1>
+                <p class="text-norm">{{ i.sum_price|intcomma }} VNĐ/ {{ i.person }} Người</p>
+                <p class="text-norm">{{ i.date_start|date:"d-m-Y" }}</p>
             </div>
         </div>
         {% endfor %}
-
         <div class="pagination">
             {% if place.has_other_pages %}
             <ul>
