@@ -3,7 +3,7 @@
 <div id="tours" class="padding-top-bottom">
     <div class="search-tour" id="search-tour">
         <!-- <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p> -->
-        <a href="#ex1" rel="modal:open" class="btn btn-danger"><i class="fas fa-search-plus"></i></a>
+        <a href="#ex2" rel="modal:open" class="btn btn-danger"><i class="fas fa-search-plus"></i></a>
     </div>
     <div class="boxes_tour">
         {% for i in context %}
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div id="ex1" class="modal" style="width: 100%;">
+            <div id="ex2" class="modal" style="width: 100%;">
                 <form action="{% url 'add_tour' i.id %}" method="POST">
                     {% csrf_token %}
                     <div class="form-group">

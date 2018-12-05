@@ -35,6 +35,13 @@
 </head>
 
 <body>
+    <div id="preloader"></div>
+    <script>
+        window.addEventListener("load", function () {
+            const loader = document.querySelector("#preloader");
+            loader.className += " hidden"; // class "loader hidden"
+        });
+    </script>
     <!-- Start WOWSlider.com HEAD section -->
     <!-- add to the <head> of your page -->
     <link rel="stylesheet" type="text/css" href="{% static 'home/engine0/style.css' %}" />
