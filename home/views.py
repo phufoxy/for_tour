@@ -15,19 +15,33 @@ def home(request):
     else:
         idempresa=None
 
-    account = Tourer.objects.get(email=idempresa)
-    query_details = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + str(account.email) + "'" +" group by t.id"
-    bookTour = BookTour.objects.raw(query_details)
-    tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+    account = "None"
 
-    context = {
-        'context':tour,
-        'idempresa':idempresa,
-        'houses':houses,
-        'bookTour':bookTour,
-        'tour_city':tour_city
-    }
-    return render(request,'home/home.html',context)
+    try:
+        account = Tourer.objects.get(email=idempresa)
+        query_details = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + str(account.email) + "'" +" group by t.id"
+        bookTour = BookTour.objects.raw(query_details)
+        tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+
+        context = {
+            'context':tour,
+            'idempresa':idempresa,
+            'houses':houses,
+            'bookTour':bookTour,
+            'tour_city':tour_city
+        }
+        return render(request,'home/home.html',context)
+    except Exception as e:
+        account = None
+        tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+
+        context = {
+            'context':tour,
+            'idempresa':idempresa,
+            'tour_city':tour_city
+        }
+        return render(request,'home/home.html',context)
+  
 
 def search_multi(request):
     if request.method == "POST":
