@@ -4,6 +4,55 @@
     <div class="search-tour" id="search-tour">
         <!-- <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p> -->
         <a href="#ex2" rel="modal:open" class="btn btn-danger"><i class="fas fa-search-plus"></i></a>
+        <div id="ex2" class="modal" style="width: 100%;">
+            <form action="{% url 'tour_mutil' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <select class="form-control" name="city_tour">
+                        <option selected="true" value="" disabled="disabled">Choose City</option>
+                        {% for i in tour_city %}
+                        <option value="{{ i.city }}">{{ i.city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group input-content">
+                    <select class="form-control" name="price" style="background: transparent;">
+                        <option selected="true" value="" disabled="disabled">Choose Price</option>
+                        <option value="1000000">Dưới 1 Triệu</option>
+                        <option value="2000000">Dưới 2 Triệu</option>
+                        <option value="3000000">Dưới 3 Triệu</option>
+                        <option value="4000000">Dưới 4 Triệu</option>
+                        <option value="5000000">Dưới 5 Triệu</option>
+                        <option value="6000000">Dưới 6 Triệu</option>
+                    </select>
+                </div>
+                <div class="form-group input-content">
+                    <select class="form-control" name="person" style="background: transparent;">
+                        <option selected="true" value="" disabled="disabled">Choose Person</option>
+                        <option value="1">1 Người</option>
+                        <option value="2">2 Người</option>
+                        <option value="3">3 Người</option>
+                        <option value="4">4 Người</option>
+                        <option value="5">5 Người</option>
+                        <option value="6">6 Người</option>
+                    </select>
+                </div>
+                <div class="form-group input-content">
+                    <select class="form-control" name="date" style="background: transparent;">
+                        <option selected="true" value="" disabled="disabled">Choose Date</option>
+                        <option value="1">1 Ngày/Đêm</option>
+                        <option value="2">2 Ngày/Đêm</option>
+                        <option value="3">3 Ngày/Đêm</option>
+                        <option value="4">4 Ngày/Đêm</option>
+                        <option value="5">5 Ngày/Đêm</option>
+                        <option value="6">6 Ngày/Đêm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search Tour" class="btn btn-danger">
+                </div>
+            </form>
+        </div>
     </div>
     <div class="boxes_tour">
         {% for i in context %}
@@ -11,21 +60,8 @@
             <div class="add-book">
                 <!-- Link to open the modal -->
                 <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p>
-                <div id="ex1" class="modal" style="width: 100%;">
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1">Date To</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="date">
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Add book" class="btn btn-danger">
-                        </div>
-                    </form>
-                </div>
             </div>
-
-            <div id="ex2" class="modal" style="width: 100%;">
+            <div id="ex1" class="modal" style="width: 100%;">
                 <form action="{% url 'add_tour' i.id %}" method="POST">
                     {% csrf_token %}
                     <div class="form-group">

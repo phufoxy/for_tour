@@ -48,7 +48,8 @@ def search_multi(request):
         city = request.POST.get('city_tour')
         price = request.POST.get('price')
         person = request.POST.get('person')
-        return redirect('/tour/search/' + city + '/' + str(price) + '/' + str(person) + '/None')
+        date = request.POST.get('date')
+        return redirect('/tour/search/' + city + '/' + str(price) + '/' + str(person) + '/' + str(date) + '/')
     else:
         return render(request,'error/index.html',{
             'error':'wrong routing path'

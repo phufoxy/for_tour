@@ -283,10 +283,26 @@ def query_mutil(city,price,person,date):
     query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
     " FROM tour_placeTour a inner join " 
     " tour_tour t on a.tour_id  = t.id "
-    " where t.city='" + city + "'  and t.person =  "+ person + ""  
+    " where t.city LIKE '%" + city + "%'  and t.person LIKE '%" + person + "%' "  
     " group by t.id "
     " having (sum(a.price) * t.person) <= " + price + ""
     )
+    if price == "":
+        query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
+        " FROM tour_placeTour a inner join " 
+        " tour_tour t on a.tour_id  = t.id "
+        " where t.city LIKE '%" + city + "%'  and t.person LIKE '%" + person + "%' "  
+        " AND t.date_tour LIKE '%" + date +"%'"
+        " group by t.id "
+        " having (sum(a.price) * t.person) <= " + price + ""
+        )
+    else:
+        query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
+        " FROM tour_placeTour a inner join " 
+        " tour_tour t on a.tour_id  = t.id "
+        " where t.city LIKE '%" + city + "%'  and t.person LIKE '%" + person + "%' "  
+        " group by t.id "
+        )
     return query
 
 def search_tour_place_price(request,city,price,person,date):

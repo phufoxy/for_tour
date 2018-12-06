@@ -14,7 +14,7 @@
             <form action="{% url 'tour_mutil' %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group input-content">
-                    <select class="form-control" name="city_tour" style="background: transparent;" required>
+                    <select class="form-control" name="city_tour" style="background: transparent;" >
                         <option selected="true" value="" disabled="disabled">Choose Tagging</option>
                         {% for i in tour_city %}
                         <option value="{{ i.city }}">{{ i.city }}</option>
@@ -22,7 +22,7 @@
                     </select>
                 </div>
                 <div class="form-group input-content">
-                    <select class="form-control" name="price" style="background: transparent;" required>
+                    <select class="form-control" name="price" style="background: transparent;" >
                         <option selected="true" value="" disabled="disabled">Choose Price</option>
                         <option value="1000000">Dưới 1 Triệu</option>
                         <option value="2000000">Dưới 2 Triệu</option>
@@ -33,7 +33,7 @@
                     </select>
                 </div>
                 <div class="form-group input-content">
-                    <select class="form-control" name="person" style="background: transparent;" required>
+                    <select class="form-control" name="person" style="background: transparent;" >
                         <option selected="true" value="" disabled="disabled">Choose Person</option>
                         <option value="1">1 Người</option>
                         <option value="2">2 Người</option>
@@ -44,7 +44,15 @@
                     </select>
                 </div>
                 <div class="form-group input-content">
-                    <input type="text" class="form-control" placeholder="search location">
+                    <select class="form-control" name="date" style="background: transparent;" >
+                        <option selected="true" value="" disabled="disabled">Choose Date</option>
+                        <option value="1">1 Ngày/Đêm</option>
+                        <option value="2">2 Ngày/Đêm</option>
+                        <option value="3">3 Ngày/Đêm</option>
+                        <option value="4">4 Ngày/Đêm</option>
+                        <option value="5">5 Ngày/Đêm</option>
+                        <option value="6">6 Ngày/Đêm</option>
+                    </select>
                 </div>
                 <button class="btn">find fights</button>
             </form>
