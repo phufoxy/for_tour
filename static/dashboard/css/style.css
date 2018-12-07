@@ -355,8 +355,8 @@ header nav li a.login {
 .main-content .boxes .box {
     position: relative;
     width: 22%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     box-shadow: 1px 1px 1px 1px #aaa;
     border-radius: 4px;
 }
@@ -401,7 +401,7 @@ header nav li a.login {
     background: transparent;
     top: 0px;
     right: 0px;
-    width: 50px;
+    width: 110px;
     text-align: center;
     transition: all 0.5s;
     padding: 5px;
@@ -409,7 +409,7 @@ header nav li a.login {
 }
 
 .main-content .boxes .box:hover .edit {
-    transform: translate(100%, 0px);
+    transform: translate(0px, -100%);
     transition: all 0.5s;
     background: rgba(105, 204, 224, 1);
 }

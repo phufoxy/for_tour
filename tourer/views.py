@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404, redirect,HttpResponseRedirect
-from .models import Tourer
+from .models import Tourer, Account
 from django.views.generic.edit import CreateView
 from passlib.hash import sha256_crypt
 from django.core.files.storage import FileSystemStorage
@@ -35,7 +35,7 @@ def login_form(request):
         password_email = ''
         error = ''
         try:
-            email_login = Tourer.objects.get(email=email)
+            email_login = Account.objects.get(email=email)
             login = 1
         except Exception as e:
             login = 0
@@ -84,7 +84,7 @@ def form_signup(request):
     password = sha256_crypt.encrypt(password)
     if request.method == 'POST' :
         try:
-            tourer = Tourer.objects.create(email=email,name=name,password=password,question='Null',author='account')
+            tourer = Account.objects.create(email=email,name=name,password=password,question='Null',author='account')
             context = {
                 'message' : 'message'
             }

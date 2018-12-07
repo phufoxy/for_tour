@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
 from .models import Book_Tour,Restaurant_tour,Place_tour,Vehicle_tour,House_tour,Book_Tour_Details,Album_Tour
-from tourer.models import Tourer
+from tourer.models import Tourer, Account
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 from datetime import datetime
@@ -20,7 +20,6 @@ def book(request):
     }
     return render(request,'home/book/book.html',context)
 
-    
 
 def book_details(request):
     idempresa= ''
@@ -32,8 +31,8 @@ def book_details(request):
     if idempresa == None:
         return redirect('/login/?next=' + request.path)
     else:
-        account = Tourer.objects.get(email=idempresa)
-        query = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + str(account.email) + "'" +" group by t.id"
+        account = Account.objects.get(email=idempresa)
+        query = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + str(account.id) + "'" +" group by t.id"
         book_Tour = BookTour.objects.raw(query)
         book_Tour_count = BookTour.objects.filter(accout=account).count()
         if book_Tour_count == 0 :
@@ -68,7 +67,7 @@ def book_details_to(request,id):
     count_restaurant_tour = Restaurant_tour.objects.filter(book=book_Tour).count()
     vehicle_tour = Vehicle_tour.objects.filter(book=book_Tour)
     vehicle_tour_count = Vehicle_tour.objects.filter(book=book_Tour).count()
-    tourer = Tourer.objects.filter(email=idempresa)
+    tourer = Account.objects.filter(email=idempresa)
     context = {
         'idempresa':idempresa,
         'book_Tour':book_Tour,
@@ -103,7 +102,7 @@ def create_book(request):
         return redirect('login')
     else:
         try:
-            account_details = Tourer.objects.get(email=idempresa)
+            account_details = Account.objects.get(email=idempresa)
             book_Tour = Book_Tour(name_book=name_book,date_book=datetime.now(),date_start=date_book,tourer=account_details)
             book_Tour.save()
             return redirect('book_details')
@@ -146,7 +145,7 @@ class ListTourer(generic.ListView):
     context_object_name = 'context'
     paginate_by = 8
     def get_queryset(self):
-        return Tourer.objects.all()
+        return Account.objects.all()
 
     def get_context_data(self, **kwargs):
         if 'account' in self.request.session:
@@ -166,7 +165,7 @@ class ListTourer(generic.ListView):
 
 class AddTourer(CreateView):
     template_name = 'dashboard/account/form.html'
-    model = Tourer
+    model = Account
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House')
 
@@ -197,7 +196,7 @@ class AddTourer(CreateView):
         
 class UpdateTourer(UpdateView):
     template_name = 'dashboard/account/form.html'
-    model = Tourer
+    model = Account
     fields = '__all__'
     # success_url = reverse_lazy('IndexView_House') #urls name
     def form_valid(self, form):
@@ -225,5 +224,5 @@ class UpdateTourer(UpdateView):
             return ctx
 
 class DeleteTourer(DeleteView):
-    model = Tourer
+    model = Account
     success_url = reverse_lazy('ListTourer')

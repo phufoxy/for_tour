@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
-from tourer.models import Tourer
+from tourer.models import Tourer, Account
 # Create your models here.
     
 class Tour(models.Model):
@@ -60,9 +60,9 @@ class PlaceTour(models.Model):
         ordering = ["-id"]
 
 class BookTour(models.Model):
-    accout = models.ForeignKey(Tourer,on_delete=models.CASCADE)
-    date_book = models.DateTimeField(default=datetime.now())
-    date_start = models.DateTimeField(default=datetime.now())
+    accout = models.ForeignKey(Account,on_delete=models.CASCADE)
+    date_book = models.DateField()
+    date_start = models.DateField()
     tour = models.ForeignKey(Tour,on_delete=models.CASCADE)
 
     class Meta:

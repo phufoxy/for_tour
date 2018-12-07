@@ -67,7 +67,9 @@
                 <li><a href="{% url 'book_details' %}" class="lang" key="services">book</a></li>
                 <li><a href="{% url 'list_tour' %}" class="lang" key="blog">Tour</a></li>
                 <li><a href="#" class="lang" key="about">about</a></li>
-                <li><a href="#" class="lang" key="contact">contact</a></li>
+                {% if admin %}
+                <li><a href="{% url 'dashboard_home' %}" class="lang" key="contact">Dashboard</a></li>
+                {% endif %}
                 {% if idempresa == None %}
                 <li><a href="/login/?next={{ request.path }}" class="lang" key="login">Login</a></li>
                 {% else %}

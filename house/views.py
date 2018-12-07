@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
 from .models import House,House_details,Comment_house
-from tourer.models import Tourer
+from tourer.models import Tourer, Account
 from django.template import RequestContext
 from datetime import datetime
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -365,7 +365,7 @@ def dashboard_home(request):
     if idempresa == None:
         return redirect('/login/?next='+ request.path)
     else:
-        account = Tourer.objects.get(email=idempresa)
+        account = Account.objects.get(email=idempresa)
         author_account = account.author
         if author_account == "admin" :
             return redirect('ListPlace')

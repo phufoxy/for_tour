@@ -62,8 +62,8 @@ body {
 #preloader.hidden {
     animation: fadeOut;
     animation-fill-mode: forwards;
-    animation-duration: 4s;
-    animation-delay: 1s;
+    animation-duration: 1s;
+    animation-delay: 0s;
 }
 
 @keyframes fadeOut {

@@ -19,24 +19,22 @@
             <h1 class="text-center">{{ i.city }} || {{ i.address }}</h1>
         </div>
         <div class="info">
-            <p>{{i.type_place }}</p>
         </div>
         <div class="panel">
-            <ul>
-                <li> <a href="{% url 'UpdatePlace' i.id %}"><i class="fas fa-edit"></i></a>
-                </li>
-                <li>
-                    <button type="button" class="delete-book btn btn-sm btn-danger" data-id="{% url 'DeletePlace' i.pk %}">
-                        <span class="fa fa-trash"></span>
-                    </button>
-                </li>
+            <!-- <ul>
                 <li><a href="">free</a></li>
-            </ul>
+            </ul> -->
         </div>
         <div class="edit">
-            <a href="sd"><i class="fas fa-edit"></i></a>
-            <button type="button" class="delete-book " data-id="{% url 'DeletePlace' i.pk %}" style="background: transparent;border: 0;">
+            <button type="button" class="update-book " data-id="{% url 'UpdatePlace' i.pk %}" style="background: transparent;border: 0;cursor: pointer;"><i
+                    class="fas fa-edit"></i>
+            </button>
+            <button type="button" class="delete-book " data-id="{% url 'DeletePlace' i.pk %}" style="background: transparent;border: 0;cursor: pointer;">
                 <i class="fa fa-trash"></i>
+            </button>
+            <button type="button" class="read-book btn btn-sm btn-primary" data-id="{% url 'PlaceReadView' i.pk %}"
+                style="background: transparent;border: 0;cursor: pointer;">
+                <i class="fa fa-eye"></i>
             </button>
         </div>
     </div>
@@ -77,7 +75,15 @@
         $(".delete-book").each(function () {
             $(this).modalForm({ formURL: $(this).data('id') });
         });
-
+        // Update book buttons
+        $(".update-book").each(function () {
+            $(this).modalForm({ formURL: $(this).data('id') });
+        });
+        // Read book buttons
+        $(".read-book").each(function () {
+            $(this).modalForm({ formURL: $(this).data('id') });
+        });
+        
     });
 </script>
 {% endblock extrascripts %}

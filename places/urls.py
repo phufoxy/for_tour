@@ -18,9 +18,9 @@ urlpatterns = [
     path('dashboard/places/',include([
         # places
         path('',views.Index.as_view(),name='ListPlace'),
-        path('email/',views.AddEmail.as_view(),name='AddEmail'),
         path('create/',views.PlaceCreateView.as_view(),name='AddPlace'),
-        path('<int:pk>/',views.UpdatePlace.as_view(),name='UpdatePlace'),
+        path('<int:pk>/',views.PlaceUpdateView.as_view(),name='UpdatePlace'),
+        path('read/<int:pk>/',views.PlaceReadView.as_view(),name='PlaceReadView'),
         path('<int:pk>/delete/',views.PlaceDeleteView.as_view(),name='DeletePlace'),
         # places details
         path('details/',include([
@@ -28,6 +28,7 @@ urlpatterns = [
             path('create/',views.AddPlaceDetails.as_view(),name='AddPlaceDetails'),
             path('<int:pk>/',views.UpdatePlaceDetails.as_view(),name='UpdatePlaceDetails'),
             path('<int:pk>/delete/',views.DeletePlaceDetails.as_view(),name='DeletePlaceDetails'),
+            path('read/<int:pk>/',views.PlaceDetailsReadView.as_view(),name='PlaceDetailsReadView'),
         ])),
     ])),
 ]

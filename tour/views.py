@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import Tour,PlaceTour,BookTour
-from tourer.models import Tourer
+from tourer.models import Tourer,Account
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum,Count
 from django.db.models import F
@@ -29,7 +29,7 @@ class ListTour(generic.ListView):
             return ctx
         else:
             ctx = super(ListTour, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
+            tourer = Account.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
@@ -56,7 +56,7 @@ class AddTour(CreateView):
             return ctx
         else:
             ctx = super(AddTour, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
+            tourer = Account.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
@@ -83,7 +83,7 @@ class UpdateTour(UpdateView):
             return ctx
         else:
             ctx = super(UpdateTour, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
+            tourer = Account.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
@@ -111,7 +111,7 @@ class ListPlaceTour(generic.ListView):
             return ctx
         else:
             ctx = super(ListPlaceTour, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
+            tourer = Account.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
@@ -138,7 +138,7 @@ class AddPlaceTour(CreateView):
             return ctx
         else:
             ctx = super(AddPlaceTour, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
+            tourer = Account.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
@@ -165,7 +165,7 @@ class UpdatePlaceTour(UpdateView):
             return ctx
         else:
             ctx = super(UpdatePlaceTour, self).get_context_data(**kwargs)
-            tourer = Tourer.objects.filter(email=idTourer)
+            tourer = Account.objects.filter(email=idTourer)
             ctx['tourer'] = tourer
             return ctx
 
@@ -224,11 +224,13 @@ def add_tour(request,id):
             return redirect('/login/?next='+ request.path)
         else:
             try:
-                account_details = Tourer.objects.get(email=idempresa)
+                account_details = Account.objects.get(email=idempresa)
                 booktour = BookTour(accout=account_details,date_book=datetime.now(),date_start=date,tour=tour)
                 booktour.save()
+                print("Success")
                 return redirect('list_tour')
             except Exception as e:
+                print(e)
                 return redirect('list_tour')
 
 def tour_details(request,id):

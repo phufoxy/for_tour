@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %} {% block title %}Hotels{% endblock %} {% block body %} {% load static %}
+{% extends 'home/base.html' %} {% block title %}Place Details{% endblock %} {% block body %} {% load static %}
 <div id="tours" class="padding-top-bottom">
     <div class="boxes_tour">
         {% for i in places_items %}
@@ -36,38 +36,95 @@
         </div>
         <div class="post-comment">
             <h1>leave a commnet</h1>
+            {% if tourer %}
             <form action="{% url 'create_comment_place'  places_details.id %}">
                 <!-- <div class="form-group">
-                    <label for="">Email</label>
-                    <input type="text" placeholder="Email" class="form-control" name="email">
-                </div> -->
+                        <label for="">Email</label>
+                        <input type="text" placeholder="Email" class="form-control" name="email">
+                    </div> -->
                 <div class="form-group">
                     <label for="">Comments</label>
                     <input type="text" placeholder="name" class="form-control" name="comment_items">
                 </div>
                 <button class="btn btn-danger" type="submit">post comment</button>
             </form>
+            {% else %}
+            <div class="add-book">
+                <!-- Link to open the modal -->
+                <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Comment</a></p>
+            </div>
+            <div id="ex1" class="modal" style="width: 100%;">
+                <div class="modal-header">
+                    <h3 class="modal-title">Thông Báo</h3>
+                </div>
+                <div class="modal-body">
+                    <h6>Vui Lòng Đăng Nhập Để Bình Luận</h6>
+                </div>
+
+                <div class="modal-footer">
+                    <a class="btn btn-warning" href="/login/?next={{ request.path }}">Login</a>
+                </div>
+            </div>
+            {% endif %}
+
         </div>
     </div>
     <div class="find-form">
-        <form action="{% url 'create_place_tour' places_details.id %}">
-            <h1 class="title-form">find your tour</h1>
-            <!-- <div class="form-group">
-                <input type="text" placeholder="search location" class="form-control">
-            </div> -->
-            <div class="form-group">
-                <select class="form-control" id="exampleFormControlSelect1" name="book">
-                    <option selected="selected" disabled="disabled">Tour</option>
-                    {% for i in book_Tour %}
-                    <option>{{ i.name_book }}</option>
-                    {% endfor %}
-                </select>
+
+        <!-- <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p> -->
+        <a href="#ex2" rel="modal:open" class="btn btn-danger">Find Tour</a>
+        <div id="ex2" class="modal" style="width: 100%;">
+            <div class="modal-header">
+                <h3 class="modal-title">Tour</h3>
             </div>
-            <div class="form-group">
-                <input type="datetime-local" class="form-control" name="date_to">
-            </div>
-            <input type="submit" class="btn btn-danger" value="Add Tour">
-        </form>
+            <form action="{% url 'tour_mutil' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <select class="form-control" name="city_tour">
+                        <option selected="true" value="" disabled="disabled">Choose City</option>
+                        {% for i in tour_city %}
+                        <option value="{{ i.city }}">{{ i.city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group input-content">
+                    <select class="form-control" name="price" style="background: transparent;">
+                        <option selected="true" value="" disabled="disabled">Choose Price</option>
+                        <option value="1000000">Dưới 1 Triệu</option>
+                        <option value="2000000">Dưới 2 Triệu</option>
+                        <option value="3000000">Dưới 3 Triệu</option>
+                        <option value="4000000">Dưới 4 Triệu</option>
+                        <option value="5000000">Dưới 5 Triệu</option>
+                        <option value="6000000">Dưới 6 Triệu</option>
+                    </select>
+                </div>
+                <div class="form-group input-content">
+                    <select class="form-control" name="person" style="background: transparent;">
+                        <option selected="true" value="" disabled="disabled">Choose Person</option>
+                        <option value="1">1 Người</option>
+                        <option value="2">2 Người</option>
+                        <option value="3">3 Người</option>
+                        <option value="4">4 Người</option>
+                        <option value="5">5 Người</option>
+                        <option value="6">6 Người</option>
+                    </select>
+                </div>
+                <div class="form-group input-content">
+                    <select class="form-control" name="date" style="background: transparent;">
+                        <option selected="true" value="" disabled="disabled">Choose Date</option>
+                        <option value="1">1 Ngày/Đêm</option>
+                        <option value="2">2 Ngày/Đêm</option>
+                        <option value="3">3 Ngày/Đêm</option>
+                        <option value="4">4 Ngày/Đêm</option>
+                        <option value="5">5 Ngày/Đêm</option>
+                        <option value="6">6 Ngày/Đêm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Search Tour" class="btn btn-danger">
+                </div>
+            </form>
+        </div>
         <div class="categories">
             <h1>categories</h1>
             <ul>

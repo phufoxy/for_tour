@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from tourer.models import Tourer
+from tourer.models import Tourer, Account
 from django.urls import reverse
 # Create your models here.
 class TypePlace(models.Model):
@@ -56,8 +56,6 @@ class PlaceDetails(TypeDetails):
     place = models.ForeignKey(Place,on_delete=models.CASCADE)
     img_status = models.FileField(upload_to='place/book/',default='/default/user-avatar-default-165.png')
 
-    def get_absolute_url(self):
-        return reverse('ListPlaceDetails')
 
     def __str__(self):
         return self.place.name_place + '-' + self.title
@@ -65,7 +63,7 @@ class PlaceDetails(TypeDetails):
 class ItemComment(models.Model):
     comment = models.CharField(max_length=1000)
     date = models.DateTimeField(default=datetime.now())
-    account = models.ForeignKey(Tourer,on_delete=models.CASCADE)
+    account = models.ForeignKey(Account,on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-date']
