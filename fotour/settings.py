@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     'vehicle',
     'book',
     'learn',
-    'tour'
-
+    'tour',
+    'bootstrap_modal_forms',
 ]
 
 MIDDLEWARE = [

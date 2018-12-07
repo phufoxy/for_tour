@@ -17,11 +17,11 @@ urlpatterns = [
     # dashboard
     path('dashboard/places/',include([
         # places
-        path('',views.ListPlace.as_view(),name='ListPlace'),
+        path('',views.Index.as_view(),name='ListPlace'),
         path('email/',views.AddEmail.as_view(),name='AddEmail'),
-        path('create/',views.AddPlace.as_view(),name='AddPlace'),
+        path('create/',views.PlaceCreateView.as_view(),name='AddPlace'),
         path('<int:pk>/',views.UpdatePlace.as_view(),name='UpdatePlace'),
-        path('<int:pk>/delete/',views.DeletePlace.as_view(),name='DeletePlace'),
+        path('<int:pk>/delete/',views.PlaceDeleteView.as_view(),name='DeletePlace'),
         # places details
         path('details/',include([
             path('',views.ListPlaceDetails.as_view(),name='ListPlaceDetails'),

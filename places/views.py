@@ -8,6 +8,34 @@ from django.urls import reverse_lazy
 from django.views import generic
 from book.models import Book_Tour,Place_tour
 from django.views.generic import TemplateView
+from .forms import PlaceForm
+from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
+from django.contrib.messages.views import SuccessMessageMixin
+
+# Place Index
+class Index(generic.ListView):
+    model = Place
+    context_object_name = 'context'
+    template_name = 'dashboard/places/places/index.html'
+
+# Create
+class PlaceCreateView(PassRequestMixin, SuccessMessageMixin,
+                     generic.CreateView):
+    template_name = 'dashboard/places/places/create_place.html'
+    form_class = PlaceForm
+    success_message = 'Success: Book was created.'
+    success_url = reverse_lazy('ListPlace')
+
+
+# Delete
+class PlaceDeleteView(DeleteAjaxMixin, generic.DeleteView):
+    model = Place
+    template_name = 'dashboard/places/places/delete_place.html'
+    success_message = 'Success: Place was deleted.'
+    success_url = reverse_lazy('ListPlace')
+
+
+
 # Create your views here.
 # Form add
 class AddEmail(CreateView):
@@ -192,7 +220,7 @@ class ListPlace(generic.ListView):
 
 # Form add
 class AddPlace(CreateView):
-    template_name = 'dashboard/places/places/form.html'
+    template_name = 'dashboard/places/places/table.html'
     model = Place
     fields = '__all__'
     #urls name

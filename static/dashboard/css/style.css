@@ -353,6 +353,7 @@ header nav li a.login {
 }
 
 .main-content .boxes .box {
+    position: relative;
     width: 22%;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -395,9 +396,55 @@ header nav li a.login {
     color: red;
 }
 
+.main-content .boxes .box .edit {
+    position: absolute;
+    background: transparent;
+    top: 0px;
+    right: 0px;
+    width: 50px;
+    text-align: center;
+    transition: all 0.5s;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.main-content .boxes .box:hover .edit {
+    transform: translate(100%, 0px);
+    transition: all 0.5s;
+    background: rgba(105, 204, 224, 1);
+}
+
+.main-content .boxes .box .edit i {
+    color: transparent;
+    transition: all 0.5s;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.main-content .boxes .box:hover .edit i {
+    color: rebeccapurple;
+    transition: all 0.5s;
+}
+
 @media screen and (max-width:992px) {
     .main-content .boxes .box {
         width: 100%;
+    }
+    .main-content .boxes .box .edit {
+        position: absolute;
+        background: transparent;
+        top: 0px;
+        right: 0px;
+        width: 50px;
+        text-align: center;
+        transition: all 0.5s;
+        padding: 5px;
+        border-radius: 2px;
+    }
+    .main-content .boxes .box:hover .edit {
+        transform: translate(0%, -100%);
+        transition: all 0.5s;
+        background: rgba(105, 204, 224, 1);
     }
 }
 
@@ -515,4 +562,18 @@ footer p {
     text-align: left;
     border: 1px solid rgba(105, 204, 224, 1);
     text-transform: capitalize;
+}
+
+.modal-left {
+    position: absolute;
+    right: 0px;
+    /* top: 0px; */
+}
+
+.modal-left button {
+    background: rgba(105, 204, 224, 1);
+    border: none;
+    padding: 10px;
+    color: white;
+    border-radius: 4px;
 }

@@ -206,8 +206,18 @@
     <footer>
         <p>&copy; 2018 turbo 360 all rights reserved </p>
     </footer>
+    <!-- JavaScript -->
+    {% block scripts %}
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <!-- You can alternatively load the minified version -->
+    <script src="{% static 'assets/js/jquery.bootstrap.modal.forms.js' %}"></script>
     <script src="{% static 'dashboard/js/index.js' %}"></script>
 
+    {% endblock scripts %}
+
+    {% block extrascripts %}{% endblock extrascripts %}
 </body>
 
 </html>
