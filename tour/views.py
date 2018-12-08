@@ -70,7 +70,7 @@ class TourReadView(generic.DetailView):
 # List Tour
 
 class ListPlaceTour(generic.ListView):
-    template_name = "dashboard/tour/place_tour/table.html"
+    template_name = "dashboard/tour/place_tour/index.html"
     context_object_name = 'context'
     paginate_by = 12
     def get_queryset(self):
@@ -92,63 +92,33 @@ class ListPlaceTour(generic.ListView):
             ctx['tourer'] = tourer
             return ctx
 
-class AddPlaceTour(CreateView):
-    template_name = 'dashboard/tour/place_tour/form.html'
-    model = PlaceTour
-    fields = '__all__'
-    #urls name
-    def form_valid(self, form):
-        # Instead of return this HttpResponseRedirect, return an 
-        #  new rendered page
-        return super(AddPlaceTour, self).form_valid(form)
-
-    
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(AddPlaceTour, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(AddPlaceTour, self).get_context_data(**kwargs)
-            tourer = Account.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class UpdatePlaceTour(UpdateView):
-    template_name = 'dashboard/tour/place_tour/form.html'
-    model = PlaceTour
-    fields = '__all__'
-    #urls name
-    def form_valid(self, form):
-        # Instead of return this HttpResponseRedirect, return an 
-        #  new rendered page
-        return super(UpdatePlaceTour, self).form_valid(form)
-
-    
-    def get_context_data(self, **kwargs):
-        if 'account' in self.request.session:
-            idTourer = self.request.session['account']
-        else:
-            idTourer = None
-        if idTourer == None:
-            ctx = super(UpdatePlaceTour, self).get_context_data(**kwargs)
-            tourer=None
-            ctx['tourer'] = tourer
-            return ctx
-        else:
-            ctx = super(UpdatePlaceTour, self).get_context_data(**kwargs)
-            tourer = Account.objects.filter(email=idTourer)
-            ctx['tourer'] = tourer
-            return ctx
-
-class DeletePlaceTour(DeleteView):
-    model = PlaceTour
+class AddPlaceTour(PassRequestMixin, SuccessMessageMixin,
+                     generic.CreateView):
+    template_name = 'dashboard/tour/place_tour/_create.html'
+    form_class = PlaceTourForm
+    success_message = 'Success: Book was created.'
     success_url = reverse_lazy('ListPlaceTour')
+
+class UpdatePlaceTour(PassRequestMixin, SuccessMessageMixin,
+                     generic.UpdateView):
+    model = PlaceTour
+    template_name = 'dashboard/tour/place_tour/_update.html'
+    form_class = PlaceTourForm
+    success_message = 'Success: Book was updated.'
+    success_url = reverse_lazy('ListPlaceTour')
+
+class DeletePlaceTour(DeleteAjaxMixin, generic.DeleteView):
+    model = PlaceTour
+    template_name = 'dashboard/tour/place_tour/_delete.html'
+    success_message = 'Success: Place was deleted.'
+    success_url = reverse_lazy('ListPlaceTour')
+
+# Read
+class PlaceTourReadView(generic.DetailView):
+    model = PlaceTour
+    template_name = 'dashboard/tour/place_tour/_read.html'
+
+
 
 from django import template
 from django.template.defaultfilters import stringfilter
