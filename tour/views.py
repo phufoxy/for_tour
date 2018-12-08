@@ -160,8 +160,11 @@ def list_tour(request):
 
 def add_tour(request,id):
     if request.method == "POST":
-        tour = Tour.objects.get(id=id)
+        tour = Tour.objects.get(pk=id)
         date = request.POST['date']
+        person_book = request.POST['person_book']
+        phone = request.POST['phone']
+        email = request.POST['email']
         idempresa= ''
         if 'account' in request.session:
             idempresa = request.session['account']
@@ -172,14 +175,20 @@ def add_tour(request,id):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             try:
-                account_details = Account.objects.get(email=idempresa)
-                booktour = BookTour(accout=account_details,date_book=datetime.now(),date_start=date,tour=tour)
-                booktour.save()
-                messages.success(request, 'Book to success')
-                return redirect(request.META.get('HTTP_REFERER'))
+                isBook= BookTour.objects.filter(tour=tour.id)
+                if isBook.count() > 0:
+                    messages.error(request, 'Tour has been created')
+                    return redirect(request.META.get('HTTP_REFERER')) 
+                else:
+                    account_details = Account.objects.get(email=idempresa)
+                    booktour = BookTour(accout=account_details,date_book=datetime.now(),date_start=date,tour=tour,person_book=person_book,phone=phone,email=email)
+                    booktour.save()
+                    messages.success(request, 'Book to success')
+                    return redirect(request.META.get('HTTP_REFERER'))
             except Exception as e:
-                print(e)
-                return redirect('list_tour')
+                messages.error(request, 'Error Page')
+                return redirect(request.META.get('HTTP_REFERER'))
+
 
 def tour_details(request,id):
     tour = Tour.objects.get(id=id)

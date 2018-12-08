@@ -66,7 +66,8 @@ class BookTour(models.Model):
     tour = models.ForeignKey(Tour,on_delete=models.CASCADE)
     person_book = models.CharField(max_length=250,default="None")
     phone = models.CharField(max_length=250,default="None")
-
+    email = models.CharField(max_length=250)
+    
     class Meta:
         ordering = ['date_start']
 
