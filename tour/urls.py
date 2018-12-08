@@ -8,6 +8,7 @@ urlpatterns = [
         path('create/',views.AddTour.as_view(),name='AddTour'),
         path('<int:pk>/delete/',views.DeleteTour.as_view(),name='DeleteTour'),
         path('<int:pk>/',views.UpdateTour.as_view(),name='UpdateTour'),
+        path('read/<int:pk>/',views.TourReadView.as_view(),name='TourReadView'),
         path('place/',include([
             path('',views.ListPlaceTour.as_view(),name='ListPlaceTour'),
             path('create/',views.AddPlaceTour.as_view(),name='AddPlaceTour'),
