@@ -127,7 +127,6 @@ class PlaceDetailsReadView(generic.DetailView):
     model = PlaceDetails
     template_name = 'dashboard/places/places_details/_read.html'
 
-  
 
 def index(request):
     place = Place.objects.order_by('-id')

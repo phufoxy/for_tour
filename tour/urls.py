@@ -8,11 +8,13 @@ urlpatterns = [
         path('create/',views.AddTour.as_view(),name='AddTour'),
         path('<int:pk>/delete/',views.DeleteTour.as_view(),name='DeleteTour'),
         path('<int:pk>/',views.UpdateTour.as_view(),name='UpdateTour'),
+        path('read/<int:pk>/',views.TourReadView.as_view(),name='TourReadView'),
         path('place/',include([
             path('',views.ListPlaceTour.as_view(),name='ListPlaceTour'),
             path('create/',views.AddPlaceTour.as_view(),name='AddPlaceTour'),
             path('<int:pk>/',views.UpdatePlaceTour.as_view(),name='UpdatePlaceTour'),
             path('<int:pk>/delete/',views.DeletePlaceTour.as_view(),name='DeletePlaceTour'),
+            path('read/<int:pk>/',views.PlaceTourReadView.as_view(),name='PlaceTourReadView'),
         ]))
     ])),
     # home
