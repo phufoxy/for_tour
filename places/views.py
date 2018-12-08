@@ -116,6 +116,11 @@ class DeletePlaceDetails(DeleteAjaxMixin, generic.DeleteView):
     template_name = 'dashboard/places/places_details/_delete.html'
     success_message = 'Success: Place was deleted.'
     success_url = reverse_lazy('ListPlaceDetails')
+    success_message = "Thing was deleted successfully."
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(DeletePlaceDetails, self).delete(request, *args, **kwargs)
 
 # Read
 class PlaceDetailsReadView(generic.DetailView):

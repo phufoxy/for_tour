@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum,Count
 from django.db.models import F
 from datetime import datetime
+from django.contrib import messages
 
 # Create your views here.
 class ListTour(generic.ListView):
@@ -221,14 +222,15 @@ def add_tour(request,id):
         else:
             idempresa=None
         if idempresa == None:
-            return redirect('/login/?next='+ request.path)
+            messages.error(request, 'Please sign in to book.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             try:
                 account_details = Account.objects.get(email=idempresa)
                 booktour = BookTour(accout=account_details,date_book=datetime.now(),date_start=date,tour=tour)
                 booktour.save()
-                print("Success")
-                return redirect('list_tour')
+                messages.success(request, 'Book to success')
+                return redirect(request.META.get('HTTP_REFERER'))
             except Exception as e:
                 print(e)
                 return redirect('list_tour')

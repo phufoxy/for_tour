@@ -64,6 +64,8 @@ class BookTour(models.Model):
     date_book = models.DateField()
     date_start = models.DateField()
     tour = models.ForeignKey(Tour,on_delete=models.CASCADE)
+    person_book = models.CharField(max_length=250,default="None")
+    phone = models.CharField(max_length=250,default="None")
 
     class Meta:
         ordering = ['date_start']
@@ -71,13 +73,3 @@ class BookTour(models.Model):
     def __str__(self):
         return self.accout.email + ' -- ' + self.tour.name_tour
 
-
-class CommonInfo(models.Model):
-    name = models.CharField(max_length=100)
-    age = models.PositiveIntegerField()
- 
-    class Meta:
-        abstract = True
- 
-class Student(CommonInfo):
-    home_group = models.CharField(max_length=5)

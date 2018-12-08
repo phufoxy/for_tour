@@ -577,3 +577,11 @@ footer p {
     color: white;
     border-radius: 4px;
 }
+
+#message {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 30%;
+    z-index: 9999999;
+}

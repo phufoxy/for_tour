@@ -26,7 +26,15 @@ SECRET_KEY = '9)a^ml(y71xl8#u8mkc5b&45fi(+ih4j&ig=p49!f6-&gkfw!m'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+from django.contrib.messages import constants as messages
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Application definition
 
