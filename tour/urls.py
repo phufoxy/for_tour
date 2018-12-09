@@ -14,6 +14,7 @@ urlpatterns = [
             path('create/',views.AddPlaceTour.as_view(),name='AddPlaceTour'),
             path('<int:pk>/',views.UpdatePlaceTour.as_view(),name='UpdatePlaceTour'),
             path('<int:pk>/delete/',views.DeletePlaceTour.as_view(),name='DeletePlaceTour'),
+            path('read/<int:pk>/',views.PlaceTourReadView.as_view(),name='PlaceTourReadView'),
         ]))
     ])),
     # home

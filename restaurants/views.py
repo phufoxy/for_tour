@@ -6,7 +6,6 @@ from datetime import datetime
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
-from book.models import Book_Tour,Restaurant_tour
 # Create your views here.
 
 
@@ -88,7 +87,6 @@ def eating(request, id):
         comment = Comment_restaurant.objects.filter(
             restaurant=id).order_by('-date')
         account = Tourer.objects.get(email=idempresa)
-        book_Tour = Book_Tour.objects.filter(tourer=account).order_by('-id')
         # context
         context = {
             'idempresa': idempresa,
@@ -98,7 +96,6 @@ def eating(request, id):
             'comment': comment,
             'restaurant':restaurant,
             'id_res':id,
-            'book_Tour':book_Tour
         }
         return render(request, 'home/restaurants/restaurant_details.html', context)
 
@@ -118,10 +115,7 @@ def create_restaurant_tour(request,id):
         return redirect('login')
     else:
         try:
-            book_Tour = Book_Tour.objects.get(name_book=book)
             account_details = Tourer.objects.get(email=idempresa)
-            restaurant_tour = Restaurant_tour(book=book_Tour,restaurant=restaurant_details,account=account_details,date_book=datetime.now(),date_to=date_to)
-            restaurant_tour.save()
             return redirect('eating',id=id)
         except Exception as e:
             print(e)

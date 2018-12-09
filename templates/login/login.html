@@ -5,18 +5,33 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'login/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+    <!-- jQuery Modal -->
+    <link rel="stylesheet" href="{% static 'home/js/jquery/jquery.modal.min.css' %}" />
+    <script src="{% static 'home/js/jquery/jquery.modal.min.js' %}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- icon -->
     <link rel="shortcut icon" href="{% static 'icon/digital-campaign.png' %}" type="image/x-icon">
 </head>
 
 <body>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="message">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+        {% if message == "Please sign in to book." %}
+        <a href="/login/?next={{ request.path }}" class="lang" key="login">Login</a>
+        {% endif %}
+    </div>
+    {% endfor %}
     <div class="wrapper">
         <div class="image">
             <img src="{% static 'login/images/bg-01.jpg' %}" alt="">
@@ -59,7 +74,7 @@
                         </script>
                         {% endif %}
                     </form>
-                    <a href="{% url 'Register' %}" class="sign-up">or sign up using</a>
+                    <a href="{% url 'Register' %}" class="sign-up btn btn-outline-warning">or sign up using</a>
 
                     <!-- <div class="icon">
                         <i class="fab fa-facebook-f"></i>

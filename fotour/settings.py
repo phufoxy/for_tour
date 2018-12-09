@@ -53,11 +53,12 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'places',
     'restaurants',
-    'vehicle',
     'book',
     'learn',
     'tour',
     'bootstrap_modal_forms',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,20 @@ STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+# CKEditor SETTINGS
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'none',
+        'extraPlugins': ','.join(
+            ['codesnippet',
+             'uploadimage',
+             'uploadwidget',
+             'widget',
+             'dialog', ]),
+        'allowedContent': True,
+
+    },
+}
+CKEDITOR_IMAGE_BACKEND = 'pillow'

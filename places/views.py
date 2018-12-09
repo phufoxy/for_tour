@@ -6,12 +6,11 @@ from datetime import datetime
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
-from book.models import Book_Tour, Place_tour
 from django.views.generic import TemplateView
 from .forms import PlaceForm, PlaceDetailForm
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from tour.models import Tour
+from tour.models import Tour, PlaceTour
 # Place Index
 class Index(generic.ListView):
     model = Place
@@ -131,6 +130,9 @@ class PlaceDetailsReadView(generic.DetailView):
 def index(request):
     place = Place.objects.order_by('-id')
     city = Place.objects.values('city').distinct()
+    tour = Tour.objects.order_by('-id')[:5]
+    query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
+    place_tour = PlaceTour.objects.raw(query)
     idempresa= ''
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -156,20 +158,27 @@ def index(request):
                 'place':users,
                 'city':city,
                 'admin':'admin',
+                'tour':tour,
+                'place_tour':place_tour
             }
             return render(request,'home/places/places.html',context)
         else :
             context = { 
                 'idempresa':idempresa,
                 'place':users,
-                'city':city
+                'city':city,
+                'tour':tour,
+                'place_tour':place_tour
+
             }
             return render(request,'home/places/places.html',context)
     except  Exception as e:
         context = { 
                 'idempresa':idempresa,
                 'place':users,
-                'city':city
+                'city':city,
+                'tour':tour,
+                'place_tour':place_tour
             }
         return render(request,'home/places/places.html',context)
     
@@ -186,6 +195,7 @@ def search_form(request):
 def search_place(request,name):
     place = Place.objects.filter(city=name)
     city = Place.objects.values('city').distinct()
+    tour = Tour.objects.order_by('-id')[:5]
 
     idempresa= ''
     if 'account' in request.session:
@@ -205,15 +215,19 @@ def search_place(request,name):
     context = { 
         'idempresa':idempresa,
         'place':users,
-        'city':city
+        'city':city,
+        'tour':tour
     }
     return render(request,'home/places/places.html',context)
 
 def places_details(request,id):
     try:
+        city = Place.objects.values('city').distinct()
         places_details = Place.objects.get(pk=id)
         places_details.review = places_details.review + 1
         places_details.save()
+        query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
+        place_tour = PlaceTour.objects.raw(query)
         idempresa= ''
         if 'account' in request.session:
             idempresa = request.session['account']
@@ -234,7 +248,10 @@ def places_details(request,id):
                 'sum_commnet':sum_commnet,
                 'comment':comment,
                 'places_details':places_details,
-                'tour_city':tour_city
+                'tour_city':tour_city,
+                'place_tour':place_tour,
+                'city':city,
+
             }
             return render(request,'home/places/places_details.html',context)
         except Exception as e:
@@ -248,6 +265,8 @@ def places_details(request,id):
                 'sum_commnet':sum_commnet,
                 'comment':comment,
                 'places_details':places_details,
+                'place_tour':place_tour,
+                'city':city,
             }
             return render(request,'home/places/places_details.html',context)
     except Exception as e:
@@ -273,10 +292,8 @@ def create_place_tour(request,id):
         return redirect('login')
     else:
         try:
-            book_Tour = Book_Tour.objects.get(name_book=book)
             account_details = Tourer.objects.get(email=idempresa)
-            place_tour = Place_tour(book=book_Tour,place=place_details,account=account_details,date_book=datetime.now(),date_to=date_to)
-            place_tour.save()
+           
             return redirect('places_details',id=id)
         except Exception as e:
             print(e)

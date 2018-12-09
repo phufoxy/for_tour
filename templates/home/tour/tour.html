@@ -70,10 +70,11 @@
         <div class="box animation-to-top">
             <div class="add-book">
                 <!-- Link to open the modal -->
-                <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p>
+                <p><a href="#{{ i.tour_id }}" rel="modal:open" class="btn btn-danger">Book Tour</a></p>
             </div>
-            <div id="ex1" class="modal" style="width: 100%;">
+            <div id="{{ i.tour_id }}" class="modal" style="width: 100%;">
                 <form action="{% url 'add_tour' i.tour_id %}" method="POST">
+                    <h1>{{ i.tour_id }}</h1>
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Date To</label>
@@ -93,6 +94,19 @@
                         <label for="exampleFormControlInput1">Price Total</label>
                         <input type="text" class="form-control" id="exampleFormControlInput1" value="{{ i.sum_price|intcomma }} VNĐ"
                             disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Name Book: </label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="person_book"
+                            placeholder="Enter Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Phone:</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="phone" placeholder="Enter Phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Email:</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" name="email" placeholder="Enter Email">
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Add book" class="btn btn-danger">
@@ -169,61 +183,28 @@
             <input type="submit" class="btn btn-danger" value="find fights">
         </form>
         <div class="categories">
-            <h1>categories</h1>
+            <h1>tour</h1>
             <ul>
+                {% for i in place_tour %}
                 <li>
-                    <h3>tours</h3>
-                    <p>(12)</p>
+                    <h3>{{ i.name_tour }}/ {{ i.city }} / {{ i.sum_price|intcomma }} VNĐ</h3>
+
+                    <h6>( {{ i.person }} Người / {{ i.date_tour }} Ngày)</h6>
+                    <p> <a href="{% url 'tour_details' i.tour_id  %}" class="btn btn-danger">Seem</a>
+                    </p>
                 </li>
-                <li>
-                    <h3>hotel</h3>
-                    <p>(22)</p>
-                </li>
-                <li>
-                    <h3>cruises</h3>
-                    <p>(12)</p>
-                </li>
-                <li>
-                    <h3>restaurant</h3>
-                    <p>(12)</p>
-                </li>
-                <li>
-                    <h3>destination</h3>
-                    <p>(12)</p>
-                </li>
+                {% endfor %}
             </ul>
         </div>
         <div class="tab-cloud">
             <h1>tag clound</h1>
             <div class="tabs">
-                <a href="" class="btn border-info">life</a>
-                <a href="" class="btn border-info">sport</a>
-                <a href="" class="btn border-info">tech</a>
-                <a href="" class="btn border-info">travel</a>
-                <a href="" class="btn border-info">life</a>
-                <a href="" class="btn border-info">sport</a>
-                <a href="" class="btn border-info">tech</a>
-                <a href="" class="btn border-info">travel</a>
+                {% for i in tour_city %}
+                <a href="{% url 'search_tour_place' i.city %}" class="btn border-info">{{ i.city }}</a>
+                {% endfor %}
             </div>
         </div>
         <div class="paragraph">
-            <h1>paragraph</h1>
-            <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
-                continuing
-                to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
-                they
-                do a movie, to which the band agreed. To accompany the film, Holder and Lea began writing material for
-                a soundtrack album, which would continue to see the band break out of their successful formula and try
-                different musical ideas. "Far Far Away" was selected as the album's lead single and was released in
-                October
-                1974, reaching No. 2 in the UK. To accompany the film, Holder and Lea began writing material for a
-                soundtrack
-                album, which would continue to see the band break out of their successful formula and try different
-                musical
-                ideas. "Far Far Away" was selected as the album's lead single and was released in October 1974,
-                reaching
-                No. 2 in the UK
-            </p>
         </div>
     </div>
 </div>
