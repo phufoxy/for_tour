@@ -13,7 +13,9 @@ from .forms import TourForm, PlaceTourForm
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import TemplateView
-
+from tourer.forms import AccountForm
+from passlib.hash import sha256_crypt
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 class ListTour(generic.ListView):
     template_name = "dashboard/tour/tour/index.html"
@@ -119,6 +121,61 @@ class PlaceTourReadView(generic.DetailView):
     template_name = 'dashboard/tour/place_tour/_read.html'
 
 
+# profile
+def ListProfile(request):
+    template_name = "dashboard/profile/index.html"
+    if 'account' in request.session:
+        idempresa = request.session['account']
+    else:
+        idempresa = None
+
+    if idempresa == None:
+        messages.error(request, 'Email is incrorrect '+email)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+    else:
+        account = Account.objects.filter(email=idempresa)  
+        context = {
+            'context':account,
+            'idempresa':idempresa,
+
+        }
+        return render(request,template_name,context)
+
+def profile_update(request,email):
+    if request.method == "POST":
+        password = request.POST['password']
+        question = request.POST['question']
+        name = request.POST['name']
+        isEmail = Account.objects.filter(email=email)
+        if isEmail.count() < 1 :
+            messages.error(request, 'Email is incrorrect '+email)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+        else:
+            account = Account.objects.get(email=email)
+            account.password = sha256_crypt.encrypt(password)
+            account.question = question
+            account.name = name
+            account.save()
+            messages.success(request, 'Success Changer')
+            return redirect(request.META.get('HTTP_REFERER')) 
+
+def changer_avatar(request,email):
+    if request.method == "POST":
+        myfile = request.FILES['file']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        isEmail = Account.objects.filter(email=email)
+        if isEmail.count() < 1 :
+            messages.error(request, 'Email is incrorrect '+email)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+        else:
+            account = Account.objects.get(email=email)
+            account.avatar = uploaded_file_url[6:]
+            account.save()
+            messages.success(request, 'Success Changer')
+            return redirect(request.META.get('HTTP_REFERER')) 
+      
 
 from django import template
 from django.template.defaultfilters import stringfilter

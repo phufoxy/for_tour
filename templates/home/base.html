@@ -32,6 +32,7 @@
     <!-- jQuery Modal -->
     <link rel="stylesheet" href="{% static 'home/js/jquery/jquery.modal.min.css' %}" />
     <script src="{% static 'home/js/jquery/jquery.modal.min.js' %}"></script>
+
 </head>
 
 <body>
@@ -62,16 +63,15 @@
                 <li><a href="{% url 'home' %}" class="lang" key="home">home</a></li>
                 <li><a href="{% url 'places' %}" class="lang" key="places">places</a></li>
                 <li><a href="{% url 'house' %}" class="lang" key="hotels">house</a></li>
-                <li><a href="{% url 'restaurant' %}" class="lang" key="restaurant">restaurant</a></li>
-                <li><a href="{% url 'book_details' %}" class="lang" key="services">book</a></li>
                 <li><a href="{% url 'list_tour' %}" class="lang" key="blog">Tour</a></li>
-                <li><a href="#" class="lang" key="about">about</a></li>
                 {% if admin %}
                 <li><a href="{% url 'dashboard_home' %}" class="lang" key="contact">Dashboard</a></li>
                 {% endif %}
                 {% if idempresa == None %}
                 <li><a href="/login/?next={{ request.path }}" class="lang" key="login">Login</a></li>
                 {% else %}
+                <li><a href="{% url 'book_details' %}" class="lang" key="services">book</a></li>
+                <li><a href="{% url 'ListProfile' %}" class="lang" key="about">Profile</a></li>
                 <li><a href="{% url 'logout' %}" class="lang" key="contact">Logout</a></li>
                 {% endif %}
                 <li> <img class="translate" id="en" src="http://icons.iconarchive.com/icons/icons-land/vista-flags/32/United-States-Flag-1-icon.png"></li>
@@ -184,6 +184,7 @@
         </div>
     </footer>
     <script src="{% static 'home/js/js/resposive.js' %}"></script>
+
 </body>
 
 </html>

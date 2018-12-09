@@ -99,6 +99,35 @@ def form_signup(request):
         }
         return render(request,'login/register.html',context)
 
+def forget(request):
+    return render(request,'login/forget.html')
+
+def form_forget(request):
+    if request.method == "POST":  
+        email = request.POST['email']
+        question = request.POST['question']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        isEmail = Account.objects.filter(email=email)
+        if isEmail.count() < 1 :
+            messages.error(request, 'Email is incrorrect '+email)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+        else:
+            isQuestion = Account.objects.filter(email=email,question=question)
+            if isQuestion.count() < 1:   
+                messages.error(request, 'Wrong answer')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+            else:
+                if password == confirm_password:
+                    account = Account.objects.get(email=email)
+                    account.password = sha256_crypt.encrypt(password)
+                    account.save()
+                    messages.success(request, 'Change password successfully')
+                    return redirect('/login/?next=home')
+                else:
+                    messages.error(request, 'Incrorrect Password confirm')
+                    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+
 def error(request):
     return render(request,'error/error.html')
 

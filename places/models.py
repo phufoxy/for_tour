@@ -54,6 +54,10 @@ class TypeDetails(models.Model):
 
 class PlaceDetails(TypeDetails):
     place = models.ForeignKey(Place,on_delete=models.CASCADE)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tour2
 
     def __str__(self):
         return self.place.name_place 

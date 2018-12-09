@@ -213,6 +213,8 @@ def search_place(request,name):
         users = paginator.page(1)
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
+    query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
+    place_tour = PlaceTour.objects.raw(query)
     context = { 
         'idempresa':idempresa,
         'place':users,

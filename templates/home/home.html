@@ -104,6 +104,17 @@
         </div>
     </div>
 </div>
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-dismissible" role="alert" id="message">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+    {% if message == "Please sign in to book." %}
+    <a href="/login/?next={{ request.path }}" class="lang" key="login">Login</a>
+    {% endif %}
+</div>
+{% endfor %}
 <script src="{% static 'home/js/js/tab.js' %}"></script>
 <div class="search-tour" id="search-tour">
     <!-- <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p> -->
@@ -250,7 +261,7 @@
 </div>
 <div id="popular" class="padding-top-bottom">
     {% if context %}
-    <h1 class="text-center title">most popular destination</h1>
+    <h1 class="text-center title">most popular tour</h1>
     <div class="boxes">
         {% for i in context %}
         <div class="box animation-to-top">
@@ -269,7 +280,7 @@
 </div>
 <div id="our-satisfied" class="padding-top-bottom">
     <div class="container">
-        <h1 class="title text-center">our satisfied guests says</h1>
+        <h1 class="title text-center">Familiar customers</h1>
         <div class="boxes">
             <div class="box scale-11">
                 <img src="{% static 'home/images/person_1.jpg' %}" alt="Person">
