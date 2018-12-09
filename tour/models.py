@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 from django.urls import reverse
 from tourer.models import Tourer, Account
+from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import RichTextField
 # Create your models here.
     
 class Tour(models.Model):
@@ -47,7 +49,7 @@ class PlaceTour(models.Model):
     name_place = models.CharField(max_length=250)
     price = models.FloatField(default=0)
     title = models.CharField(max_length=250)
-    description = models.CharField(max_length=1000)
+    description = RichTextField()
     image_place = models.FileField(upload_to='tour/',default='/default/user-avatar-default-165.png')
    
     def __str__(self):

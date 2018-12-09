@@ -8,7 +8,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views import generic
-
+from django.contrib import messages
+from .forms import AccountForm
+from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic import TemplateView
 # from .forms import Tourer_form
 # Create your views here.
 def login(request):
@@ -49,16 +53,11 @@ def login_form(request):
                     return redirect('home')
             else:
                 error = 'Sai Mật Khẩu'
-                context = {
-                    'error' : error
-                }
-                return render(request,'login/login.html',context)
+                messages.error(request, 'Password wrong.')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
         else:
-            error = 'Tên Đăng Nhập Không Đúng'
-            context = {
-                    'error' : error
-            }
-            return render(request,'login/login.html',context)
+            messages.error(request, 'Account Wrong.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
 class Register(CreateView):
     template_name = 'login/register.html'
@@ -81,18 +80,19 @@ def form_signup(request):
     email = request.POST['email']
     name = request.POST['name']
     password  = request.POST['password']
-    password = sha256_crypt.encrypt(password)
     if request.method == 'POST' :
         try:
-            tourer = Account.objects.create(email=email,name=name,password=password,question='Null',author='account')
-            context = {
-                'message' : 'message'
-            }
-            return render(request,'login/login.html',context)
+            tourer = Account.objects.filter(email=email)
+            if tourer.count() < 1:
+                tourer = Account.objects.create(email=email,name=name,password=sha256_crypt.encrypt(password),question='Null',author='account')
+                messages.success(request, 'Singnup successs.' + email)
+                return render(request,'login/login.html')
+            else:
+                messages.error(request, 'Email already exists .' + email)
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
         except Exception as e:
-            return render(request,'error/index.html',{
-                'error':'email already exists, please enter another email'
-            })
+            messages.error(request, 'Email already exists.' + email)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
     else:
         context = {
              'message' : 'message'
@@ -102,3 +102,54 @@ def form_signup(request):
 def error(request):
     return render(request,'error/error.html')
 
+# Create your views here.
+class ListAccount(generic.ListView):
+    template_name = "dashboard/account/index.html"
+    context_object_name = 'context'
+    paginate_by = 12
+    def get_queryset(self):
+        return Account.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        if 'account' in self.request.session:
+            idTourer = self.request.session['account']
+        else:
+            idTourer = None
+        if idTourer == None:
+            ctx = super(ListAccount, self).get_context_data(**kwargs)
+            tourer=None
+            ctx['tourer'] = tourer
+            return ctx
+        else:
+            ctx = super(ListAccount, self).get_context_data(**kwargs)
+            tourer = Account.objects.filter(email=idTourer)
+            ctx['tourer'] = tourer
+            return ctx
+
+class AddAccount(PassRequestMixin, SuccessMessageMixin,
+                     generic.CreateView):
+    template_name = 'dashboard/account/_create.html'
+    form_class = AccountForm
+    success_message = 'Success: Book was created.'
+    success_url = reverse_lazy('ListAccount')
+   
+
+class UpdateAccount(PassRequestMixin, SuccessMessageMixin,
+                     generic.UpdateView):
+    model = Account
+    template_name = 'dashboard/account/_update.html'
+    form_class = AccountForm
+    success_message = 'Success: Book was updated.'
+    success_url = reverse_lazy('ListAccount')
+   
+
+class DeleteAccount(DeleteAjaxMixin, generic.DeleteView):
+    model = Account
+    template_name = 'dashboard/account/_delete.html'
+    success_message = 'Success: Place was deleted.'
+    success_url = reverse_lazy('ListAccount')
+
+# # Read
+class AccountReadView(generic.DetailView):
+    model = Account
+    template_name = 'dashboard/account/_read.html'

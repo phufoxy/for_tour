@@ -22,15 +22,16 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('tourer.urls')),
+    path('', include('tourer.urls')),
     path('', include('house.urls')),
     path('', include('home.urls')),
     path('', include('places.urls')),
     path('', include('restaurants.urls')),
-    path('', include('vehicle.urls')),
     path('',include('book.urls')),
     path('',include('learn.urls')),
     path('',include('tour.urls')),
+    path('ckeditor/',include('ckeditor_uploader.urls')),
+
 ]
 
 if settings.DEBUG:

@@ -16,9 +16,6 @@ class Tourer(models.Model):
     author = models.CharField(max_length=250,choices=ACCOUNT_CHOICES,null=True,blank=True,default='account')
 
 
-    def get_absolute_url(self):
-        return reverse('ListTourer')
-
     def __str__(self):
         return self.name
     
@@ -35,8 +32,6 @@ class Account(models.Model):
     author = models.CharField(max_length=250,choices=ACCOUNT_CHOICES,null=True,blank=True,default='account')
 
 
-    def get_absolute_url(self):
-        return reverse('ListTourer')
 
     def __str__(self):
         return self.name

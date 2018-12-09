@@ -1,9 +1,10 @@
 from django import forms
-from .models import Tourer
+from .models import Tourer, Account
 from django.forms import CharField, Form, PasswordInput
-class Tourer_form(forms.ModelForm):
+from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
+
+class AccountForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
     class Meta:
-        model = Tourer
-        widgets = {
-        'password': forms.PasswordInput(),
-    }
+        model = Account
+        exclude = ['timestamp']
+

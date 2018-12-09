@@ -135,6 +135,8 @@ def list_tour(request):
     tour = Tour.objects.annotate(sum_price = Sum(F('person'))).order_by('-id')
     query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id "
     place = PlaceTour.objects.raw(query)
+    query_item_1 = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
+    place_tour = PlaceTour.objects.raw(query_item_1)
     tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
     idempresa= ''
     if 'account' in request.session:
@@ -154,7 +156,8 @@ def list_tour(request):
     context = { 
         'idempresa':idempresa,
         'context':users,
-        'tour_city':tour_city
+        'tour_city':tour_city,
+        'place_tour':place_tour
     }
     return render(request,'home/tour/tour.html',context)
 
@@ -192,13 +195,18 @@ def add_tour(request,id):
 
 def tour_details(request,id):
     tour = Tour.objects.get(id=id)
-    placeTour = PlaceTour.objects.filter(tour=tour)
+    placeTour = PlaceTour.objects.filter(tour=tour).order_by('id')
     query = "SELECT *,(sum(a.price) * t.person) as sum_price,sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id where a.tour_id = "+ str(id) + "  group by t.id "
     sum_place = PlaceTour.objects.raw(query)
+    query_item_1 = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
+    place_tour = PlaceTour.objects.raw(query_item_1)
+    tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
     context = {
         'context':placeTour,
         'tour':tour,
-        'sum_place':sum_place
+        'sum_place':sum_place,
+        'place_tour':place_tour,
+        'tour_city':tour_city
     }
     return render(request,'home/tour/tour_details.html',context)
 
@@ -215,6 +223,8 @@ def search_tour_place(request,name):
     place = PlaceTour.objects.raw(query)
     city = Tour.objects.values('city').distinct()
     tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+    query_item_1 = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
+    place_tour = PlaceTour.objects.raw(query_item_1)
     idempresa= ''
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -233,7 +243,8 @@ def search_tour_place(request,name):
     context = { 
         'idempresa':idempresa,
         'context':users,
-        'tour_city':tour_city
+        'tour_city':tour_city,
+        'place_tour':place_tour
 
     }
     return render(request,'home/tour/tour.html',context)

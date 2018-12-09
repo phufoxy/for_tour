@@ -17,6 +17,17 @@
 </head>
 
 <body>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert" id="message">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+        {% if message == "Please sign in to book." %}
+        <a href="/login/?next={{ request.path }}" class="lang" key="login">Login</a>
+        {% endif %}
+    </div>
+    {% endfor %}
     <div class="wrapper">
         <div class="image">
             <img src="{% static 'login/images/bg-01.jpg' %}" alt="">
@@ -42,11 +53,7 @@
                     </div>
                     <input type="submit" value="register">
                 </form>
-                <a href="/login/?next=home" class="sign-up">or sign up using</a>
-                <!-- <div class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
-                </div> -->
+                <a href="/login/?next=home" class="sign-up btn btn-outline-warning">or sign up using</a>
             </div>
         </div>
     </div>
