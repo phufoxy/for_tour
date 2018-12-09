@@ -57,12 +57,7 @@
     <div class="boxes_tour">
         {% for i in places_items %}
         <div class="blog-news">
-            <h1>#{{ i.title }}</h1>
-            <p>{{ i.start_status }}
-            </p>
-            <img src="{{ i.img_status.url }}" alt="Persion Number">
-            <p>{{ i.end_status }}
-            </p>
+            <p>{{ i.body|safe }}</p>
         </div>
         {% endfor %}
         <div class="author">

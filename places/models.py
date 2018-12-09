@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 from tourer.models import Tourer, Account
 from django.urls import reverse
+from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import RichTextField
 # Create your models here.
 class TypePlace(models.Model):
     TYPE_PLACE = (
@@ -45,20 +47,17 @@ class Place(TypePlace):
         return self.name_place + '-' + self.city
 
 class TypeDetails(models.Model):
-    title = models.CharField(max_length=250)
-    start_status = models.CharField(max_length=5000)
-    end_status = models.CharField(max_length=5000)
+    body = RichTextUploadingField()
 
     class Meta:
         abstract = True
 
 class PlaceDetails(TypeDetails):
     place = models.ForeignKey(Place,on_delete=models.CASCADE)
-    img_status = models.FileField(upload_to='place/book/',default='/default/user-avatar-default-165.png')
 
 
     def __str__(self):
-        return self.place.name_place + '-' + self.title
+        return self.place.name_place 
 
 class ItemComment(models.Model):
     comment = models.CharField(max_length=1000)

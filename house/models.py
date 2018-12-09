@@ -49,13 +49,12 @@ class House(models.Model):
 
 class House_details(TypeDetails):
     house = models.ForeignKey(House,on_delete=models.CASCADE)
-    img_status = models.FileField(upload_to='house/book/',default='/default/user-avatar-default-165.png')
 
     def get_absolute_url(self):
         return reverse('ListHouseDetails')
 
     def __str__(self):
-        return self.house + '-' + self.title
+        return str(self.house) 
 
 class Comment_house(ItemComment):
     house = models.ForeignKey(House, on_delete=models.CASCADE)

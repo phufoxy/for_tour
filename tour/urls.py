@@ -15,6 +15,11 @@ urlpatterns = [
             path('<int:pk>/',views.UpdatePlaceTour.as_view(),name='UpdatePlaceTour'),
             path('<int:pk>/delete/',views.DeletePlaceTour.as_view(),name='DeletePlaceTour'),
             path('read/<int:pk>/',views.PlaceTourReadView.as_view(),name='PlaceTourReadView'),
+        ])),
+        path('profile/',include([
+            path('',views.ListProfile,name='ListProfile'),
+            path('update/<str:email>/',views.profile_update,name='profile_update'),
+            path('avatar<str:email>/',views.changer_avatar,name='changer_avatar'),
         ]))
     ])),
     # home

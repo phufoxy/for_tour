@@ -18,6 +18,7 @@ urlpatterns = [
         path('create/',views.AddHouse.as_view(),name='AddHouse'),
         path('<int:pk>/delete/',views.DeleteHouse.as_view(),name='house_delete'),
         path('<int:pk>/',views.UpdateHouse.as_view(),name='house_update'),
+        path('read/<int:pk>/',views.HouseReadView.as_view(),name='HouseReadView'),
         # House details
         path('details/',views.ListHouseDetails.as_view(),name='ListHouseDetails'),
         path('details/create/',views.AddHouseDetails.as_view(),name='AddHouseDetails'),

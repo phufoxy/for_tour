@@ -6,6 +6,8 @@ urlpatterns = [
     path('login/register/',views.register_main,name='Register'),
     path('login/logout/',views.logout,name='logout'),
     path('login/signup/',views.form_signup,name='signup'),
+    path('login/forget/',views.forget,name='forget'),
+    path('login/form_forget/',views.form_forget,name='form_forget'),
     # dashboard
     path('dashboard/account/',include([
         # tour
