@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse,get_object_or_404, redirect
+from django.shortcuts import render, HttpResponse,get_object_or_404, redirect, HttpResponseRedirect
 from tourer.models import Tourer, Account
 from datetime import datetime
 from django.core.files.storage import FileSystemStorage
@@ -11,6 +11,8 @@ from .forms import BookTourForm
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import TemplateView
+from django.contrib import messages
+
 # Create your views here.
 def book(request):
     idempresa= ''
@@ -32,7 +34,8 @@ def book_details(request):
         idempresa=None
         
     if idempresa == None:
-        return redirect('/login/?next=' + request.path)
+        messages.error(request, 'Please login...')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
     else:
         account = Account.objects.get(email=idempresa)
         query = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + str(account.id) + "'" +" group by t.id"

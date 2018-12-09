@@ -12,8 +12,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('tourer', '0007_remove_tourer_time_create'),
-        ('restaurants', '0004_auto_20180927_1934'),
-        ('house', '0011_auto_20180927_1934'),
         ('places', '0005_auto_20180927_1934'),
     ]
 

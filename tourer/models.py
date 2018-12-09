@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime    
 from django.urls import reverse
+from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import RichTextField
 # from django.forms import CharField, Form, PasswordInput
 # Create your models here.
 class Tourer(models.Model):

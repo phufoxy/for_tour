@@ -1,12 +1,11 @@
 from django.shortcuts import render,redirect
 from places.models import Place
-from house.models import House
 from tour.models import Tour,BookTour
 from tourer.models import Tourer
 # Create your views here.
 def home(request):
     places = Place.objects.all().order_by('-id')[:8]
-    houses = House.objects.all().order_by('-id')[:3]
+   
     query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id  limit 8"
     tour = Tour.objects.raw(query)
     
@@ -26,7 +25,6 @@ def home(request):
         context = {
             'context':tour,
             'idempresa':idempresa,
-            'houses':houses,
             'bookTour':bookTour,
             'tour_city':tour_city
         }
