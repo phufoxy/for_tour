@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from places.models import Place
 from house.models import House
-from tour.models import Tour,BookTour
+from tour.models import Tour, BookTour, PlaceTour
 from tourer.models import Tourer, Account
 from django.contrib import messages
 
@@ -11,14 +11,32 @@ def home(request):
     houses = House.objects.all().order_by('-id')[:3]
     query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id  limit 8"
     tour = Tour.objects.raw(query)
-    
+    query_max = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " group by t.id"
+		" order by ((sum(a.price)+sum(h.price)) * t.person) desc"
+        " limit 4"
+    )
+    place_tour = PlaceTour.objects.raw(query_max)
+
     if 'account' in request.session:
         idempresa = request.session['account']
     else:
         idempresa=None
 
     if idempresa == None:
-        return render(request,'home/home.html')
+        tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+        context = {
+            'context':tour,
+            'idempresa':idempresa,
+            'houses':houses,
+            'tour_city':tour_city,
+            'place_tour':place_tour
+        }
+        return render(request,'home/home.html',context)
     else:
         account = Account.objects.get(email=idempresa)
         author_account = account.author
@@ -32,7 +50,20 @@ def home(request):
                 'houses':houses,
                 'bookTour':bookTour,
                 'tour_city':tour_city,
-                'admin':'admin',            
+                'admin':'admin',
+                'place_tour':place_tour  
+            }
+            return render(request,'home/home.html',context)
+        else:
+            uery_details = "SELECT t.*,b.*,sum(p.price) as total_price,(sum(p.price) * t.person) as sum_price FROM tour_tour t  inner join tour_placetour p on t.id=p.tour_id inner join  tour_booktour b on b.tour_id = t.id where b.accout_id =  '" + idempresa + "'" +" group by t.id"
+            bookTour = BookTour.objects.raw(query_details)
+            tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
+            context = {
+                'context':tour,
+                'idempresa':idempresa,
+                'houses':houses,
+                'tour_city':tour_city,
+                'place_tour':place_tour
             }
             return render(request,'home/home.html',context)
   

@@ -242,10 +242,23 @@ def in_place(tour):
 # list tour
 def list_tour(request):
     tour = Tour.objects.annotate(sum_price = Sum(F('person'))).order_by('-id')
-    query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id "
+    query = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " group by t.id "
+    )
     place = PlaceTour.objects.raw(query)
-    query_item_1 = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
-    place_tour = PlaceTour.objects.raw(query_item_1)
+    query_item1 = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " group by t.id "
+        " limit 5"
+    )
+    place_tour = PlaceTour.objects.raw(query_item1)
     tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
     idempresa= ''
     if 'account' in request.session:
@@ -305,10 +318,24 @@ def add_tour(request,id):
 def tour_details(request,id):
     tour = Tour.objects.get(id=id)
     placeTour = PlaceTour.objects.filter(tour=tour).order_by('id')
-    query = "SELECT *,(sum(a.price) * t.person) as sum_price,sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id where a.tour_id = "+ str(id) + "  group by t.id "
+    query = (
+        "SELECT t.*,h.*,a.*,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " where t.id = " + str(id) + ""
+        " group by t.id "
+    )
     sum_place = PlaceTour.objects.raw(query)
-    query_item_1 = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
-    place_tour = PlaceTour.objects.raw(query_item_1)
+    query_item1 = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " group by t.id "
+        " limit 5"
+    )
+    place_tour = PlaceTour.objects.raw(query_item1)
     tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
     context = {
         'context':placeTour,
@@ -328,12 +355,26 @@ def search_form(request):
             return redirect('/tour/search/'+name)
 
 def search_tour_place(request,name):
-    query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id  where city = '" + name + "'" + " group by t.id"
+    query = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " where t.city = '" + str(name) + "' "
+        " group by t.id "
+    )
     place = PlaceTour.objects.raw(query)
     city = Tour.objects.values('city').distinct()
     tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
-    query_item_1 = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id order by a.id limit 5"
-    place_tour = PlaceTour.objects.raw(query_item_1)
+    query_item1 = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " group by t.id "
+        " limit 5"
+    )
+    place_tour = PlaceTour.objects.raw(query_item1)
     idempresa= ''
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -362,7 +403,8 @@ def query_mutil(city,price,person,date):
     query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
     " FROM tour_placeTour a inner join " 
     " tour_tour t on a.tour_id  = t.id "
-    " where t.city LIKE '%" + city + "%'  and t.person LIKE '%" + person + "%' "  
+    " inner join tour_housetour h on h.tour_id = t.id "
+    " where t.city LIKE '%" + city + "%'  and t.person between " + str(person) + ""
     " group by t.id "
     " having (sum(a.price) * t.person) <= " + price + ""
     )
@@ -370,7 +412,8 @@ def query_mutil(city,price,person,date):
         query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
         " FROM tour_placeTour a inner join " 
         " tour_tour t on a.tour_id  = t.id "
-        " where t.city LIKE '%" + city + "%'  and t.person LIKE '%" + person + "%' "  
+        " inner join tour_housetour h on h.tour_id = t.id "
+        " where t.city LIKE '%" + city + "%'  and  t.person between " + str(person) + "" 
         " AND t.date_tour LIKE '%" + date +"%'"
         " group by t.id "
         " having (sum(a.price) * t.person) <= " + price + ""
@@ -379,13 +422,24 @@ def query_mutil(city,price,person,date):
         query = ("SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price"
         " FROM tour_placeTour a inner join " 
         " tour_tour t on a.tour_id  = t.id "
-        " where t.city LIKE '%" + city + "%'  and t.person LIKE '%" + person + "%' "  
+        " inner join tour_housetour h on h.tour_id = t.id "
+        " where t.city LIKE '%" + city + "%'  and t.person between " + str(person) + ""
+        " AND t.date_tour LIKE '%" + date +"%'"
         " group by t.id "
         )
     return query
 
 def search_tour_place_price(request,city,price,person,date):
     place = PlaceTour.objects.raw(query_mutil(city,price,person,date))
+    query_item1 = (
+        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
+        " as total_price FROM tour_placeTour a"
+        " inner join tour_tour t on a.tour_id  = t.id "
+        " inner join tour_housetour h on h.tour_id = t.id"
+        " group by t.id "
+        " limit 5"
+    )
+    place_tour = PlaceTour.objects.raw(query_item1)
     city = Tour.objects.values('city').distinct()
     tour_city = Tour.objects.raw("SELECT  city,id from tour_tour group by city")
     idempresa= ''
@@ -406,7 +460,7 @@ def search_tour_place_price(request,city,price,person,date):
     context = { 
         'idempresa':idempresa,
         'context':users,
-        'tour_city':tour_city
-
+        'tour_city':tour_city,
+        'place_tour':place_tour
     }
     return render(request,'home/tour/tour.html',context)
