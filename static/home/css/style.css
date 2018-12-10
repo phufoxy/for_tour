@@ -580,7 +580,8 @@ body {
 }
 
 #places .circle .circle-item img {
-    width: 90%;
+    width: 100%;
+    height: 85%;
     border-radius: 100%;
     box-shadow: 1px 1px 8px 1px #b6b6b6;
     transition: all 0.5s ease-in-out;

@@ -120,6 +120,9 @@
     <!-- <p><a href="#ex1" rel="modal:open" class="btn btn-danger">Book Tour</a></p> -->
     <a href="#ex2" rel="modal:open" class="btn btn-danger"><i class="fas fa-search-plus"></i></a>
     <div id="ex2" class="modal" style="width: 100%;">
+        <div class="modal-header">
+            <h3>Find Tour</h3>
+        </div>
         <form action="{% url 'tour_mutil' %}" method="POST">
             {% csrf_token %}
             <div class="form-group">
@@ -176,23 +179,31 @@
     </div>
     <div class="description">
         <h1>welcome FOTOUR</h1>
-        <p>Cuộc đời là một hành trình kéo dài. Và trong mọi chuyến đi đều khó có thể tránh khỏi những trắc trở, khó khăn. Vậy làm sao để ta có thể tiếp tục cuộc chơi với sự vui vẻ và hứng khởi chứ không phải cố gắng tiếp tục trong sự chán chường, bất lực. Không chỉ biết thêm nhiều vùng đất mới và được thưởng thức những món ngon vật lạ, bạn còn có cơ hội khám phá chính mình trên hành trình du lịch. Một cách đơn giản để “refresh” bản thân chính là đi du lịch. Thật vậy, với một chút chuẩn bị, việc “xách balo lên và đi” sẽ đem lại lợi ích lớn cho bạn.
-Và một trang web du lịch luôn là lựa chọn tuyệt vời để tìm hiểu trước khi bạn bắt đầu hành trình. 
-Hãy đến với chúng tôi, FOTOUR luôn đồng hành cùng những chuyến đi của bạn. Website hổ trợ nhiều mặt du lịch giúp mọi người có thể tự tin và tiết kiệm thời gian khi có ý định du lịch. Với lịch trình dày, đúng thời gian cam kết, luôn sẵn sàng phục vụ du khách mọi lúc, mọi nơi, đảm bảo tính chuyên nghiệp và chất lượng thông tin tốt nhất.
+        <p>Cuộc đời là một hành trình kéo dài. Và trong mọi chuyến đi đều khó có thể tránh khỏi những trắc trở, khó
+            khăn. Vậy làm sao để ta có thể tiếp tục cuộc chơi với sự vui vẻ và hứng khởi chứ không phải cố gắng tiếp
+            tục trong sự chán chường, bất lực. Không chỉ biết thêm nhiều vùng đất mới và được thưởng thức những món
+            ngon vật lạ, bạn còn có cơ hội khám phá chính mình trên hành trình du lịch. Một cách đơn giản để “refresh”
+            bản thân chính là đi du lịch. Thật vậy, với một chút chuẩn bị, việc “xách balo lên và đi” sẽ đem lại lợi
+            ích lớn cho bạn.
+            Và một trang web du lịch luôn là lựa chọn tuyệt vời để tìm hiểu trước khi bạn bắt đầu hành trình.
+            Hãy đến với chúng tôi, FOTOUR luôn đồng hành cùng những chuyến đi của bạn. Website hổ trợ nhiều mặt du lịch
+            giúp mọi người có thể tự tin và tiết kiệm thời gian khi có ý định du lịch. Với lịch trình dày, đúng thời
+            gian cam kết, luôn sẵn sàng phục vụ du khách mọi lúc, mọi nơi, đảm bảo tính chuyên nghiệp và chất lượng
+            thông tin tốt nhất.
 
-         </p>
+        </p>
     </div>
 </div>
 <div id="places" class="padding-top-bottom">
     <div class="container">
         <div class="circle ">
-            {% for i in place_tour %}
+            {% for i in place_context %}
             <div class="circle-item hover-opactict-2 translate-top">
-                <img src="{% static 'home/images/promo-1.jpg' %}" alt="Circle Item">
+                <img src="{{ i.image_place.url }}" alt="Circle Item">
                 <div class="description">
-                    <h1>{{ i.name_tour }}</h1>
-                    <h3><span class="current"><span>{{ i.sum_price|intcomma }} VNĐ</h3>
-                    <a href="{% url 'tour_details' i.tour.id  %}">read more</a>
+                    <h1>{{ i.name_place }}</h1>
+                    <h3><span class="current"><span>{{ i.price|intcomma }} VNĐ</h3>
+                    <a href="{% url 'places_details' i.id  %}">read more</a>
                 </div>
             </div>
             {% endfor %}
@@ -205,22 +216,22 @@ Hãy đến với chúng tôi, FOTOUR luôn đồng hành cùng những chuyến
         <div class="boxes padding-top-bottom">
             <div class="box scale-zoom">
                 <i class="fab fa-wolf-pack-battalion"></i>
-                <h1>special activities</h1>
+                <h1>special Place Tour</h1>
                 <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
             </div>
             <div class="box scale-zoom">
                 <i class="fas fa-globe-asia"></i>
-                <h1>special activities</h1>
+                <h1>special House Tour</h1>
                 <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
             </div>
             <div class="box scale-zoom">
                 <i class="fas fa-business-time"></i>
-                <h1>special activities</h1>
+                <h1>special Restaurants Tour</h1>
                 <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
             </div>
             <div class="box scale-zoom">
                 <i class="fas fa-map-marked-alt"></i>
-                <h1>special activities</h1>
+                <h1>special Book Tour</h1>
                 <p>Even the all-pơèull pointing has no control about the blond tét it is an almost unirthographic</p>
             </div>
         </div>
@@ -249,8 +260,9 @@ Hãy đến với chúng tôi, FOTOUR luôn đồng hành cùng những chuyến
     <div class="container">
         <h1 class="title text-center">Familiar customers</h1>
         <div class="boxes">
+            {% for i in booktotal %}
             <div class="box scale-11">
-                <img src="{% static 'home/images/person_1.jpg' %}" alt="Person">
+                <img src="{{ i.accout.avatar.url }}" alt="Person">
                 <ul>
                     <li><i class="fas fa-star"></i></li>
                     <li><i class="fas fa-star"></i></li>
@@ -258,65 +270,11 @@ Hãy đến với chúng tôi, FOTOUR luôn đồng hành cùng những chuyến
                     <li><i class="fas fa-star"></i></li>
                     <li><i class="fas fa-star"></i></li>
                 </ul>
-                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
-                    continuing
-                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
-                    they
-                    do a movie, to which the band agreed. </p>
-                <h1>dennis green</h1>
-                <h3>guests from italy</h3>
+                <p>{{ i.accout.description }}. </p>
+                <h1>{{ i.accout.name }}</h1>
+                <h3 style="font-size: 14px;">{{ i.accout.email }}</h3>
             </div>
-            <div class="box scale-11">
-                <img src="{% static 'home/images/person_2.jpg' %}" alt="Person">
-                <ul>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                </ul>
-                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
-                    continuing
-                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
-                    they
-                    do a movie, to which the band agreed. </p>
-                <h1>dennis green</h1>
-                <h3>guests from italy</h3>
-            </div>
-            <div class="box scale-11">
-                <img src="{% static 'home/images/person_3.jpg' %}" alt="Person">
-                <ul>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                </ul>
-                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
-                    continuing
-                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
-                    they
-                    do a movie, to which the band agreed. </p>
-                <h1>dennis green</h1>
-                <h3>guests from italy</h3>
-            </div>
-            <div class="box scale-11">
-                <img src="{% static 'home/images/person_4.jpg' %}" alt="Person">
-                <ul>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                    <li><i class="fas fa-star"></i></li>
-                </ul>
-                <p>By 1974, Slade had become a big success in the UK, Europe and beyond, however the band felt that
-                    continuing
-                    to provide 'more of the same' was not what they wanted to do. Their manager Chas Chandler suggested
-                    they
-                    do a movie, to which the band agreed. </p>
-                <h1>dennis green</h1>
-                <h3>guests from italy</h3>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

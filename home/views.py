@@ -11,16 +11,17 @@ def home(request):
     houses = House.objects.all().order_by('-id')[:3]
     query = "SELECT *,(sum(a.price) * t.person) as sum_price, sum(a.price) as total_price FROM tour_placeTour a inner join tour_tour t on a.tour_id  = t.id group by t.id  limit 8"
     tour = Tour.objects.raw(query)
-    query_max = (
-        "SELECT *,((sum(a.price)+sum(h.price)) * t.person) as sum_price, sum(a.price)"
-        " as total_price FROM tour_placeTour a"
-        " inner join tour_tour t on a.tour_id  = t.id "
-        " inner join tour_housetour h on h.tour_id = t.id"
-        " group by t.id"
-		" order by ((sum(a.price)+sum(h.price)) * t.person) desc"
+    place_context = Place.objects.all().order_by('-price')[:4]
+
+    query_total_accout = (
+        " select *,count(a.accout_id) as countTotal from tour_booktour as"
+        " a inner join tourer_account  as"
+        " t on a.accout_id = t.id"
+        " group by a.accout_id"
+        " order by count(a.accout_id) desc"
         " limit 4"
     )
-    place_tour = PlaceTour.objects.raw(query_max)
+    booktotal = BookTour.objects.raw(query_total_accout)
 
     if 'account' in request.session:
         idempresa = request.session['account']
@@ -34,7 +35,8 @@ def home(request):
             'idempresa':idempresa,
             'houses':houses,
             'tour_city':tour_city,
-            'place_tour':place_tour
+            'place_context':place_context,
+            'booktotal':booktotal
         }
         return render(request,'home/home.html',context)
     else:
@@ -51,7 +53,8 @@ def home(request):
                 'bookTour':bookTour,
                 'tour_city':tour_city,
                 'admin':'admin',
-                'place_tour':place_tour  
+                'place_context':place_context,
+                'booktotal':booktotal
             }
             return render(request,'home/home.html',context)
         else:
@@ -63,7 +66,8 @@ def home(request):
                 'idempresa':idempresa,
                 'houses':houses,
                 'tour_city':tour_city,
-                'place_tour':place_tour
+                'place_context':place_context,
+                'booktotal':booktotal
             }
             return render(request,'home/home.html',context)
   

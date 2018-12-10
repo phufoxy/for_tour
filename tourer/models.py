@@ -29,8 +29,9 @@ class Account(models.Model):
     avatar = models.FileField(upload_to = 'tourer/',default='/default/avatar.jpg')
     password = models.CharField(max_length=250)
     question = models.CharField(max_length=250,default='question')
+    description = models.CharField(max_length=250,default='Funny')
     author = models.CharField(max_length=250,choices=ACCOUNT_CHOICES,null=True,blank=True,default='account')
-
+    
 
 
     def __str__(self):
