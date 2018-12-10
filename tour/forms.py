@@ -1,6 +1,6 @@
 from django import forms
 from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
-from .models import Tour, PlaceTour
+from .models import Tour, PlaceTour, HouseTour
 from ckeditor.fields import RichTextFormField
 
 class TourForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
@@ -12,6 +12,12 @@ class PlaceTourForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
     class Meta:
         model = PlaceTour
         exclude = ['timestamp']
+
+class HouseTourForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    class Meta:
+        model = HouseTour
+        exclude = ['timestamp']
+
 
 class CkEditorForm(forms.Form):
     content = RichTextFormField()

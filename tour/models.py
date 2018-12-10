@@ -50,7 +50,6 @@ class PlaceTour(models.Model):
     price = models.FloatField(default=0)
     title = models.CharField(max_length=250)
     description = RichTextField()
-    image_place = models.FileField(upload_to='tour/',default='/default/user-avatar-default-165.png')
    
     def __str__(self):
         return self.tour.name_tour + ' -- ' + str(self.price) + ' VNĐ'
@@ -60,6 +59,19 @@ class PlaceTour(models.Model):
 
     class Meta:
         ordering = ["-id"]
+
+class HouseTour(models.Model):
+    tour = models.ForeignKey(Tour,on_delete=models.CASCADE)
+    name_house = models.CharField(max_length=250)
+    price = models.FloatField(default=0)
+    body = RichTextUploadingField()
+
+    def __str__(self):
+        return self.tour.name_tour + ' -- ' + str(self.price) + ' VNĐ'
+
+    class Meta:
+        ordering = ["-id"]
+
 
 class BookTour(models.Model):
     accout = models.ForeignKey(Account,on_delete=models.CASCADE)

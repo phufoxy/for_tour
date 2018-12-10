@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Tour,PlaceTour,BookTour
+from .models import Tour, PlaceTour, BookTour, HouseTour
 from tourer.models import Tourer,Account
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum,Count
 from django.db.models import F
 from datetime import datetime
 from django.contrib import messages
-from .forms import TourForm, PlaceTourForm
+from .forms import TourForm, PlaceTourForm, HouseTourForm
 from bootstrap_modal_forms.mixins import PassRequestMixin, DeleteAjaxMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import TemplateView
@@ -120,6 +120,58 @@ class PlaceTourReadView(generic.DetailView):
     model = PlaceTour
     template_name = 'dashboard/tour/place_tour/_read.html'
 
+
+
+# List House Tour
+
+class ListHouseTour(generic.ListView):
+    template_name = "dashboard/tour/house_tour/index.html"
+    context_object_name = 'context'
+    paginate_by = 12
+    def get_queryset(self):
+        return HouseTour.objects.all().order_by("-id")
+
+    def get_context_data(self, **kwargs):
+        if 'account' in self.request.session:
+            idTourer = self.request.session['account']
+        else:
+            idTourer = None
+        if idTourer == None:
+            ctx = super(ListHouseTour, self).get_context_data(**kwargs)
+            tourer=None
+            ctx['tourer'] = tourer
+            return ctx
+        else:
+            ctx = super(ListHouseTour, self).get_context_data(**kwargs)
+            tourer = Account.objects.filter(email=idTourer)
+            ctx['tourer'] = tourer
+            return ctx
+
+class AddHouseTour(PassRequestMixin, SuccessMessageMixin,
+                     generic.CreateView):
+    template_name = 'dashboard/tour/house_tour/_create.html'
+    form_class = HouseTourForm
+    success_message = 'Success: Book was created.'
+    success_url = reverse_lazy('ListHouseTour')
+
+class UpdateHouseTour(PassRequestMixin, SuccessMessageMixin,
+                     generic.UpdateView):
+    model = HouseTour
+    template_name = 'dashboard/tour/house_tour/_update.html'
+    form_class = HouseTourForm
+    success_message = 'Success: Book was updated.'
+    success_url = reverse_lazy('ListHouseTour')
+
+class DeleteHouseTour(DeleteAjaxMixin, generic.DeleteView):
+    model = HouseTour
+    template_name = 'dashboard/tour/house_tour/_delete.html'
+    success_message = 'Success: Place was deleted.'
+    success_url = reverse_lazy('ListHouseTour')
+
+# # Read
+class HouseTourReadView(generic.DetailView):
+    model = HouseTour
+    template_name = 'dashboard/tour/house_tour/_read.html'
 
 # profile
 def ListProfile(request):

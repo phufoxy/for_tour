@@ -16,6 +16,13 @@ urlpatterns = [
             path('<int:pk>/delete/',views.DeletePlaceTour.as_view(),name='DeletePlaceTour'),
             path('read/<int:pk>/',views.PlaceTourReadView.as_view(),name='PlaceTourReadView'),
         ])),
+        path('house/',include([
+            path('',views.ListHouseTour.as_view(),name='ListHouseTour'),
+            path('create/',views.AddHouseTour.as_view(),name='AddHouseTour'),
+            path('<int:pk>/',views.UpdateHouseTour.as_view(),name='UpdateHouseTour'),
+            path('<int:pk>/delete/',views.DeleteHouseTour.as_view(),name='DeleteHouseTour'),
+            path('read/<int:pk>/',views.HouseTourReadView.as_view(),name='HouseTourReadView'),
+        ])),
         path('profile/',include([
             path('',views.ListProfile,name='ListProfile'),
             path('update/<str:email>/',views.profile_update,name='profile_update'),
