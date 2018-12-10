@@ -19,13 +19,21 @@ class Tour(models.Model):
         ('Miền Trung',(
             ('Đà Nẵng','Đà Nẵng'),
             ('Quảng Nam','Quảng Nam'),
+            ('Huế','Huế'),
             ('Quảng Ngãi','Quảng Ngãi'),
             ('Quy Nhơn','Quy Nhơn'),
+            ('Phú Yên','Phú Yên'),
             ('Nha Trang','Nha Trang'),
+            ('Đà Lạt','Đà Lạt'),
         )),
         ('Miền Nam',(
             ('Sài Gòn','Sài Gòn'),
-            ('Sài Gòn','Sài Gòn')
+            ('Miền Tây','Miền Tây')
+        )),
+        ('Nước ngoài',(
+            ('Châu Âu','Châu Âu'),
+            ('Châu Á','Châu Á'),
+            ('Châu Mĩ','Châu Mĩ'),
         ))
     )
     name_tour = models.CharField(max_length = 250)
